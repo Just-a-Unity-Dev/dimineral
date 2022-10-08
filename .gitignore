@@ -13,8 +13,7 @@ dist-ssr
 *.local
 
 # Leftover dev stuff
-*.py
-example.yml
+*.example.yml
 
 # Editor directories and files
 .vscode/*
