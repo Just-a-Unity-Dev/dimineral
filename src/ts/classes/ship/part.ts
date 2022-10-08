@@ -1,3 +1,6 @@
+/**
+ * A part in a `Ship`
+ */
 export class Part {
     public readonly name: string = ""
     public readonly id: string = ""
@@ -13,15 +16,31 @@ export class Part {
         this.shield = shield;
     }
     
+    /**
+     * Returns the hull health of this part
+     * If you need total health, use `totalHealth`
+     * @returns number
+     */
     get hull() {
         return this.health;
     }
-    
+
+    /**
+     * Returns the shield health of this part
+     * If you need total health, use `totalHealth`
+     * @returns number
+     */
     get shieldHp() {
         return this.shield;
     }
 
-    totalHealth(verbose: boolean = false) {
+    /**
+     * Returns the total health (including shield)
+     * and if you want it to be verbose you can mark it as such.
+     * @param verbose boolean
+     * @returns number
+    */
+    public totalHealth(verbose: boolean = false) {
         let total: number = this.health + this.shield;
         if (verbose) {
             return `${this.health} hull + ${this.shield} shield = ${total} total`;

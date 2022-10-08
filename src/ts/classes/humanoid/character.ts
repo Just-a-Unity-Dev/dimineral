@@ -1,6 +1,9 @@
 import { Health } from './health';
 import { Skills } from './skills';
 
+/**
+ * A character containing skills, health, location and others.
+ */
 export class Character {
     public readonly name: string = "Carmen Miranda";
     public readonly title: string = "ghost";
