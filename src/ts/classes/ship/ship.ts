@@ -114,8 +114,8 @@ export class Ship {
         div.id = this.id;
         div.classList.add("item");
         div.style.maxWidth = "650px";
-        div.style.minWidth = "300px";
-        div.style.maxHeight = "310px";
+        div.style.minWidth = "200px";
+        div.style.height = "300px";
 
         const header = document.createElement("h2");
         header.textContent = this.name;
@@ -127,15 +127,18 @@ export class Ship {
 
         div.appendChild(document.createElement("br"));
 
-        const crewLabel = document.createElement("p");
+        const crewDetails = document.createElement("details");
+        div.appendChild(crewDetails)
+
+        const crewLabel = document.createElement("summary");
         crewLabel.textContent = `You have ${this.crew.length} crewmembers above this ship.`
         crewLabel.id = `${this.id}-crewlabel`
-        div.appendChild(crewLabel);
+        crewDetails.appendChild(crewLabel);
 
         const crew = document.createElement("div");
         crew.classList.add("items");
         crew.id = `${this.id}-crew`
-        div.appendChild(crew);
+        crewDetails.appendChild(crew);
 
         this.crew.forEach(member => {
             crew.appendChild(member.ui());

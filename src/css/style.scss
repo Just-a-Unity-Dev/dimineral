@@ -1,14 +1,13 @@
+@use './variables' as *;
+
 body {
+    background-color: $background;
     zoom: 125%;
 }
 
 p,summary,details,h1,h2,h3,h4,h5,h6 {
-    color: #ffff;
+    color: $foreground;
     font-family: 'Fira Sans', sans-serif;
-}
-
-body {
-    background-color: #220a38;
 }
 
 .items {
@@ -19,15 +18,25 @@ body {
 }
 
 .item {
-    outline: 1px solid #fff;
+    outline: 1px solid $foreground;
     padding: 1px;
 
     overflow-y: auto;
     margin: 1rem;
     padding: 1rem;
+    & > .large {
+        max-width: 600px;
+        min-height: 400px;
+    }
 }
 
-.item .large {
-    max-width: 600px;
-    min-height: 400px;
+::-webkit-scrollbar {
+    width: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: transparentize($color: $purple, $amount: 0.8);
+    border-radius: 20px;
+    border: 9px solid transparent;
+    background-clip: content-box;
 }
