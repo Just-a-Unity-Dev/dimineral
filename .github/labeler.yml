@@ -2,11 +2,10 @@
 - 'public/textures'
 
 "typescript":
-- '*.ts'
+- all: ['*.ts']
 
 "scss":
-- '*.scss'
-- '*.sass'
+- all: ['*.scss', '*.sass']
 
 "tests":
 - 'tests/'
