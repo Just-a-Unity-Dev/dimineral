@@ -13,7 +13,7 @@ shipDetails.appendChild(shipSummary);
 
 app?.appendChild(header);
 app?.appendChild(shipDetails);
-header.textContent = "Shipgame";
+header.textContent = "Astrionics";
 
 function updateUi() {
     ships.forEach(ship => {
