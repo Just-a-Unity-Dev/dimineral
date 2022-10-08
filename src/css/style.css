@@ -1,9 +1,33 @@
-h1,h2,h3,h4,h5,h6,p {
-    color: #fff;
+body {
+    zoom: 125%;
+}
+
+p,summary,details,h1,h2,h3,h4,h5,h6 {
+    color: #ffff;
     font-family: 'Fira Sans', sans-serif;
-    font-size: 48px;
 }
 
 body {
-    background-color: #111;
+    background-color: #220a38;
+}
+
+.items {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.item {
+    outline: 1px solid #fff;
+    padding: 1px;
+
+    overflow-y: auto;
+    margin: 1rem;
+    padding: 1rem;
+}
+
+.item .large {
+    max-width: 600px;
+    min-height: 400px;
 }

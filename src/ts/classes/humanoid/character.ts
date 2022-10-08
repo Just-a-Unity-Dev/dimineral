@@ -18,4 +18,24 @@ export class Character {
         this.skills = skills;
         this.health = health;
     }
+
+    get fullname() {
+        return `${this.name}, ${this.title}`
+    }
+
+    public ui(): Node {
+        const div = document.createElement("div");
+        const name = document.createElement("h2");
+        name.textContent = this.fullname;
+        div.appendChild(name);
+        div.classList.add("item");
+        div.style.height = "150px";
+        div.style.maxWidth = "250px";
+
+        const status = document.createElement("p");
+        status.textContent = `${this.name} is located at ${this.location} and is ${this.health.getHealthPercentage() * 100}% healthy`;
+        div.appendChild(status);
+
+        return div;
+    }
 }

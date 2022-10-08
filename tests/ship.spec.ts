@@ -61,7 +61,7 @@ export function createShip(): Ship {
                     0
                     )
                 ];
-    return new Ship(parts, [makeCharacter()]);
+    return new Ship("testship100", parts, [makeCharacter()]);
 }
 
 describe("ship", () => {
