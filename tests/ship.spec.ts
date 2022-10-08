@@ -10,6 +10,7 @@ import { Health } from '../src/ts/classes/humanoid/health';
  */
  export function makeCharacter() {
     return new Character(
+        // if you know you know
         "Carmen Miranda",
         "ghost",
         "engine",
