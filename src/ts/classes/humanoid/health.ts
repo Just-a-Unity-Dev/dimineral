@@ -58,11 +58,11 @@ export class Health {
      * @param taken DamageSpecifier
      */
     public dealDamage(taken: DamageSpecifier) {
-        this.damage.physical -= taken.physical;
-        this.damage.temperature -= taken.temperature;
-        this.damage.psychological -= taken.psychological;
-        this.damage.chemical -= taken.chemical;
-        this.damage.genetic -= taken.genetic;
+        this.damage.physical += taken.physical;
+        this.damage.temperature += taken.temperature;
+        this.damage.psychological += taken.psychological;
+        this.damage.chemical += taken.chemical;
+        this.damage.genetic += taken.genetic;
 
         this.state = State.ALIVE;
 
