@@ -22,8 +22,6 @@ function updateUi() {
     setTimeout(updateUi, 100)
 }
 
-updateUi();
-
 ships.push(new Ship("master ship", [
     new Part("all-in-one", "aio", 100, 100, 100)
 ], [
@@ -114,3 +112,5 @@ ships.push(new Ship("master ship", [
     )
 ]));
 shipDetails?.appendChild(ships[0].ui());
+
+setTimeout(updateUi, 10);
