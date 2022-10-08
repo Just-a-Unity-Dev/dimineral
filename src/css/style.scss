@@ -5,9 +5,40 @@ body {
     zoom: 125%;
 }
 
-p,summary,details,h1,h2,h3,h4,h5,h6 {
+p,summary,details,h1,h2,h3,h4,h5,h6,button {
     color: $foreground;
     font-family: 'Fira Sans', sans-serif;
+}
+
+button {
+    background-color: $pink;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 16px;
+    border: none;
+
+    transition: all 400ms ease-in-out;
+}
+
+button:hover {
+    background-color: $purple;
+}
+
+.selected-ui {
+    position: fixed;
+    bottom: 6px;
+    left: 6px;
+
+    width: 300px;
+    height: 150px;
+
+    outline: 1px solid $foreground;
+    padding: 6px;
+
+    text-align: center;
 }
 
 .items {

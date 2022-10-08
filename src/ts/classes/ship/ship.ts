@@ -1,22 +1,6 @@
+import { generateString } from '../../util/rng';
 import { Character } from '../humanoid/character';
 import { Part } from './part';
-
-const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-/**
- * Returns a randomly generated string, recommended length is 50. Good for generating ID's.
- * @param length number
- * @returns string
- */
-export function generateString(length: number): string {
-    let result: string = "";
-    const charactersLength = characters.length;
-    for ( let i = 0; i < length; i++ ) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-
-    return result;
-}
 
 /**
  * A ship, consisting of parts and crew making sure it stays afloat.
@@ -94,13 +78,13 @@ export class Ship {
     public updateUi() {
         // update crew
         const crewLabel: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${this.id}-crewlabel`);
-        crewLabel.textContent = `You have ${this.crew.length} crew above this ship.`
+        crewLabel.textContent = `You have ${this.crew.length} crew aboard this ship.`
 
-        const crew: HTMLDivElement = <HTMLDivElement>document.getElementById(`${this.id}-crew`);
-        crew.innerHTML = "";
+        // const crew: HTMLDivElement = <HTMLDivElement>document.getElementById(`${this.id}-crew`);
+        // crew.innerHTML = "";
 
         this.crew.forEach(member => {
-            crew.appendChild(member.ui());
+            member.updateUi(this.id);
         });
 
         // update parts
@@ -156,7 +140,7 @@ export class Ship {
         crewDetails.appendChild(crew);
 
         this.crew.forEach(member => {
-            crew.appendChild(member.ui());
+            crew.appendChild(member.ui(this.id));
         });
 
         // Parts
