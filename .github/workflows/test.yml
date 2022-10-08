@@ -1,0 +1,39 @@
+name: Content Integration
+
+on:
+  push:
+    branches: [ "master" ]
+    paths:
+      - '**.ts'
+      - '**.scss'
+  pull_request:
+    branches: [ "master" ]
+    paths:
+      - '**.ts'
+      - '**.scss'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+
+    steps:
+    - name: Checkout master
+      uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: Install node_modules
+      run: npm ci
+    
+    - name: Build game
+      run: npm run build --if-present
+    
+    - name: Test
+      run: npm test

@@ -1,0 +1,15 @@
+"textures":
+- 'public/textures'
+
+"typescript":
+- '*.ts'
+
+"scss":
+- '*.scss'
+- '*.sass'
+
+"tests":
+- 'tests/'
+
+"no typescript":
+- all: ["!**/*.ts"]
