@@ -3,6 +3,7 @@ import { Part } from './classes/ship/part';
 import { Ship } from './classes/ship/ship';
 import { Health } from './classes/humanoid/health';
 import { generateName } from './util/ship';
+
 export let selected: string = "";
 
 export function setSelected(name: string) {
@@ -10,23 +11,31 @@ export function setSelected(name: string) {
 }
 
 /**
- * The ships that the player can interact with
+ * The ships that the player can interact with.
  * Tip: ships[0] is ALWAYS the master ship, all playable characters are stored there.
  */
 let ships: Ship[] = [];
 
 const app = document.querySelector<HTMLDivElement>('#app');
-const header = document.createElement("h1");
-const shipDetails = document.createElement("details");
-const shipSummary = document.createElement("summary")
-shipSummary.textContent = "Ships";
-shipDetails.appendChild(shipSummary);
 
-app?.appendChild(header);
-app?.appendChild(shipDetails);
+const header = document.createElement("h1");
 header.textContent = "Astrionics";
 
+const playButton = document.createElement("button");
+playButton.textContent = "Play";
+playButton.addEventListener("click", () => {
+    initGame();
+    playButton.remove();
+});
+
+const shipDetails = document.createElement("details");
+const shipSummary = document.createElement("summary")
+
+app?.appendChild(header);
+app?.appendChild(playButton);
+
 let selectedDiv = document.createElement("div");
+selectedDiv.style.display = "none";
 function initSelectedDiv() {
     // basic name
     let name = document.createElement("h2");
@@ -68,32 +77,38 @@ function updateUi() {
     setTimeout(updateUi, 100)
 }
 
-ships.push(new Ship(generateName(), [
-    new Part("all-in-one", "aio", 100, 100, 100)
-], [
-    new Character(
-        // if you know you know
-        "Carmen Miranda",
-        "ghost",
-        "cargobay",
-        new Health({
-            "physical": 0,
-            "temperature": 0,
-            "psychological": 0,
-            "chemical": 0,
-            "genetic": 0,
-        }),
-        {
-            "strength": 6,
-            "agility": 6,
-            "fortitude": 6, 
-            "electrical": 6,
-            "mechanical": 6,
-            "machinery": 6,
-            "intelligence": 6
-        }
-    ),
-]));
-shipDetails?.appendChild(ships[0].ui());
+function initGame() {
+    shipSummary.textContent = "Ships";
+    shipDetails.appendChild(shipSummary);
+    app?.appendChild(shipDetails);
 
-setTimeout(updateUi, 10);
+    ships.push(new Ship(generateName(), [
+        new Part("all-in-one", "aio", 100, 100, 100)
+    ], [
+        new Character(
+            // if you know you know
+            "Carmen Miranda",
+            "ghost",
+            "cargobay",
+            new Health({
+                "physical": 0,
+                "temperature": 0,
+                "psychological": 0,
+                "chemical": 0,
+                "genetic": 0,
+            }),
+            {
+                "strength": 6,
+                "agility": 6,
+                "fortitude": 6, 
+                "electrical": 6,
+                "mechanical": 6,
+                "machinery": 6,
+                "intelligence": 6
+            }
+        ),
+    ]));
+    shipDetails?.appendChild(ships[0].ui());
+    
+    setTimeout(updateUi, 10);
+}

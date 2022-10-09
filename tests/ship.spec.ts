@@ -75,8 +75,9 @@ describe("ship", () => {
     })
     it("get part by id works", () => {
         const ship: Ship = createShip();
-        
-        expect(ship.getPartById("bridge").name).toBe("Bridge");
+        const bridge: Part = <Part>ship.getPartById("bridge");
+
+        expect(bridge.name).toBe("Bridge");
     })
     it("total health array works", () => {
         const ship: Ship = createShip();
