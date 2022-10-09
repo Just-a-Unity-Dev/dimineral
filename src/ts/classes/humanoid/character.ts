@@ -70,9 +70,7 @@ export class Character {
 
         button.addEventListener("click", () => {
             // set selected
-            console.log(this.name);
             setSelected(this.name);
-            console.log(selected)
         });
 
         return div;
