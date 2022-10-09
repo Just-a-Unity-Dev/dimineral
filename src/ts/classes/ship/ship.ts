@@ -70,7 +70,7 @@ export class Ship {
         });
         let total = hp + shield;
         if (verbose) {
-            return `${hp} hull + ${shield} shield = ${total} total (${(totalMaxHp / total) * 100}%)`
+            return `${hp} hull + ${shield} shield = ${total} total (${Math.round((total / totalMaxHp) * 100)}%)`
         }
         return [hp, shield, total, totalMaxHp];
     }

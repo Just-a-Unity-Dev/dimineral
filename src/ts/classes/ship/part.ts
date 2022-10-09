@@ -34,6 +34,18 @@ export class Part {
         return `${this.the ? "the " : " "}${this.name}`
     }
 
+    public dealDamage(damage: number) {
+        if (this.shieldHp > 0) {
+            this.shield -= damage;
+            if (this.shield < 0) {
+                this.health -= this.shield * -1
+                this.shield = 0
+            }
+        } else {
+            this.health -= damage;
+        }
+    }
+
     /**
      * Returns the hull health of this part
      * If you need total health, use `totalHealth`
@@ -57,11 +69,11 @@ export class Part {
     }
 
     get totalMaxHp() {
-        return this.health + this.shield;
+        return this.maxHull + this.maxShield;
     }
     
     get partHpPercentage() {
-        return (this.maxHull + this.maxShield) / (this.totalMaxHp);
+        return this.totalHp / this.totalMaxHp;
     }
 
     /**
@@ -73,7 +85,7 @@ export class Part {
     public totalHealth(verbose: boolean = false): number | string {
         let total: number = this.totalHp;
         if (verbose) {
-            return `${this.health} hull + ${this.shield} shield = ${total} total (${this.partHpPercentage * 100}%)`;
+            return `${this.health} hull + ${this.shield} shield = ${total} total (${Math.round(this.partHpPercentage * 100)}%)`;
         }
         return total;
     }
@@ -121,8 +133,14 @@ export class Part {
             // we're done with it, we can close it now
             setSelected("");
         });
-
         div.appendChild(move);
+
+        const damage = document.createElement("button");
+        damage.textContent = "debug adamge";
+        damage.addEventListener("click", () => {
+            this.dealDamage(10)
+        });
+        div.appendChild(damage);
 
         return div;
     }
