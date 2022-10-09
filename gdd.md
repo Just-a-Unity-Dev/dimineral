@@ -26,6 +26,10 @@ Our targeted platforms will be **Web** and **Desktop**, this is a good platform 
     These songs  are major influences on the games due to each song in each album telling a story, and when you listen to the lyrics you truly hear how great each story is.
   - Dungeons & Dragons 
     A specific campaign that Rain made and played out was a major influence on the design of this game, the tense situations fighting against pirates and the calm managing and interactions between the crew.
+  - FTL: Faster Than Ligbt
+    A major influence for being a massively fun game that inspired me to make this project.
+  - Rimworld, Dwarf Fortress, C:DDA, Ascii Sector
+    Other major influences for being so darn complex yet still give me joy and fun playing them.
 
 ## The Elevator Pitch
 
