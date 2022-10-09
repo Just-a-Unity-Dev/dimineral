@@ -3,6 +3,7 @@ import { Part } from './classes/ship/part';
 import { Ship } from './classes/ship/ship';
 import { Health } from './classes/humanoid/health';
 import { generateName } from './util/ship';
+import { getVerboseDate } from './util/date';
 
 export let selected: string = "";
 
@@ -30,6 +31,7 @@ playButton.addEventListener("click", () => {
 
 const shipDetails = document.createElement("details");
 const shipSummary = document.createElement("summary")
+const currentTime = document.createElement("p");
 
 app?.appendChild(header);
 app?.appendChild(playButton);
@@ -63,8 +65,6 @@ function initSelectedDiv() {
     document.body.appendChild(selectedDiv);
 }
 
-initSelectedDiv();
-
 function updateUi() {
     // basic selected DIV
     if (selected == "") {
@@ -76,6 +76,9 @@ function updateUi() {
         name.textContent = selected;
     }
 
+    let today: Date = new Date();
+    currentTime.textContent = getVerboseDate(4131, today.getMonth(), today.getDate(), today.getHours(), today.getMinutes());
+
     ships.forEach(ship => {
         ship.updateUi();
     });
@@ -83,10 +86,18 @@ function updateUi() {
 }
 
 function initGame() {
+    // init time
+    app?.appendChild(currentTime);
+
+    // init summary
     shipSummary.textContent = "Ships";
     shipDetails.appendChild(shipSummary);
     app?.appendChild(shipDetails);
+    
+    // initialize div
+    initSelectedDiv();
 
+    // ship
     ships.push(new Ship(generateName(), [
         new Part("all-in-one", "aio", 100, 100, 100)
     ], [
