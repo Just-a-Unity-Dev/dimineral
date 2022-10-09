@@ -27,18 +27,19 @@ export function pickFromArray(array: any[]): any {
 }
 
 /**
- * Returns a random name with a 30% chance of making an alias
+ * Returns a random name
  * @returns string
  */
 export function generateName(): string {
     let firstName = pickFromArray(first);
     let lastName = pickFromArray(last);
-    let alias = "";
+    // this broke stuff
+    // let alias = "";
 
-    if (Math.random() < 0.3) {
-        alias = ` '${pickFromArray(shipNames)}'`
-    }
+    // if (Math.random() < 0.3) {
+    //     alias = ` '${pickFromArray(shipNames)}'`
+    // }
 
     // ${alias} generates a space at the beginning of the string
-    return `${firstName}${alias} ${lastName}`
+    return `${firstName} ${lastName}`
 }

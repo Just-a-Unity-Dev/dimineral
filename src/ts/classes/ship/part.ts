@@ -1,4 +1,5 @@
-import { selected, setSelected, ships } from "../../main";
+import { ships } from "../../main";
+import { selected, setSelected } from "../../addons/selected";
 
 /**
  * A part in a `Ship`

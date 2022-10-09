@@ -40,7 +40,9 @@ function updateUi() {
         // make it visible
         selectedDiv.style.display = 'block';
         let name: HTMLHeadingElement = <HTMLHeadingElement>document.getElementById("selected-name");
-        name.textContent = selected;
+        if (name != null) {
+            name.textContent = selected;
+        }
     }
 
     let today: Date = new Date();
@@ -62,7 +64,7 @@ function initGame() {
     app?.appendChild(shipDetails);
     
     // initialize div
-    initSelectedDiv();
+    document.body.appendChild(initSelectedDiv());
 
     // ship
     ships.push(new Ship(generateShipName(), [

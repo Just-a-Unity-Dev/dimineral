@@ -1,4 +1,5 @@
-import { selected, setSelected, ships } from '../../main';
+import { selected, setSelected } from "../../addons/selected";
+import { ships } from '../../main';
 import { Health } from './health';
 import { Skills } from './skills';
 
@@ -69,7 +70,9 @@ export class Character {
 
         button.addEventListener("click", () => {
             // set selected
+            console.log(this.name);
             setSelected(this.name);
+            console.log(selected)
         });
 
         return div;

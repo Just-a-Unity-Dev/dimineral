@@ -5,7 +5,7 @@ export function setSelected(name: string) {
 }
 
 /**
- * Initalizes the selected div
+ * Initializes the selected div
  */
 export function initSelectedDiv(): Node {
     let selectedDiv = document.createElement("div");
