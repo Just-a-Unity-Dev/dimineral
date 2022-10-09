@@ -1,11 +1,8 @@
 import { Breakroom, Bridge, createFromRoomTemplate, Engines, LifeSupport, Shields } from './util/templates';
-import { Character } from './classes/humanoid/character';
-import { Health } from './classes/humanoid/health';
+import { generateCharacter } from './util/characters';
 import { generateShipName } from './util/ship';
 import { getVerboseDate } from './util/date';
 import { Ship } from './classes/ship/ship';
-import { generateName } from './util/rng';
-import { generateCharacter } from './util/characters';
 
 export let selected: string = "";
 

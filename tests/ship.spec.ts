@@ -82,6 +82,6 @@ describe("ship", () => {
     it("total health array works", () => {
         const ship: Ship = createShip();
 
-        expect(ship.totalHull()).toStrictEqual([175,100,275]);
+        expect(ship.totalHull()).toStrictEqual([175,100,275,275]);
     })
 });
