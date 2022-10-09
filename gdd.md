@@ -85,19 +85,21 @@ Humanity is no longer stuck in a finite world, and instead all live in starships
 
 Each ship is made out of Parts (which you can buy at trading posts) each consisting of total hull health, shields and others.
 
-A ship requires 3 basic Parts. Those being:
-- Bridge
-- Life Support
-- Breakroom
-- Engines
-
-You require a Bridge to pilot the thing, afterall, how are you going to fly? You require a Life Support generator in order for the ship to have an atmosphere, you require Engines to warp and fly in general and you need a Breakroom to, well, rest!
+A ship requires 4 basic Parts. Those being:
+- Bridge: Piloting and overall operating the ship
+- Life Support: Power generation, O2, Gravity, etc
+- Breakroom: You gotta slack off somewhere, space gets tiring afterall
+- Engines: Flying you through space with liquid & Ion thrusters, flying ypu throughout the stars with the Warp Drive
 
 ### Crew
 
 Ships are made of Crew, you are able to select Crew and make them move to specific rooms in order to operate them.
 
 Crewmembers consist of skill levels, this means your average security officer cannot repair engines, and your average engineer cannot operate weaponry.
+
+Players start with 1 crewmember and have to work their way to multiple crewmembers.
+
+Crew have Health, Hunger and Thirst. This means that you want enough crew to operate every Part but have enough crew to feed.
 
 A sample of gameplay with Crew would be as such:
 - Being attacked by pirates
@@ -108,7 +110,6 @@ A sample of gameplay with Crew would be as such:
 - Repair button unlocked in the engines
 - Click repair button
 - Engines are now repaired
-
 
 ### Diplomacy
 
