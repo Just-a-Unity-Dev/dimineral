@@ -1,4 +1,4 @@
-import { selected, setSelected } from '../../main';
+import { setSelected } from '../../main';
 import { Health } from './health';
 import { Skills } from './skills';
 
