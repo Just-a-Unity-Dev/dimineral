@@ -1,5 +1,5 @@
-import { first, last } from "../json/names.json";
-import shipNames from "../json/shipNames.json";
+import { first, last } from "../../json/names.json";
+import shipNames from "../../json/shipNames.json";
 const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 /**

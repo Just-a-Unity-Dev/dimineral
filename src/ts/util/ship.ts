@@ -1,5 +1,5 @@
 import { generateString, pickFromArray } from './rng';
-import shipNames from "../json/shipNames.json";
+import shipNames from "../../json/shipNames.json";
 
 /**
  * Generates a random ship name
