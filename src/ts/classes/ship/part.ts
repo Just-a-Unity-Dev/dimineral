@@ -4,7 +4,8 @@
 export class Part {
     public readonly name: string = ""
     public readonly id: string = ""
-    public readonly maxHull: number = 0
+    private readonly maxHull: number = 0
+    private readonly maxShield: number = 0;
     private health: number = 0
     private shield: number = 0
 
@@ -13,6 +14,7 @@ export class Part {
         this.id = id;
         this.health = health;
         this.maxHull = maxHull;
+        this.maxShield = shield;
         this.shield = shield;
     }
     
@@ -34,6 +36,18 @@ export class Part {
         return this.shield;
     }
 
+    get totalHp() {
+        return this.health + this.shield;
+    }
+
+    get totalMaxHp() {
+        return this.health + this.shield;
+    }
+    
+    get partHpPercentage() {
+        return (this.maxHull + this.maxShield) / (this.totalMaxHp);
+    }
+
     /**
      * Returns the total health (including shield)
      * and if you want it to be verbose you can mark it as such.
@@ -41,9 +55,9 @@ export class Part {
      * @returns number | string
     */
     public totalHealth(verbose: boolean = false): number | string {
-        let total: number = this.health + this.shield;
+        let total: number = this.totalHp;
         if (verbose) {
-            return `${this.health} hull + ${this.shield} shield = ${total} total`;
+            return `${this.health} hull + ${this.shield} shield = ${total} total (${this.partHpPercentage * 100}%)`;
         }
         return total;
     }
@@ -63,6 +77,8 @@ export class Part {
         // Main div
         const div = document.createElement("div");
         div.classList.add("item");
+        div.style.width = "250px";
+        div.style.height = "125px";
 
         // Data
         const label = document.createElement("h2");

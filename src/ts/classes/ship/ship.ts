@@ -10,6 +10,7 @@ export class Ship {
     public readonly parts: Part[] = [];
     public readonly crew: Character[] = [];
     public readonly id: string = "";
+    public visible: boolean = true;
 
     constructor(name: string, parts: Part[], crew: Character[], id?: string | undefined) {
         if (id == "" || id == undefined) {
@@ -61,15 +62,17 @@ export class Ship {
     public totalHull(this: Ship, verbose: boolean = false): number[] | string {
         let hp = 0;
         let shield = 0;
+        let totalMaxHp = 0;
         this.parts.forEach(part => {
             hp += part.hull;
             shield += part.shieldHp;
+            totalMaxHp += part.totalMaxHp;
         });
         let total = hp + shield;
         if (verbose) {
-            return `${hp} hull + ${shield} shield = ${total} total`
+            return `${hp} hull + ${shield} shield = ${total} total (${(totalMaxHp / total) * 100}%)`
         }
-        return [hp, shield, total];
+        return [hp, shield, total, totalMaxHp];
     }
 
     /**
@@ -78,10 +81,7 @@ export class Ship {
     public updateUi() {
         // update crew
         const crewLabel: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${this.id}-crewlabel`);
-        crewLabel.textContent = `You have ${this.crew.length} crew aboard this ship.`
-
-        // const crew: HTMLDivElement = <HTMLDivElement>document.getElementById(`${this.id}-crew`);
-        // crew.innerHTML = "";
+        crewLabel.textContent = `You have ${this.crew.length} crew aboard this ship.`;
 
         this.crew.forEach(member => {
             member.updateUi(this.id);
@@ -91,14 +91,9 @@ export class Ship {
         const partLabel: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${this.id}-partlabel`);
         partLabel.textContent = <string>this.totalHull(true);
 
-        const parts: HTMLDivElement = <HTMLDivElement>document.getElementById(`${this.id}-parts`);
-        parts.innerHTML = "";
-
         this.parts.forEach(part => {
-            parts.appendChild(part.ui(this.id));
+            part.updateUi(this.id);
         });
-
-        console.log("updated UI done")
     }
 
     /**
