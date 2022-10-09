@@ -3,12 +3,7 @@ import { generateCharacter } from './util/characters';
 import { generateShipName } from './util/ship';
 import { getVerboseDate } from './util/date';
 import { Ship } from './classes/ship/ship';
-
-export let selected: string = "";
-
-export function setSelected(name: string) {
-    selected = name;
-}
+import { initSelectedDiv, selected } from './addons/selected';
 
 /**
  * The ships that the player can interact with.
@@ -35,34 +30,7 @@ const currentTime = document.createElement("p");
 app?.appendChild(header);
 app?.appendChild(playButton);
 
-let selectedDiv = document.createElement("div");
-function initSelectedDiv() {
-    // basic name
-    let name = document.createElement("h2");
-    name.textContent = selected;
-    name.id = "selected-name";
-
-    // deselect button
-    let deselect = document.createElement("button");
-    deselect.textContent = "Deselect";
-
-    // this overwrites the previous onclick to prevent repeats
-    deselect.onclick = function () {
-        // deselected
-        setSelected("");
-    }
-    
-    selectedDiv.appendChild(name);
-    selectedDiv.appendChild(deselect);
-    selectedDiv.classList.add("selected-ui");
-    selectedDiv.classList.add("solid");
-
-    // turn it off for now
-    selectedDiv.style.display = "none";
-
-    // done initializing
-    document.body.appendChild(selectedDiv);
-}
+let selectedDiv: HTMLDivElement = <HTMLDivElement>initSelectedDiv();
 
 function updateUi() {
     // basic selected DIV
