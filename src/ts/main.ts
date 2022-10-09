@@ -35,7 +35,6 @@ app?.appendChild(header);
 app?.appendChild(playButton);
 
 let selectedDiv = document.createElement("div");
-selectedDiv.style.display = "none";
 function initSelectedDiv() {
     // basic name
     let name = document.createElement("h2");
@@ -51,10 +50,16 @@ function initSelectedDiv() {
         // deselected
         setSelected("");
     }
-
+    
     selectedDiv.appendChild(name);
     selectedDiv.appendChild(deselect);
     selectedDiv.classList.add("selected-ui");
+    selectedDiv.classList.add("solid");
+
+    // turn it off for now
+    selectedDiv.style.display = "none";
+
+    // done initializing
     document.body.appendChild(selectedDiv);
 }
 

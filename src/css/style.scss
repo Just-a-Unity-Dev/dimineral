@@ -51,6 +51,10 @@ summary {
 
     outline: 1px solid $foreground;
     padding: 6px;
+
+    &.solid {
+        background-color: $background;
+    }
 }
 
 .items {
