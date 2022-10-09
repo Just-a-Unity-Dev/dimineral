@@ -22,6 +22,14 @@ button {
 
     transition: all $tween-time ease-in;
 
+    &:disabled {
+        background-color: transparentize($color: $pink, $amount: 0.6)
+    }
+
+    &:disabled:hover {
+        background-color: transparentize($color: $purple, $amount: 0.6)
+    }
+
     &:hover {
         background-color: $purple;
     }

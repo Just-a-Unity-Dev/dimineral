@@ -1,4 +1,4 @@
-import { setSelected } from '../../main';
+import { selected, setSelected, ships } from '../../main';
 import { Health } from './health';
 import { Skills } from './skills';
 
@@ -20,19 +20,34 @@ export class Character {
         this.health = health;
     }
 
-    get fullname() {
+    get fullName() {
         return `${this.name}, ${this.title}`
     }
 
     public updateUi(id: string) {
         const status: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${id}-crew-status`);
-        status.textContent = `${this.name} is located at ${this.location} and is ${this.health.getHealthPercentage() * 100}% healthy`;
+        status.textContent = `${this.name} is located at the ${ships[0].getPartById(this.location)?.name} and is ${this.health.getHealthPercentage() * 100}% healthy`;
+    
+        const select: HTMLButtonElement = <HTMLButtonElement>document.getElementById(`${id}-select`);
+        select.disabled = selected != "";
+        select.textContent = (selected != "") ? "Selected" : "Select";
+        switch (selected) {
+            case "":
+                select.textContent = "Select";
+                break;
+            case this.name:
+                select.textContent = "Selected";
+                break;
+            default:
+                select.textContent = "Disabled";
+        }
+
     }
 
     public ui(id: string): Node {
         const div = document.createElement("div");
         const name = document.createElement("h3");
-        name.textContent = this.fullname;
+        name.textContent = this.fullName;
         div.appendChild(name);
         div.classList.add("item");
         div.style.height = "150px";
@@ -45,6 +60,7 @@ export class Character {
 
         const button = document.createElement("button");
         button.textContent = "Select";
+        button.id = `${id}-select`
         div.appendChild(button);
 
         button.addEventListener("click", () => {

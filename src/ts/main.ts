@@ -4,6 +4,7 @@ import { Ship } from './classes/ship/ship';
 import { Health } from './classes/humanoid/health';
 import { generateName } from './util/ship';
 import { getVerboseDate } from './util/date';
+import { Breakroom, Bridge, createFromRoomTemplate, Engines, LifeSupport, Shields } from './util/templates';
 
 export let selected: string = "";
 
@@ -15,7 +16,7 @@ export function setSelected(name: string) {
  * The ships that the player can interact with.
  * Tip: ships[0] is ALWAYS the master ship, all playable characters are stored there.
  */
-let ships: Ship[] = [];
+export const ships: Ship[] = [];
 
 const app = document.querySelector<HTMLDivElement>('#app');
 
@@ -99,13 +100,17 @@ function initGame() {
 
     // ship
     ships.push(new Ship(generateName(), [
-        new Part("all-in-one", "aio", 100, 100, 100)
+        createFromRoomTemplate(Bridge),
+        createFromRoomTemplate(LifeSupport),
+        createFromRoomTemplate(Engines),
+        createFromRoomTemplate(Shields),
+        createFromRoomTemplate(Breakroom),
     ], [
         new Character(
             // if you know you know
             "Carmen Miranda",
             "ghost",
-            "cargobay",
+            "bridge",
             new Health({
                 "physical": 0,
                 "temperature": 0,
