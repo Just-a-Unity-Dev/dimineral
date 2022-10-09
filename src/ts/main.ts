@@ -5,6 +5,7 @@ import { generateShipName } from './util/ship';
 import { getVerboseDate } from './util/date';
 import { Ship } from './classes/ship/ship';
 import { generateName } from './util/rng';
+import { generateCharacter } from './util/characters';
 
 export let selected: string = "";
 
@@ -106,27 +107,7 @@ function initGame() {
         createFromRoomTemplate(Shields),
         createFromRoomTemplate(Breakroom),
     ], [
-        new Character(
-            generateName(),
-            "ghost",
-            "bridge",
-            new Health({
-                "physical": 0,
-                "temperature": 0,
-                "psychological": 0,
-                "chemical": 0,
-                "genetic": 0,
-            }),
-            {
-                "strength": 6,
-                "agility": 6,
-                "fortitude": 6, 
-                "electrical": 6,
-                "mechanical": 6,
-                "machinery": 6,
-                "intelligence": 6
-            }
-        ),
+        generateCharacter()
     ]));
     shipDetails?.appendChild(ships[0].ui());
     
