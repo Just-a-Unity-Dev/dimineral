@@ -33,13 +33,12 @@ export function pickFromArray(array: any[]): any {
 export function generateName(): string {
     let firstName = pickFromArray(first);
     let lastName = pickFromArray(last);
-    // this broke stuff
-    // let alias = "";
+    let alias = "";
 
-    // if (Math.random() < 0.3) {
-    //     alias = ` '${pickFromArray(shipNames)}'`
-    // }
+    if (Math.random() < 0.3) {
+       alias = ` '${pickFromArray(shipNames)}'`
+    }
 
     // ${alias} generates a space at the beginning of the string
-    return `${firstName} ${lastName}`
+    return `${firstName} ${alias}${lastName}`
 }
