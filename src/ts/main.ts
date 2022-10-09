@@ -1,10 +1,10 @@
-import { Character } from './classes/humanoid/character';
-import { Part } from './classes/ship/part';
-import { Ship } from './classes/ship/ship';
-import { Health } from './classes/humanoid/health';
-import { generateName } from './util/ship';
-import { getVerboseDate } from './util/date';
 import { Breakroom, Bridge, createFromRoomTemplate, Engines, LifeSupport, Shields } from './util/templates';
+import { Character } from './classes/humanoid/character';
+import { Health } from './classes/humanoid/health';
+import { generateShipName } from './util/ship';
+import { getVerboseDate } from './util/date';
+import { Ship } from './classes/ship/ship';
+import { generateName } from './util/rng';
 
 export let selected: string = "";
 
@@ -99,7 +99,7 @@ function initGame() {
     initSelectedDiv();
 
     // ship
-    ships.push(new Ship(generateName(), [
+    ships.push(new Ship(generateShipName(), [
         createFromRoomTemplate(Bridge),
         createFromRoomTemplate(LifeSupport),
         createFromRoomTemplate(Engines),
@@ -107,8 +107,7 @@ function initGame() {
         createFromRoomTemplate(Breakroom),
     ], [
         new Character(
-            // if you know you know
-            "Carmen Miranda",
+            generateName(),
             "ghost",
             "bridge",
             new Health({
