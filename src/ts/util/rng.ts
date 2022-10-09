@@ -1,3 +1,5 @@
+import { first, last } from "../json/names.json";
+import shipNames from "../json/shipNames.json";
 const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 /**
@@ -13,4 +15,30 @@ export function generateString(length: number): string {
     }
 
     return result;
+}
+
+/**
+ * Picks a random from an array.
+ * @param array any[]
+ * @returns any
+ */
+export function pickFromArray(array: any[]): any {
+    return array[Math.floor(Math.random() * array.length)]
+}
+
+/**
+ * Returns a random name with a 30% chance of making an alias
+ * @returns string
+ */
+export function generateName(): string {
+    let firstName = pickFromArray(first);
+    let lastName = pickFromArray(last);
+    let alias = "";
+
+    if (Math.random() < 0.3) {
+        alias = ` '${pickFromArray(shipNames)}'`
+    }
+
+    // ${alias} generates a space at the beginning of the string
+    return `${firstName}${alias} ${lastName}`
 }
