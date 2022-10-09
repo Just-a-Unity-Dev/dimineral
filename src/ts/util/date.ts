@@ -37,5 +37,5 @@ export function getVerboseDate(year: number, month: number, today: number, hours
     let minutesStr: string = minutes.toString();
     if (minutes < 10) minutesStr = `0${minutes}`;
 
-    return `It is the ${ordinalSuffixOf(today)} of ${monthVerbose}, ${year}. The time is ${hours}${minutes}.`
+    return `It is the ${ordinalSuffixOf(today)} of ${monthVerbose}, ${year}. The time is ${hours}${minutesStr}.`
 }
