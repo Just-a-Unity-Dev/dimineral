@@ -24,9 +24,13 @@ export class Character {
         return `${this.name}, ${this.title}`
     }
 
+    public setLocation(id: string) {
+        this.location = id;
+    }
+
     public updateUi(id: string) {
         const status: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${id}-crew-status`);
-        status.textContent = `${this.name} is located at the ${ships[0].getPartById(this.location)?.name} and is ${this.health.getHealthPercentage() * 100}% healthy`;
+        status.textContent = `${this.name} is located at ${ships[0].getPartById(this.location)?.getName} and is ${this.health.getHealthPercentage() * 100}% healthy`;
     
         const select: HTMLButtonElement = <HTMLButtonElement>document.getElementById(`${id}-select`);
         select.disabled = selected != "";
@@ -54,7 +58,7 @@ export class Character {
         div.style.maxWidth = "250px";
 
         const status = document.createElement("p");
-        status.textContent = `${this.name} is located at ${this.location} and is ${this.health.getHealthPercentage() * 100}% healthy`;
+        status.textContent = `${this.name} is located at ${ships[0].getPartById(this.location)?.getName} and is ${this.health.getHealthPercentage() * 100}% healthy`;
         status.id = `${id}-crew-status`
         div.appendChild(status);
 

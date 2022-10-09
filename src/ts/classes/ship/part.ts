@@ -1,3 +1,5 @@
+import { selected, setSelected, ships } from "../../main";
+
 /**
  * A part in a `Ship`
  */
@@ -6,18 +8,31 @@ export class Part {
     public readonly id: string = ""
     private readonly maxHull: number = 0
     private readonly maxShield: number = 0;
+    private readonly the: boolean = false;
     private health: number = 0
     private shield: number = 0
 
-    constructor (name: string, id: string, health: number, maxHull: number, shield: number){
+    constructor (
+        name: string,
+        id: string,
+        health: number,
+        maxHull: number,
+        shield: number,
+        the: boolean = false
+    ){
         this.name = name;
         this.id = id;
         this.health = health;
         this.maxHull = maxHull;
         this.maxShield = shield;
         this.shield = shield;
+        this.the = the;
     }
     
+    public get getName() {
+        return `${this.the ? "the " : " "}${this.name}`
+    }
+
     /**
      * Returns the hull health of this part
      * If you need total health, use `totalHealth`
@@ -63,9 +78,11 @@ export class Part {
     }
 
     public updateUi(id: string) {
-        const data = document.getElementById(`${id}-${this.id}-data`);
-        if (data == undefined) return;
-        data.textContent = <string>this.totalHealth(true);
+        const data: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${id}-${this.id}-data`);
+        if (data != undefined) data.textContent = <string>this.totalHealth(true);
+
+        const move: HTMLButtonElement = <HTMLButtonElement>document.getElementById(`${id}-${this.id}-move`);
+        if (move != undefined) move.disabled = selected == "" ? true : false;
     }
 
     /**
@@ -89,6 +106,22 @@ export class Part {
         data.id = `${id}-${this.id}-data`;
         data.textContent = <string>this.totalHealth(true);
         div.appendChild(data);
+
+        // move here
+        const move = document.createElement("button");
+        move.id = `${id}-${this.id}-move`
+        move.textContent = "Move Here";
+        move.disabled = true;
+
+        move.addEventListener('click', () => {
+            // change the location
+            ships[0].getCrewByName(selected)?.setLocation(this.id);
+
+            // we're done with it, we can close it now
+            setSelected("");
+        });
+
+        div.appendChild(move);
 
         return div;
     }
