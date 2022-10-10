@@ -10,18 +10,35 @@ export class Power {
         this.consumers[id] = value;
     }
 
-    get power() {
+    public removeConsumer(id: string) {
+        delete this.consumers[id]
+    }
+
+    public removeSupplier(id: string) {
+        delete this.suppliers[id]
+    }
+
+    get supply() {
         const sup = Object.keys(this.suppliers);
-        const con = Object.keys(this.consumers);
+        let supply: number = 0;
+
+        sup.forEach(supplier => {
+            supply += this.suppliers[supplier];
+        });
+
+        return sup;
+    }
+
+    get power() {
         let supply: number = 0;
         let consumed: number = 0;
 
-        sup.forEach(supplier => {
-            supply += this.suppliers[supplier]
-        });
-        con.forEach(consumer => {
-            consumed += this.consumers[consumer]
-        });
+        for (const [_key, value] of Object.entries(this.suppliers)) {
+            supply += value;
+        }
+        for (const [_key, value] of Object.entries(this.consumers)) {
+            consumed += value;
+        }
 
         return supply - consumed;
     }

@@ -1,4 +1,5 @@
 import { getShipById, removeShip } from "../../main";
+import { generateString } from "../../util/rng";
 import { selected, setSelected } from "../selected";
 
 /**
@@ -8,11 +9,14 @@ export class Part {
     public readonly name: string = ""
     public readonly id: string = ""
     public readonly shipId: string = "";
+    public supply: number = 0;
+    public consumed: number = 0;
     private readonly maxHull: number = 0
     private readonly maxShield: number = 0;
     private readonly the: boolean = false;
-    private health: number = 0
-    private shield: number = 0
+    private health: number = 0;
+    private shield: number = 0;
+    public readonly uid: string = generateString(8);
 
     constructor (
         name: string,
@@ -21,7 +25,8 @@ export class Part {
         maxHull: number,
         shield: number,
         shipId: string,
-        the: boolean = false
+        the: boolean,
+        power: number
     ){
         this.name = name;
         this.id = id;
@@ -31,6 +36,13 @@ export class Part {
         this.shield = shield;
         this.shipId = shipId;
         this.the = the;
+
+        // If it's negative, then make it a consumer
+        if (power > 0) {
+            this.supply = power;
+        } else {
+            this.consumed = (power * -1);
+        }
     }
     
     public get getName() {
@@ -165,6 +177,9 @@ export class Part {
         });
         div.appendChild(damage);
 
+        getShipById(this.shipId)?.power.addConsumer(this.id + "-" + this.uid, this.consumed);
+        getShipById(this.shipId)?.power.addSupplier(this.id + "-" + this.uid, this.supply);
+        
         return div;
     }
 }

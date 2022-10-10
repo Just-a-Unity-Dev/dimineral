@@ -1,6 +1,7 @@
 import { generateString } from '../../util/rng';
 import { Character } from '../../addons/humanoid/character';
 import { Part } from './part';
+import { Power } from './power';
 
 /**
  * A ship, consisting of parts and crew making sure it stays afloat.
@@ -10,6 +11,7 @@ export class Ship {
     public readonly parts: Part[] = [];
     public readonly crew: Character[] = [];
     public readonly id: string = "";
+    public power: Power = new Power();
     public visible: boolean = true;
 
     constructor(name: string, parts: Part[], crew: Character[], id?: string | undefined) {
@@ -31,7 +33,11 @@ export class Ship {
     }
 
     public removePart(id: string) {
-        this.parts.splice(this.parts.findIndex(e => e.id == id), 1);
+        let partIndex: number = this.parts.findIndex(e => e.id == id);
+        let part: Part = this.parts[partIndex];
+        this.power.removeConsumer(part.id + "-" + part.uid);
+        this.power.removeSupplier(part.id + "-" + part.uid);
+        this.parts.splice(partIndex, 1);
     }
 
     public removeCrew(name: string) {
@@ -110,6 +116,9 @@ export class Ship {
                 part.updateUi(this.id);
             });
         }
+
+        const power = document.getElementById(`${this.id}-power`);
+        if (power != null) power.textContent = "Usage: " + this.power.power + "mW";
     }
 
     /**
@@ -130,9 +139,10 @@ export class Ship {
         header.textContent = this.name;
         div.appendChild(header);
 
-        const id = document.createElement("em");
-        id.textContent = "ID: " + this.id;
-        div.appendChild(id);
+        const power = document.createElement("em");
+        power.textContent = "Usage: " + this.power.power + "mW";
+        power.id = `${this.id}-power`;
+        div.appendChild(power);
 
         div.appendChild(document.createElement("br"));
 
