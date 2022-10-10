@@ -24,6 +24,10 @@ export class Ship {
         this.crew = crew;
     }
 
+    get powered () {
+        return this.power.power > 0;
+    }
+
     /**
      * Add's a part to the Ship's part list
      * @param part 
