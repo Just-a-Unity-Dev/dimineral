@@ -8,6 +8,12 @@ export const LifeSupport: RoomTemplate = ["Life Support Generators", "life", 75,
 export const Engines: RoomTemplate = ["Engines", "engine", 75, 75, 0, false, -30];
 export const Shields: RoomTemplate = ["Shields", "shields", 75,75,100, false, -50]
 
+/**
+ * Creates a Part from a RoomTemplate
+ * @param room RoomTemplate
+ * @param id id
+ * @returns Part
+ */
 export function createFromRoomTemplate(room: RoomTemplate, id: string) {
     return new Part(
         <string>room[0],

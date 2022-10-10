@@ -24,6 +24,10 @@ export class Ship {
         this.crew = crew;
     }
 
+    /**
+     * Checks if the ship's power is bigger than zero.
+     * @returns boolean
+     */
     get powered () {
         return this.power.power > 0;
     }
@@ -36,6 +40,10 @@ export class Ship {
         this.parts.push(part);
     }
 
+    /**
+     * Using a Part ID, removes a part from the ship's part list
+     * @param id string
+     */
     public removePart(id: string) {
         let partIndex: number = this.parts.findIndex(e => e.id == id);
         let part: Part = this.parts[partIndex];
@@ -44,10 +52,18 @@ export class Ship {
         this.parts.splice(partIndex, 1);
     }
 
+    /**
+     * Removes a crewmember from the crew list.
+     * @param name string
+     */
     public removeCrew(name: string) {
         this.crew.splice(this.parts.findIndex(e => e.name == name), 1);
     }
 
+    /**
+     * Add's a crewmember to the crew list.
+     * @param crew Character
+     */
     public addCrew(crew: Character) {
         this.crew.push(crew);
     }

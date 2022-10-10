@@ -45,6 +45,9 @@ export class Part {
         }
     }
     
+    /**
+     * Returns the name of the part
+     */
     public get getName() {
         return `${this.the ? "the " : " "}${this.name}`
     }
@@ -64,6 +67,10 @@ export class Part {
 
     }
 
+    /**
+     * Deals an amount of damage to shields/hull.
+     * @param damage number
+     */
     public dealDamage(damage: number) {
         if (this.shieldHp > 0) {
             this.shield -= damage;
@@ -98,14 +105,23 @@ export class Part {
         return this.shield;
     }
 
+    /**
+     * Returns the total HP
+     */
     get totalHp() {
         return this.health + this.shield;
     }
 
+    /**
+     * Returns the total max HP
+     */
     get totalMaxHp() {
         return this.maxHull + this.maxShield;
     }
     
+    /**
+     * Returns the percentage between current and total HP
+     */
     get partHpPercentage() {
         return this.totalHp / this.totalMaxHp;
     }
@@ -124,6 +140,10 @@ export class Part {
         return total;
     }
 
+    /**
+     * Updates the UI
+     * @param id string
+     */
     public updateUi(id: string) {
         const data: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${id}-${this.id}-data`);
         if (data != undefined) data.textContent = <string>this.totalHealth(true);

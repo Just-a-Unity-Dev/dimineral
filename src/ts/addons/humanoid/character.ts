@@ -30,10 +30,17 @@ export class Character {
         this.shipId = shipId;
     }
 
+    /**
+     * Returns the full name, along with title
+     */
     get fullName() {
         return `${this.name}, ${this.title}`
     }
 
+    /**
+     * Destroys the Character.
+     * @returns null
+     */
     public destroy() {
         setSelected("");
         let ship = getShipById(this.shipId);
@@ -46,10 +53,19 @@ export class Character {
         ship.removeCrew(this.name);
     }
 
+    /**
+     * Sets the location of a character
+     * @param id string
+     */
     public setLocation(id: string) {
         this.location = id;
     }
 
+    /**
+     * Updates the UI
+     * @param id string
+     * @returns null
+     */
     public updateUi(id: string) {
         // this has to do be done first before the rest of the UI because it might break stuff
         // either a CRITICAL error or they were in a part when it was destroyed
@@ -80,6 +96,11 @@ export class Character {
         }
     }
 
+    /**
+     * Initializes the UI
+     * @param id string
+     * @returns Node
+     */
     public ui(id: string): Node {
         const div = document.createElement("div");
         const name = document.createElement("h3");

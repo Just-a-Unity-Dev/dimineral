@@ -1,3 +1,8 @@
+/**
+ * Returns the ordinal suffix (1st, 2nd, 3rd, 4th, ...)
+ * @param i number
+ * @returns string
+ */
 export function ordinalSuffixOf(i: number): string {
     var j = i % 10,
         k = i % 100;
@@ -13,6 +18,11 @@ export function ordinalSuffixOf(i: number): string {
     return i + "th";
 }
 
+/**
+ * Returns a verbose month
+ * @param month number
+ * @returns string
+ */
 export function getVerboseMonth(month: number): string {
     let months = [
         "Shin",
@@ -32,6 +42,15 @@ export function getVerboseMonth(month: number): string {
     return months[month];
 }
 
+/**
+ * Returns a verbose date
+ * @param year number
+ * @param month number
+ * @param today number
+ * @param hours number
+ * @param minutes number
+ * @returns string
+ */
 export function getVerboseDate(year: number, month: number, today: number, hours: number, minutes: number): string {
     let monthVerbose = getVerboseMonth(month);
     let hoursStr: string = hours.toString();
