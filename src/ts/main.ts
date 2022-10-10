@@ -80,7 +80,3 @@ function initGame() {
     
     setTimeout(updateUi, 10);
 }
-
-let mday: Date = new Date();
-currentTime.textContent = getVerboseDate(4131, mday.getMonth(), mday.getDate(), mday.getHours(), mday.getMinutes());
-document.querySelector('meta[name="description"]')?.setAttribute("content", "hello");
