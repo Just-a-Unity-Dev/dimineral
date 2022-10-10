@@ -4,7 +4,11 @@ import { Skills } from "../addons/humanoid/skills";
 import { generateName } from "./rng";
 import { makeSkills } from "./skills";
 
-// Tip: You must use 25 skill points only
+/**
+ * You must use 25 skill points only
+*/
+export const maxSkillPoints: number = 25;
+
 /**
  * All jobs and their starting skill points.
  */
@@ -49,4 +53,8 @@ export function generateCharacter(id: string): Character {
     );
 
     return member
+}
+
+export function capitalizeFirstLetter(string: string): string {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }

@@ -13,6 +13,7 @@ p,summary,details,h1,h2,h3,h4,h5,h6,button {
 button {
     background-color: $pink;
     text-decoration: none;
+    margin: 5px;
     display: inline-block;
     text-align: center;
     border-radius: 8px;
@@ -98,4 +99,9 @@ summary {
     border-radius: 20px;
     border: 9px solid transparent;
     background-clip: content-box;
+}
+
+#app {
+    width: 50%;
+    margin: auto;
 }

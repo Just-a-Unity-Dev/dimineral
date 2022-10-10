@@ -1,19 +1,21 @@
 /**
  * The skills that a humanoid has
  */
-export interface Skills {
+const SkillC: {[id: string]: number} = {
     // Physical
-    strength: number
-    agility: number
+    "strength": 0,
+    "agility": 0,
     
     // Mental
-    fortitude: number
+    "fortitude": 0,
     
     // Engineering    
-    electrical: number
-    mechanical: number
+    "electrical": 0,
+    "mechanical": 0,
     
     // Operating machinery and etc
-    machinery: number
-    intelligence: number
+    "machinery": 0,
+    "intelligence": 0,
 }
+
+export type Skills = typeof SkillC;
