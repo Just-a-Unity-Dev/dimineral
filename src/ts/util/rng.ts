@@ -40,5 +40,5 @@ export function generateName(): string {
     }
 
     // ${alias} generates a space at the beginning of the string
-    return `${firstName} ${alias}${lastName}`
+    return `${firstName}${alias} ${lastName}`
 }

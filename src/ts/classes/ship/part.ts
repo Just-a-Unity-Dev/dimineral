@@ -1,4 +1,4 @@
-import { getShipById } from "../../main";
+import { getShipById, removeShip } from "../../main";
 import { selected, setSelected } from "../../addons/selected";
 
 /**
@@ -37,6 +37,21 @@ export class Part {
         return `${this.the ? "the " : " "}${this.name}`
     }
 
+    /**
+     * Destroys the Part
+     */
+    public destroy() {
+        let ship = getShipById(this.shipId);
+        if (ship == undefined) return;
+
+        document.getElementById(`${this.shipId}-${this.id}`)?.remove();
+        if ((ship.parts.length - 1) <= 0) {
+            removeShip(ship);
+        }
+        ship.removePart(this.id);
+
+    }
+
     public dealDamage(damage: number) {
         if (this.shieldHp > 0) {
             this.shield -= damage;
@@ -46,6 +61,10 @@ export class Part {
             }
         } else {
             this.health -= damage;
+        }
+
+        if (this.health <= 0) {
+            this.destroy()
         }
     }
 
@@ -108,10 +127,11 @@ export class Part {
      */
     public ui(id: string): Node {
         // Main div
-        const div = document.createElement("div");
-        div.classList.add("item");
-        div.style.width = "250px";
+        const div = <HTMLDivElement>document.createElement("div");
+        div.id = `${this.shipId}-${this.id}`;
         div.style.height = "125px";
+        div.style.width = "250px";
+        div.classList.add("item");
 
         // Data
         const label = document.createElement("h2");
@@ -119,7 +139,7 @@ export class Part {
         div.appendChild(label);
 
         const data = document.createElement("p");
-        data.id = `${id}-${this.id}-data`;
+        data.id = `${this.shipId}-${this.id}-data`;
         data.textContent = <string>this.totalHealth(true);
         div.appendChild(data);
 

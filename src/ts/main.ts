@@ -15,6 +15,11 @@ export function getShipById(id: string): Ship | undefined {
     return ships.find(e => e.id == id);
 }
 
+export function removeShip(ship: Ship) {
+    document.getElementById(ship.id)?.remove();
+    ships.splice(ships.findIndex(s => s == ship), 1)
+}
+
 // UI hell
 const app = document.querySelector<HTMLDivElement>('#app');
 const header = document.createElement("h1");

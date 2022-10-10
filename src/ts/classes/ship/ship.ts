@@ -30,6 +30,10 @@ export class Ship {
         this.parts.push(part);
     }
 
+    public removePart(id: string) {
+        this.parts.splice(this.parts.findIndex(e => e.id == id), 1);
+    }
+
     public addCrew(crew: Character) {
         this.crew.push(crew);
     }
