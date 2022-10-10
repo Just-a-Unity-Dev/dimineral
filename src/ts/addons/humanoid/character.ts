@@ -66,7 +66,7 @@ export class Character {
      * @param id string
      * @returns null
      */
-    public updateUi(id: string) {
+    public tick(id: string) {
         // this has to do be done first before the rest of the UI because it might break stuff
         // either a CRITICAL error or they were in a part when it was destroyed
         // regardless, they need to be removed.
@@ -101,7 +101,7 @@ export class Character {
      * @param id string
      * @returns Node
      */
-    public ui(id: string): Node {
+    public init(id: string): Node {
         const div = document.createElement("div");
         const name = document.createElement("h3");
         name.textContent = this.fullName;

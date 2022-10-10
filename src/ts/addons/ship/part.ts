@@ -144,7 +144,7 @@ export class Part {
      * Updates the UI
      * @param id string
      */
-    public updateUi(id: string) {
+    public tick(id: string) {
         const data: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${id}-${this.id}-data`);
         if (data != undefined) data.textContent = <string>this.totalHealth(true);
 
@@ -157,7 +157,7 @@ export class Part {
      * @param id string
      * @returns Node
      */
-    public ui(id: string): Node {
+    public init(id: string): Node {
         // Main div
         const div = <HTMLDivElement>document.createElement("div");
         div.id = `${this.shipId}-${this.id}`;

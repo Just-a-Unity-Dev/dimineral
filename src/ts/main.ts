@@ -1,5 +1,5 @@
 import { Breakroom, Bridge, createFromRoomTemplate, Engines, LifeSupport, Shields } from './util/templates';
-import { capitalizeFirstLetter, generateCharacter, maxSkillPoints } from './util/characters';
+import { capitalizeFirstLetter, maxSkillPoints } from './util/characters';
 import { generateShipName } from './util/ship';
 import { getVerboseDate } from './util/date';
 import { Ship, ships } from './addons/ship/ship';
@@ -116,7 +116,7 @@ function setupGame() {
     setup?.appendChild(playButton);
 }
 
-function updateUi() {    
+function tick() {    
     // basic selected DIV
     if (selected == "") {
         selectedDiv.style.display = 'none';
@@ -136,10 +136,10 @@ function updateUi() {
     }
 
     ships.forEach(ship => {
-        ship.updateUi();
+        ship.tick();
     });
     
-    setTimeout(updateUi, 100)
+    setTimeout(tick, 100)
 }
 
 function initGame() {
@@ -177,9 +177,9 @@ function initGame() {
     ))
 
     ships.push(ship);
-    shipDetails?.appendChild(ships[0].ui());
+    shipDetails?.appendChild(ships[0].init());
     
-    setTimeout(updateUi, 10);
+    setTimeout(tick, 10);
 }
 
 initApp();
