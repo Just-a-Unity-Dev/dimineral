@@ -1,4 +1,4 @@
-import { getShipById, removeShip } from "../../main";
+import { getShipById, removeShip } from "./ship";
 import { generateString } from "../../util/rng";
 import { selected, setSelected } from "../selected";
 

@@ -2,23 +2,8 @@ import { Breakroom, Bridge, createFromRoomTemplate, Engines, LifeSupport, Shield
 import { generateCharacter } from './util/characters';
 import { generateShipName } from './util/ship';
 import { getVerboseDate } from './util/date';
-import { Ship } from './addons/ship/ship';
+import { Ship, ships } from './addons/ship/ship';
 import { initSelectedDiv, selected } from './addons/selected';
-
-/**
- * The ships that the player can interact with.
- * Tip: ships[0] is ALWAYS the master ship, all playable characters are stored there.
- */
-export const ships: Ship[] = [];
-
-export function getShipById(id: string): Ship | undefined {
-    return ships.find(e => e.id == id);
-}
-
-export function removeShip(ship: Ship) {
-    document.getElementById(ship.id)?.remove();
-    ships.splice(ships.findIndex(s => s == ship), 1)
-}
 
 // UI hell
 const app = document.querySelector<HTMLDivElement>('#app');
