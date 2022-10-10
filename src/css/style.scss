@@ -80,9 +80,14 @@ summary {
     padding: 1px;
     margin: 1rem;
     padding: 1rem;
-    & > .large {
+    &.large {
         max-width: 600px;
         min-height: 400px;
+    }
+
+    &.xl {
+        width: 650px;
+        height: 300px;
     }
     
     &:hover {
@@ -104,4 +109,25 @@ summary {
 #app {
     width: 50%;
     margin: auto;
+}
+
+@media only screen and (max-width: 600px) {
+    #app {
+        width: 70%;
+    }
+
+    .item {
+        &.xl {
+            width: 200px;
+            height: 500px;
+        }
+    }
+
+    .selected-ui {
+        height: 140px;
+        width: 160px;
+        display: inline-block;
+        bottom: 6px;
+        right: 6px;
+    }
 }
