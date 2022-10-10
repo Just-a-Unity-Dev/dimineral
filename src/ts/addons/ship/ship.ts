@@ -2,6 +2,7 @@ import { generateString } from '../../util/rng';
 import { Character } from '../../addons/humanoid/character';
 import { Part } from './part';
 import { Power } from './power';
+import { addS } from '../../util/ui';
 
 /**
  * The ships that the player can interact with.
@@ -134,7 +135,7 @@ export class Ship {
         // update crew
         const crewLabel: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${this.id}-crewlabel`);
         if (crewLabel != null) {
-            crewLabel.textContent = `You have ${this.crew.length} crew aboard this ship.`;
+            crewLabel.textContent = `You have ${this.crew.length} ${addS(this.crew.length, "crewmember")} aboard this ship.`;
 
             this.crew.forEach(member => {
                 member.tick(this.id);

@@ -8,7 +8,7 @@ import { Skills } from './addons/humanoid/skills';
 import { generateName } from './util/rng';
 import { Character } from './addons/humanoid/character';
 import { Health } from './addons/humanoid/health';
-import { quickCreate } from './util/ui';
+import { addS, quickCreate } from './util/ui';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 let selectedDiv: HTMLDivElement = <HTMLDivElement>initSelectedDiv();
@@ -86,12 +86,12 @@ function setupGame() {
                 spent += 10;
             }
 
-            button.textContent = `${skills[key]} points on ${capitalizeFirstLetter(key)}`;
+            button.textContent = `${skills[key]} ${addS(skills[key], "point")} on ${capitalizeFirstLetter(key)}`;
             playButton.disabled = (spent > maxSkillPoints);
             totalLabel.style.color = (spent > maxSkillPoints) ? "#ff3e3e" : "#fff";
             totalLabel.textContent = 
                 (spent > maxSkillPoints) ?
-                `SPENT: ${spent}/${maxSkillPoints} (${spent - maxSkillPoints} points extra!)` :
+                `SPENT: ${spent}/${maxSkillPoints} (${spent - maxSkillPoints} ${addS(spent - maxSkillPoints, "point")} extra!)` :
                 `SPENT: ${spent}/${maxSkillPoints}`;
         };
 
