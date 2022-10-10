@@ -11,8 +11,12 @@ import { initSelectedDiv, selected } from './addons/selected';
  */
 export const ships: Ship[] = [];
 
-const app = document.querySelector<HTMLDivElement>('#app');
+export function getShipById(id: string): Ship | undefined {
+    return ships.find(e => e.id == id);
+}
 
+// UI hell
+const app = document.querySelector<HTMLDivElement>('#app');
 const header = document.createElement("h1");
 header.textContent = "Astrionics";
 
@@ -31,10 +35,6 @@ app?.appendChild(header);
 app?.appendChild(playButton);
 
 let selectedDiv: HTMLDivElement = <HTMLDivElement>initSelectedDiv();
-
-export function getShipById(id: string): Ship | undefined {
-    return ships.find(e => e.id == id);
-}
 
 function updateUi() {
     // basic selected DIV
@@ -68,7 +68,7 @@ function initGame() {
     app?.appendChild(shipDetails);
     
     // initialize div
-    document.body.appendChild(selectedDiv);
+    app?.appendChild(selectedDiv);
 
     // ship
     let ship = new Ship(generateShipName(), [], []);
