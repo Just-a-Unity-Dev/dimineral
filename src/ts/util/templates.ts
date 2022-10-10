@@ -1,4 +1,4 @@
-import { Part } from "../classes/ship/part";
+import { Part } from "../addons/ship/part";
 
 export type RoomTemplate = (string | number | boolean)[];
 export const Bridge: RoomTemplate = ["Bridge", "bridge", 100, 100, 0, true];

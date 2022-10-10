@@ -2,7 +2,7 @@ import { Breakroom, Bridge, createFromRoomTemplate, Engines, LifeSupport, Shield
 import { generateCharacter } from './util/characters';
 import { generateShipName } from './util/ship';
 import { getVerboseDate } from './util/date';
-import { Ship } from './classes/ship/ship';
+import { Ship } from './addons/ship/ship';
 import { initSelectedDiv, selected } from './addons/selected';
 
 /**

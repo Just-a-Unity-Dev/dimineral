@@ -1,6 +1,6 @@
-import { Character } from "../classes/humanoid/character";
-import { Health } from "../classes/humanoid/health";
-import { Skills } from "../classes/humanoid/skills";
+import { Character } from "../addons/humanoid/character";
+import { Health } from "../addons/humanoid/health";
+import { Skills } from "../addons/humanoid/skills";
 import { generateName } from "./rng";
 import { makeSkills } from "./skills";
 

@@ -1,5 +1,5 @@
 import { getShipById, removeShip } from "../../main";
-import { selected, setSelected } from "../../addons/selected";
+import { selected, setSelected } from "../selected";
 
 /**
  * A part in a `Ship`

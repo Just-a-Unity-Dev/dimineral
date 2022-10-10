@@ -1,5 +1,5 @@
 import { generateString } from '../../util/rng';
-import { Character } from '../humanoid/character';
+import { Character } from '../../addons/humanoid/character';
 import { Part } from './part';
 
 /**

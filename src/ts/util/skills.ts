@@ -1,4 +1,4 @@
-import { Skills } from "../classes/humanoid/skills";
+import { Skills } from "../addons/humanoid/skills";
 
 /**
  * Quickly generate a Skills interface.

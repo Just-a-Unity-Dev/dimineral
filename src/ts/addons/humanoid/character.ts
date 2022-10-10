@@ -55,7 +55,6 @@ export class Character {
             default:
                 select.textContent = "Disabled";
         }
-
     }
 
     public ui(id: string): Node {
