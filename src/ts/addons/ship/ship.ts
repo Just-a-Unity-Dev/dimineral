@@ -165,9 +165,7 @@ export class Ship {
         const div = document.createElement("div");
         div.id = this.id;
         div.classList.add("item");
-        div.style.maxWidth = "650px";
-        div.style.minWidth = "200px";
-        div.style.height = "300px";
+        div.classList.add("xl");
 
         // Basic data
         const header = document.createElement("h2");
@@ -175,7 +173,6 @@ export class Ship {
         div.appendChild(header);
 
         const power = document.createElement("em");
-        power.textContent = "Usage: " + this.power.power + "mW";
         power.id = `${this.id}-power`;
         div.appendChild(power);
 
@@ -186,7 +183,6 @@ export class Ship {
         div.appendChild(crewDetails)
 
         const crewLabel = document.createElement("summary");
-        crewLabel.textContent = `You have ${this.crew.length} crewmembers above this ship.`
         crewLabel.id = `${this.id}-crewlabel`
         crewDetails.appendChild(crewLabel);
 
@@ -204,7 +200,6 @@ export class Ship {
         div.appendChild(partDetails)
 
         const partLabel = document.createElement("summary");
-        partLabel.textContent = <string>this.totalHull(true);
         partLabel.id = `${this.id}-partlabel`
         partDetails.appendChild(partLabel);
 

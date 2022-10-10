@@ -120,7 +120,6 @@ export class Character {
         div.id = `${id}-${this.name}`
 
         const status = document.createElement("p");
-        status.textContent = `${this.name} is located at ${getShipById(this.shipId)?.getPartById(this.location)?.getName} and is ${this.health.getHealthPercentage() * 100}% healthy`;
         status.id = `${id}-crew-status`
         div.appendChild(status);
 
