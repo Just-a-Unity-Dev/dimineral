@@ -1,14 +1,15 @@
 import { describe, expect, it } from 'vitest';
-import { Ship } from '../src/ts/classes/ship/ship';
-import { Part } from '../src/ts/classes/ship/part';
-import { Character } from '../src/ts/classes/humanoid/character';
-import { Health } from '../src/ts/classes/humanoid/health';
+import { Ship } from '../src/ts/addons/ship/ship';
+import { Part } from '../src/ts/addons/ship/part';
+import { Character } from '../src/ts/addons/humanoid/character';
+import { Health } from '../src/ts/addons/humanoid/health';
+import { Breakroom, Bridge, createFromRoomTemplate, Engines, LifeSupport } from '../src/ts/util/templates';
 
 /**
  * Used to create a dummy character for test-purposes only
  * @returns Character
  */
- export function makeCharacter() {
+ export function makeCharacter(id: string) {
     return new Character(
         // if you know you know
         "Carmen Miranda",
@@ -29,7 +30,8 @@ import { Health } from '../src/ts/classes/humanoid/health';
             "mechanical": 10,
             "machinery": 10,
             "intelligence": 10
-        }
+        },
+        id
     );
 }
 
@@ -38,30 +40,13 @@ import { Health } from '../src/ts/classes/humanoid/health';
  * @returns Ship
  */
 export function createShip(): Ship {
-    const parts = [
-        new Part(
-            "Bridge",
-            "bridge",
-            50,
-            50,
-            0
-            ),
-            new Part(
-                "Life Support",
-                "lifesupport",
-                25,
-                25,
-                100
-                ),
-                new Part(
-                    "Engines",
-                    "engine",
-                    100,
-                    100,
-                    0
-                    )
-                ];
-    return new Ship("testship100", parts, [makeCharacter()]);
+    let ship = new Ship("testship100", [], []);
+    ship.addPart(createFromRoomTemplate(Bridge, ship.id));
+    ship.addPart(createFromRoomTemplate(Breakroom, ship.id));
+    ship.addPart(createFromRoomTemplate(LifeSupport, ship.id));
+    ship.addPart(createFromRoomTemplate(Engines, ship.id));
+    ship.addCrew(makeCharacter(ship.id));
+    return ship
 }
 
 describe("ship", () => {
@@ -71,7 +56,7 @@ describe("ship", () => {
     it("get crew by name works", () => {
         const ship: Ship = createShip();
 
-        expect(ship.getCrewByName("Carmen Miranda")).toStrictEqual(makeCharacter());
+        expect(ship.getCrewByName("Carmen Miranda")).toStrictEqual(makeCharacter(ship.id));
     })
     it("get part by id works", () => {
         const ship: Ship = createShip();

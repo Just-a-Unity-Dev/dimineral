@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { Character } from '../src/ts/classes/humanoid/character';
-import { Ship } from '../src/ts/classes/ship/ship';
+import { Character } from '../src/ts/addons/humanoid/character';
+import { Ship } from '../src/ts/addons/ship/ship';
 import { createShip } from './ship.spec';
 
 describe("characters", () => {

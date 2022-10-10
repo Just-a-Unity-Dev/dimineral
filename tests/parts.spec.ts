@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Ship } from '../src/ts/classes/ship/ship';
+import { Ship } from '../src/ts/addons/ship/ship';
 import { createShip } from './ship.spec';
 
 describe("parts", () => {
