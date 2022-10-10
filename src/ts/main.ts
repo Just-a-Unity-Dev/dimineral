@@ -9,6 +9,8 @@ import { generateName } from './util/rng';
 import { Character } from './addons/humanoid/character';
 import { Health } from './addons/humanoid/health';
 import { addS, quickCreate } from './util/ui';
+import { addStar, Star } from './addons/locations/star';
+import { Planet } from './addons/locations/planet';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 const selectedDiv: HTMLDivElement = <HTMLDivElement>initSelectedDiv();
@@ -152,6 +154,8 @@ function tick() {
 function initGame() {
     const shipDetails = document.createElement("details");
     const shipSummary = document.createElement("summary");
+    const starDetails = document.createElement("details");
+    const starSummary = document.createElement("summary");
     const currentTime = document.createElement("p");
     currentTime.id = "time";
 
@@ -161,6 +165,19 @@ function initGame() {
     // init summary
     shipSummary.textContent = "Ships";
     shipDetails.appendChild(shipSummary);
+
+    starSummary.textContent = "Stars";
+    starDetails.appendChild(starSummary);
+
+    for (let i = 0; i < 10; i++) {
+        const star = new Star(generateShipName(), [
+            new Planet(generateShipName())
+        ]);
+        starDetails.appendChild(star.init());
+        addStar(star);
+    }
+
+    app?.appendChild(starDetails);
     app?.appendChild(shipDetails);
     
     // initialize div
