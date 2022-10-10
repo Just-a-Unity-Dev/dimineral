@@ -42,7 +42,7 @@ export class Part {
      */
     public destroy() {
         let ship = getShipById(this.shipId);
-        if (ship == undefined) return;
+        if (ship  == undefined) return;
 
         document.getElementById(`${this.shipId}-${this.id}`)?.remove();
         if ((ship.parts.length - 1) <= 0) {

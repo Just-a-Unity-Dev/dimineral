@@ -60,6 +60,7 @@ function updateUi() {
     ships.forEach(ship => {
         ship.updateUi();
     });
+    
     setTimeout(updateUi, 100)
 }
 

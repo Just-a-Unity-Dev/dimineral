@@ -34,6 +34,10 @@ export class Ship {
         this.parts.splice(this.parts.findIndex(e => e.id == id), 1);
     }
 
+    public removeCrew(name: string) {
+        this.crew.splice(this.parts.findIndex(e => e.name == name), 1);
+    }
+
     public addCrew(crew: Character) {
         this.crew.push(crew);
     }
@@ -89,19 +93,23 @@ export class Ship {
     public updateUi() {
         // update crew
         const crewLabel: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${this.id}-crewlabel`);
-        crewLabel.textContent = `You have ${this.crew.length} crew aboard this ship.`;
+        if (crewLabel != null) {
+            crewLabel.textContent = `You have ${this.crew.length} crew aboard this ship.`;
 
-        this.crew.forEach(member => {
-            member.updateUi(this.id);
-        });
+            this.crew.forEach(member => {
+                member.updateUi(this.id);
+            });
+        }
 
         // update parts
         const partLabel: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${this.id}-partlabel`);
-        partLabel.textContent = <string>this.totalHull(true);
+        if (partLabel != null) {
+            partLabel.textContent = <string>this.totalHull(true);
 
-        this.parts.forEach(part => {
-            part.updateUi(this.id);
-        });
+            this.parts.forEach(part => {
+                part.updateUi(this.id);
+            });
+        }
     }
 
     /**
