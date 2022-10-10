@@ -27,7 +27,7 @@ export class Ship {
     public readonly crew: Character[] = [];
     public readonly id: string = "";
     public power: Power = new Power();
-    public visible: boolean = true;
+    public visible = true;
 
     constructor(name: string, parts: Part[], crew: Character[], id?: string | undefined) {
         if (id == "" || id == undefined) {
@@ -60,8 +60,8 @@ export class Ship {
      * @param id string
      */
     public removePart(id: string) {
-        let partIndex: number = this.parts.findIndex(e => e.id == id);
-        let part: Part = this.parts[partIndex];
+        const partIndex: number = this.parts.findIndex(e => e.id == id);
+        const part: Part = this.parts[partIndex];
         this.power.removeConsumer(part.id + "-" + part.uid);
         this.power.removeSupplier(part.id + "-" + part.uid);
         this.parts.splice(partIndex, 1);
@@ -112,7 +112,7 @@ export class Ship {
      * // hull, shield, total
      * console.log(ship.totalHull())
      */
-    public totalHull(this: Ship, verbose: boolean = false): number[] | string {
+    public totalHull(this: Ship, verbose = false): number[] | string {
         let hp = 0;
         let shield = 0;
         let totalMaxHp = 0;
@@ -121,7 +121,7 @@ export class Ship {
             shield += part.shieldHp;
             totalMaxHp += part.totalMaxHp;
         });
-        let total = hp + shield;
+        const total = hp + shield;
         if (verbose) {
             return `${hp} hull + ${shield} shield = ${total} total (${Math.round((total / totalMaxHp) * 100)}%)`
         }

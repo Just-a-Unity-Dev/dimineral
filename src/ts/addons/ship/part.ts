@@ -9,13 +9,13 @@ export class Part {
     public readonly name: string = ""
     public readonly id: string = ""
     public readonly shipId: string = "";
-    public supply: number = 0;
-    public consumed: number = 0;
+    public supply = 0;
+    public consumed = 0;
     private readonly maxHull: number = 0
     private readonly maxShield: number = 0;
     private readonly the: boolean = false;
-    private health: number = 0;
-    private shield: number = 0;
+    private health = 0;
+    private shield = 0;
     public readonly uid: string = generateString(8);
 
     constructor (
@@ -56,7 +56,7 @@ export class Part {
      * Destroys the Part
      */
     public destroy() {
-        let ship = getShipById(this.shipId);
+        const ship = getShipById(this.shipId);
         if (ship  == undefined) return;
 
         document.getElementById(`${this.shipId}-${this.id}`)?.remove();
@@ -132,8 +132,8 @@ export class Part {
      * @param verbose boolean
      * @returns number | string
     */
-    public totalHealth(verbose: boolean = false): number | string {
-        let total: number = this.totalHp;
+    public totalHealth(verbose = false): number | string {
+        const total: number = this.totalHp;
         if (verbose) {
             return `${this.health} hull + ${this.shield} shield = ${total} total (${Math.round(this.partHpPercentage * 100)}%)`;
         }

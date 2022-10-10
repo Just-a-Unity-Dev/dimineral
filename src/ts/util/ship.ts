@@ -6,9 +6,9 @@ import shipNames from "../../json/shipNames.json";
  * @returns string
  */
 export function generateShipName(): string {
-    let prefix = generateString(2).toUpperCase();
-    let id = Math.floor(Math.random() * 100);
-    let name = pickFromArray(shipNames);
+    const prefix = generateString(2).toUpperCase();
+    const id = Math.floor(Math.random() * 100);
+    const name = pickFromArray(shipNames);
 
     return `${prefix}-${id} ${name}`
 }

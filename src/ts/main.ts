@@ -11,7 +11,7 @@ import { Health } from './addons/humanoid/health';
 import { addS, quickCreate } from './util/ui';
 
 const app = document.querySelector<HTMLDivElement>('#app');
-let selectedDiv: HTMLDivElement = <HTMLDivElement>initSelectedDiv();
+const selectedDiv: HTMLDivElement = <HTMLDivElement>initSelectedDiv();
 
 // UI hell
 function initApp() {
@@ -34,7 +34,7 @@ let characterName: string = generateName();
 
 function setupGame() {
     // div
-    let setup = document.createElement("div");
+    const setup = document.createElement("div");
     
     // name
     const rname = document.createElement("p");
@@ -53,7 +53,7 @@ function setupGame() {
     setup?.appendChild(quickCreate("br"));
 
     // skill points
-    let skills: Skills = <Skills>{
+    const skills: Skills = <Skills>{
         "strength": 4,
         "agility": 2,
         "fortitude": 1,
@@ -62,17 +62,17 @@ function setupGame() {
         "mechanical": 3,
         "intelligence": 2,
     };
-    let keys: string[] = Object.keys(skills);
-    let spent: number = 0;
+    const keys: string[] = Object.keys(skills);
+    let spent = 0;
     
     // lets get skills up to date
     keys.forEach(el => spent += skills[el])
 
-    let totalLabel: HTMLParagraphElement = <HTMLParagraphElement>quickCreate("p", `SPENT: ${spent}/${maxSkillPoints}`)
+    const totalLabel: HTMLParagraphElement = <HTMLParagraphElement>quickCreate("p", `SPENT: ${spent}/${maxSkillPoints}`)
     setup.appendChild(totalLabel);
 
 
-    keys.forEach((key: any) => {
+    keys.forEach((key: string) => {
         const button = document.createElement("button")
         const add = (amount: number) => {
             skills[key] += amount;
@@ -127,14 +127,14 @@ function tick() {
     } else {
         // make it visible
         selectedDiv.style.display = 'block';
-        let name: HTMLHeadingElement = <HTMLHeadingElement>document.getElementById("selected-name");
+        const name: HTMLHeadingElement = <HTMLHeadingElement>document.getElementById("selected-name");
         // if (name != null) {
             name.textContent = selected;
         // }
     }
 
-    let today: Date = new Date();
-    let currentTime = document.getElementById("time");
+    const today: Date = new Date();
+    const currentTime = document.getElementById("time");
     if (currentTime != null) {
         currentTime.textContent = getVerboseDate(4131, today.getMonth(), today.getDate(), today.getHours(), today.getMinutes());
     }
@@ -164,7 +164,7 @@ function initGame() {
     app?.appendChild(selectedDiv);
 
     // ship
-    let ship = new Ship(generateShipName(), [], []);
+    const ship = new Ship(generateShipName(), [], []);
     ship.addPart(createFromRoomTemplate(Bridge, ship.id)),
     ship.addPart(createFromRoomTemplate(LifeSupport, ship.id)),
     ship.addPart(createFromRoomTemplate(Engines, ship.id)),

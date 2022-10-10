@@ -23,7 +23,7 @@ export function ordinalSuffixOf(i: number): string {
  * @returns string
  */
 export function getVerboseMonth(month: number): string {
-    let months = [
+    const months = [
         "Shin",
         "Bet",
         "Gimel",
@@ -51,7 +51,7 @@ export function getVerboseMonth(month: number): string {
  * @returns string
  */
 export function getVerboseDate(year: number, month: number, today: number, hours: number, minutes: number): string {
-    let monthVerbose = getVerboseMonth(month);
+    const monthVerbose = getVerboseMonth(month);
     let hoursStr: string = hours.toString();
     if (hours < 10) hoursStr = `0${hours}`;
 

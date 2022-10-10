@@ -7,7 +7,7 @@ import { makeSkills } from "./skills";
 /**
  * You must use 25 skill points only
 */
-export const maxSkillPoints: number = 25;
+export const maxSkillPoints = 25;
 
 /**
  * All jobs and their starting skill points.
@@ -41,9 +41,9 @@ export function getJob(name: string): (string | Skills)[] {
  * @returns Character
  */
 export function generateCharacter(id: string): Character {
-    let keys = Object.keys(jobs);
-    let job: (string | Skills)[] = getJob(keys[Math.floor(Math.random() * keys.length)]);
-    let member: Character = new Character(
+    const keys = Object.keys(jobs);
+    const job: (string | Skills)[] = getJob(keys[Math.floor(Math.random() * keys.length)]);
+    const member: Character = new Character(
         generateName(),
         <string>job[0],
         "breakroom",

@@ -8,7 +8,7 @@ const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012345678
  * @returns string
  */
 export function generateString(length: number): string {
-    let result: string = "";
+    let result = "";
     const charactersLength = characters.length;
     for ( let i = 0; i < length; i++ ) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -22,6 +22,8 @@ export function generateString(length: number): string {
  * @param array any[]
  * @returns any
  */
+//
+// eslint-disable-next-line
 export function pickFromArray(array: any[]): any {
     return array[Math.floor(Math.random() * array.length)]
 }
@@ -31,8 +33,8 @@ export function pickFromArray(array: any[]): any {
  * @returns string
  */
 export function generateName(): string {
-    let firstName = pickFromArray(first);
-    let lastName = pickFromArray(last);
+    const firstName = pickFromArray(first);
+    const lastName = pickFromArray(last);
     let alias = "";
 
     if (Math.random() < 0.3) {

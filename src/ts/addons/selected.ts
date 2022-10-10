@@ -1,4 +1,4 @@
-export let selected: string = "";
+export let selected = "";
 
 export function setSelected(name: string) {
     selected = name;
@@ -8,15 +8,15 @@ export function setSelected(name: string) {
  * Initializes the selected div
  */
 export function initSelectedDiv(): Node {
-    let selectedDiv = document.createElement("div");
+    const selectedDiv = document.createElement("div");
 
     // basic name
-    let name = document.createElement("h2");
+    const name = document.createElement("h2");
     name.textContent = selected;
     name.id = "selected-name";
 
     // deselect button
-    let deselect = document.createElement("button");
+    const deselect = document.createElement("button");
     deselect.textContent = "Deselect";
 
     // this overwrites the previous onclick to prevent repeats

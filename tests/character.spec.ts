@@ -6,7 +6,7 @@ import { createShip } from './ship.spec';
 describe("characters", () => {
     it("deal damage works", () => {
         const ship: Ship = <Ship>createShip();
-        let carmen: Character = <Character>ship.getCrewByName("Carmen Miranda")
+        const carmen: Character = <Character>ship.getCrewByName("Carmen Miranda")
         carmen.health.dealDamage({
             "physical": 18,
             "chemical": 6,

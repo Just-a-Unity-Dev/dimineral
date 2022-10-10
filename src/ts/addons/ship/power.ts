@@ -43,7 +43,7 @@ export class Power {
      */
     get supply() {
         const sup = Object.keys(this.suppliers);
-        let supply: number = 0;
+        let supply = 0;
 
         sup.forEach(supplier => {
             supply += this.suppliers[supplier];
@@ -56,12 +56,15 @@ export class Power {
      * Returns the total power (suppliers - consumers)
      */
     get power() {
-        let supply: number = 0;
-        let consumed: number = 0;
+        let supply = 0;
+        let consumed = 0;
 
+    // eslint-disable-next-line
         for (const [_key, value] of Object.entries(this.suppliers)) {
             supply += value;
         }
+
+    // eslint-disable-next-line
         for (const [_key, value] of Object.entries(this.consumers)) {
             consumed += value;
         }

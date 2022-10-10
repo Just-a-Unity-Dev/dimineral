@@ -10,7 +10,7 @@ export class Character {
     public readonly name: string = "Carmen Miranda";
     public readonly title: string = "ghost";
     public readonly shipId: string = "";
-    public location: string = "cargobay";
+    public location = "cargobay";
     public health: Health;
     public skills: Skills;
 
@@ -43,7 +43,7 @@ export class Character {
      */
     public destroy() {
         setSelected("");
-        let ship = getShipById(this.shipId);
+        const ship = getShipById(this.shipId);
         if (ship == undefined) return;
 
         document.getElementById(`${this.shipId}-${this.name}`)?.remove();

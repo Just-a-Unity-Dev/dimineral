@@ -40,7 +40,7 @@ import { Breakroom, Bridge, createFromRoomTemplate, Engines, LifeSupport } from 
  * @returns Ship
  */
 export function createShip(): Ship {
-    let ship = new Ship("testship100", [], []);
+    const ship = new Ship("testship100", [], []);
     ship.addPart(createFromRoomTemplate(Bridge, ship.id));
     ship.addPart(createFromRoomTemplate(Breakroom, ship.id));
     ship.addPart(createFromRoomTemplate(LifeSupport, ship.id));
