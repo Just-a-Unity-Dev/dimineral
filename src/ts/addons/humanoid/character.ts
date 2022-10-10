@@ -1,5 +1,5 @@
 import { selected, setSelected } from "../../addons/selected";
-import { getShipById, removeShip, ships } from '../../main';
+import { getShipById, removeShip } from '../../main';
 import { Health } from './health';
 import { Skills } from './skills';
 

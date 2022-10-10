@@ -49,7 +49,7 @@ export class Power {
             supply += this.suppliers[supplier];
         });
 
-        return sup;
+        return supply;
     }
 
     /**
