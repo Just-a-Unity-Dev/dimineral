@@ -195,7 +195,7 @@ export class Ship {
         crewDetails.appendChild(crew);
 
         this.crew.forEach(member => {
-            crew.appendChild(member.ui(this.id));
+            crew.appendChild(member.init(this.id));
         });
 
         // Parts
@@ -213,7 +213,7 @@ export class Ship {
         partDetails.appendChild(parts);
 
         this.parts.forEach(part => {
-            parts.appendChild(part.ui(this.id));
+            parts.appendChild(part.init(this.id));
         });
 
         return div;
