@@ -93,6 +93,8 @@ function setupGame() {
                 (spent > maxSkillPoints) ?
                 `SPENT: ${spent}/${maxSkillPoints} (${spent - maxSkillPoints} ${addS(spent - maxSkillPoints, "point")} extra!)` :
                 `SPENT: ${spent}/${maxSkillPoints}`;
+            
+            characterSkill = skills;
         };
 
         button.textContent = `${skills[key]} points on ${capitalizeFirstLetter(key)}`;
@@ -105,6 +107,7 @@ function setupGame() {
         });
         setup?.appendChild(button);
         setup?.appendChild(document.createElement("br"));
+        characterSkill = skills;
     });
     setup?.appendChild(document.createElement("br"));
 

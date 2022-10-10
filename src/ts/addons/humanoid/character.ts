@@ -1,4 +1,6 @@
 import { selected, setSelected } from "../../addons/selected";
+import { capitalizeFirstLetter } from "../../util/characters";
+import { addS } from "../../util/ui";
 import { getShipById, removeShip } from '../ship/ship';
 import { Health } from './health';
 import { Skills } from './skills';
@@ -80,6 +82,12 @@ export class Character {
         const status: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${id}-crew-status`);
         status.textContent = `${this.name} is located at ${getShipById(this.shipId)?.getPartById(this.location)?.getName} and is ${this.health.getHealthPercentage() * 100}% healthy`;
         
+        // skills
+        const keys: string[] = Object.keys(this.skills);        
+        keys.forEach((key: string) => {
+            const label = document.getElementById(`${this.shipId}-${this.name}-${key}`);
+            if (label != null) label.textContent = `${capitalizeFirstLetter(key)}: ${this.skills[key]} ${addS(this.skills[key], "point")}`;
+        });
 
         const select: HTMLButtonElement = <HTMLButtonElement>document.getElementById(`${id}-select`);
         select.disabled = selected != "";
@@ -124,6 +132,19 @@ export class Character {
         button.addEventListener("click", () => {
             // set selected
             setSelected(this.name);
+        });
+
+        // skills
+        const keys: string[] = Object.keys(this.skills);
+        
+        keys.forEach((key: string) => {
+            const strong = document.createElement("strong");
+            const label = document.createElement("p");
+            label.id = `${this.shipId}-${this.name}-${key}`;
+            label.textContent = `${capitalizeFirstLetter(key)}: ${this.skills[key]} ${addS(this.skills[key], "point")}`;
+
+            strong?.appendChild(label);
+            div?.appendChild(strong);
         });
 
         return div;
