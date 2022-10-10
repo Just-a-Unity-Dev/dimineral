@@ -14,7 +14,7 @@ export const maxSkillPoints: number = 25;
  */
  export const jobs: {[id: string]: Skills} = {
     // Command
-    "captain": makeSkills(4,4,3,1,1,8,4),
+    // "captain": makeSkills(4,4,3,1,1,8,4),
 
     // Security
     "officer": makeSkills(8,4,3,1,1,4,4),

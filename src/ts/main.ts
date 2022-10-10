@@ -53,20 +53,24 @@ function setupGame() {
     setup?.appendChild(quickCreate("br"));
 
     // skill points
-    let spent: number = 4+3+3+4;
     let skills: Skills = <Skills>{
-        "strength": 0,
-        "agility": 0,
-        "fortitude": 0,
-        "electrical": 4,
-        "machinery": 3,
-        "mechanical": 4,
-        "intelligence": 3,
+        "strength": 4,
+        "agility": 2,
+        "fortitude": 1,
+        "electrical": 3,
+        "machinery": 5,
+        "mechanical": 3,
+        "intelligence": 2,
     };
     let keys: string[] = Object.keys(skills);
+    let spent: number = 0;
+    
+    // lets get skills up to date
+    keys.forEach(el => spent += skills[el])
 
     let totalLabel: HTMLParagraphElement = <HTMLParagraphElement>quickCreate("p", `SPENT: ${spent}/${maxSkillPoints}`)
     setup.appendChild(totalLabel);
+
 
     keys.forEach((key: any) => {
         const button = document.createElement("button")
