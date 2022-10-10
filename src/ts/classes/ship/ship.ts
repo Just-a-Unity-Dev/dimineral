@@ -30,6 +30,10 @@ export class Ship {
         this.parts.push(part);
     }
 
+    public addCrew(crew: Character) {
+        this.crew.push(crew);
+    }
+
     /**
      * Returns a part by it's defined ID
      * @param id 

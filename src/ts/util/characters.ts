@@ -36,7 +36,7 @@ export function getJob(name: string): (string | Skills)[] {
  * Generates a completely random character
  * @returns Character
  */
-export function generateCharacter(): Character {
+export function generateCharacter(id: string): Character {
     let keys = Object.keys(jobs);
     let job: (string | Skills)[] = getJob(keys[Math.floor(Math.random() * keys.length)]);
     let member: Character = new Character(
@@ -44,7 +44,8 @@ export function generateCharacter(): Character {
         <string>job[0],
         "breakroom",
         new Health({"physical": 0, "temperature": 0, "chemical": 0, "psychological": 0, "genetic": 0}),
-        <Skills>job[1]
+        <Skills>job[1],
+        id
     );
 
     return member

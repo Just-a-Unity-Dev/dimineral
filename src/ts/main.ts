@@ -32,6 +32,10 @@ app?.appendChild(playButton);
 
 let selectedDiv: HTMLDivElement = <HTMLDivElement>initSelectedDiv();
 
+export function getShipById(id: string): Ship | undefined {
+    return ships.find(e => e.id == id);
+}
+
 function updateUi() {
     // basic selected DIV
     if (selected == "") {
@@ -67,15 +71,15 @@ function initGame() {
     document.body.appendChild(selectedDiv);
 
     // ship
-    ships.push(new Ship(generateShipName(), [
-        createFromRoomTemplate(Bridge),
-        createFromRoomTemplate(LifeSupport),
-        createFromRoomTemplate(Engines),
-        createFromRoomTemplate(Shields),
-        createFromRoomTemplate(Breakroom),
-    ], [
-        generateCharacter()
-    ]));
+    let ship = new Ship(generateShipName(), [], []);
+    ship.addPart(createFromRoomTemplate(Bridge, ship.id)),
+    ship.addPart(createFromRoomTemplate(LifeSupport, ship.id)),
+    ship.addPart(createFromRoomTemplate(Engines, ship.id)),
+    ship.addPart(createFromRoomTemplate(Shields, ship.id)),
+    ship.addPart(createFromRoomTemplate(Breakroom, ship.id)),
+    ship.addCrew(generateCharacter(ship.id));
+
+    ships.push(ship);
     shipDetails?.appendChild(ships[0].ui());
     
     setTimeout(updateUi, 10);

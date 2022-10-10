@@ -1,4 +1,4 @@
-import { ships } from "../../main";
+import { getShipById } from "../../main";
 import { selected, setSelected } from "../../addons/selected";
 
 /**
@@ -7,6 +7,7 @@ import { selected, setSelected } from "../../addons/selected";
 export class Part {
     public readonly name: string = ""
     public readonly id: string = ""
+    public readonly shipId: string = "";
     private readonly maxHull: number = 0
     private readonly maxShield: number = 0;
     private readonly the: boolean = false;
@@ -19,6 +20,7 @@ export class Part {
         health: number,
         maxHull: number,
         shield: number,
+        shipId: string,
         the: boolean = false
     ){
         this.name = name;
@@ -27,6 +29,7 @@ export class Part {
         this.maxHull = maxHull;
         this.maxShield = shield;
         this.shield = shield;
+        this.shipId = shipId;
         this.the = the;
     }
     
@@ -128,7 +131,7 @@ export class Part {
 
         move.addEventListener('click', () => {
             // change the location
-            ships[0].getCrewByName(selected)?.setLocation(this.id);
+            getShipById(this.shipId)?.getCrewByName(selected)?.setLocation(this.id);
 
             // we're done with it, we can close it now
             setSelected("");
@@ -136,7 +139,7 @@ export class Part {
         div.appendChild(move);
 
         const damage = document.createElement("button");
-        damage.textContent = "debug adamge";
+        damage.textContent = "damage";
         damage.addEventListener("click", () => {
             this.dealDamage(10)
         });

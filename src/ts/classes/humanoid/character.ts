@@ -1,5 +1,5 @@
 import { selected, setSelected } from "../../addons/selected";
-import { ships } from '../../main';
+import { getShipById, ships } from '../../main';
 import { Health } from './health';
 import { Skills } from './skills';
 
@@ -9,16 +9,25 @@ import { Skills } from './skills';
 export class Character {
     public readonly name: string = "Carmen Miranda";
     public readonly title: string = "ghost";
+    public readonly shipId: string = "";
     public location: string = "cargobay";
     public health: Health;
     public skills: Skills;
 
-    constructor (name: string, title: string, location: string, health: Health, skills: Skills) {
+    constructor (
+        name: string, 
+        title: string, 
+        location: string, 
+        health: Health, 
+        skills: Skills,
+        shipId: string,
+    ) {
         this.name = name;
         this.title = title;
         this.location = location;
         this.skills = skills;
         this.health = health;
+        this.shipId = shipId;
     }
 
     get fullName() {
@@ -31,7 +40,7 @@ export class Character {
 
     public updateUi(id: string) {
         const status: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${id}-crew-status`);
-        status.textContent = `${this.name} is located at ${ships[0].getPartById(this.location)?.getName} and is ${this.health.getHealthPercentage() * 100}% healthy`;
+        status.textContent = `${this.name} is located at ${getShipById(this.shipId)?.getPartById(this.location)?.getName} and is ${this.health.getHealthPercentage() * 100}% healthy`;
     
         const select: HTMLButtonElement = <HTMLButtonElement>document.getElementById(`${id}-select`);
         select.disabled = selected != "";
@@ -59,7 +68,7 @@ export class Character {
         div.style.maxWidth = "250px";
 
         const status = document.createElement("p");
-        status.textContent = `${this.name} is located at ${ships[0].getPartById(this.location)?.getName} and is ${this.health.getHealthPercentage() * 100}% healthy`;
+        status.textContent = `${this.name} is located at ${getShipById(this.shipId)?.getPartById(this.location)?.getName} and is ${this.health.getHealthPercentage() * 100}% healthy`;
         status.id = `${id}-crew-status`
         div.appendChild(status);
 
