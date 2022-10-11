@@ -73,6 +73,15 @@ summary {
     display: flex;
 }
 
+details {
+    p {
+        margin-left: 32px;
+        &::before {
+            content: "- ";
+        }
+    }
+}
+
 .item {
     outline: 1px solid transparentize($color: $foreground, $amount: 0.9);
     transition: all 150ms ease-in;

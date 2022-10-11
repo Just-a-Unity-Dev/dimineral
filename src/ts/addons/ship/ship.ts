@@ -3,6 +3,7 @@ import { Character } from '../../addons/humanoid/character';
 import { Part } from './part';
 import { Power } from './power';
 import { addS } from '../../util/ui';
+import { addStatus, findStatus, Status } from '../status/status';
 
 /**
  * The ships that the player can interact with.
@@ -112,7 +113,7 @@ export class Ship {
      * // hull, shield, total
      * console.log(ship.totalHull())
      */
-    public totalHull(this: Ship, verbose = false): number[] | string {
+    public totalHull(verbose = false): number[] | string {
         let hp = 0;
         let shield = 0;
         let totalMaxHp = 0;
@@ -133,9 +134,9 @@ export class Ship {
      */
     public tick() {
         // update crew
-        const crewLabel: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${this.id}-crewlabel`);
+        const crewLabel: Status|null = findStatus("Crewmembers");
         if (crewLabel != null) {
-            crewLabel.textContent = `You have ${this.crew.length} ${addS(this.crew.length, "crewmember")} aboard this ship.`;
+            crewLabel.value = `You have ${this.crew.length} ${addS(this.crew.length, "crewmember")} aboard this ship.`;
 
             this.crew.forEach(member => {
                 member.tick(this.id);
@@ -143,9 +144,9 @@ export class Ship {
         }
 
         // update parts
-        const partLabel: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${this.id}-partlabel`);
+        const partLabel: Status|null = findStatus("Ship Hull");
         if (partLabel != null) {
-            partLabel.textContent = <string>this.totalHull(true);
+            partLabel.value = <string>this.totalHull(true);
 
             this.parts.forEach(part => {
                 part.tick(this.id);
@@ -183,7 +184,7 @@ export class Ship {
         div.appendChild(crewDetails)
 
         const crewLabel = document.createElement("summary");
-        crewLabel.id = `${this.id}-crewlabel`
+        crewLabel.textContent = "Crew";
         crewDetails.appendChild(crewLabel);
 
         const crew = document.createElement("div");
@@ -200,7 +201,7 @@ export class Ship {
         div.appendChild(partDetails)
 
         const partLabel = document.createElement("summary");
-        partLabel.id = `${this.id}-partlabel`
+        partLabel.textContent = "Parts";
         partDetails.appendChild(partLabel);
 
         const parts = document.createElement("div");
@@ -212,6 +213,9 @@ export class Ship {
             parts.appendChild(part.init(this.id));
         });
 
+        addStatus(new Status("Ship Hull", <string>this.totalHull(true)));
+        addStatus(new Status("Crew", `You have ${this.crew.length} ${addS(this.crew.length, "crewmember")} aboard this ship.`));
+        addStatus(new Status("Piloting Locked", true));
         return div;
     }
 }

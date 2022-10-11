@@ -15,17 +15,18 @@ export function initStatusBar(): Node {
 }
 
 export class Status {
-    private v: number | boolean = 0;
+    private v: number | boolean | string = 0;
     public readonly name: string = "Epic Status";
     public readonly id: string = generateString(10);
 
-    constructor(name: string, value: number | boolean) {
+    constructor(name: string, value: number | boolean | string) {
         this.name = name;
         this.v = value;
     }
 
     public init(): Node {
-        const p = quickCreate("p");
+        const p = <HTMLParagraphElement>quickCreate("p");
+        p.id = this.id;
         return p;
     }
 
@@ -35,12 +36,14 @@ export class Status {
         if (p != null) {
             if (typeof this.v == "boolean") {
                 if (this.v) {
-                    p.textContent = this.name + " " + "Yes";
+                    p.innerHTML = "<strong>" + this.name + "</strong>: " + "Yes";
                 } else {
-                    p.textContent = this.name + " " + "No";
+                    p.innerHTML = "<strong>" + this.name + "</strong>: " + "No";
                 }
+            } else if (typeof this.v == "number") {
+                p.innerHTML = "<strong>" + this.name + "</strong>: " + this.v.toLocaleString();
             } else {
-                p.textContent = this.name + " " + this.v.toLocaleString();
+                p.innerHTML = "<strong>" + this.name + "</strong>: " + this.value;
             }
         }
     }
