@@ -1,14 +1,18 @@
 import { Breakroom, Bridge, createFromRoomTemplate, Engines, LifeSupport, Shields } from './util/templates';
 import { capitalizeFirstLetter, maxSkillPoints } from './util/characters';
-import { generateShipName } from './util/ship';
+import { generateShipName, generatePlanetName, pickFromArray } from './util/rng';
 import { getVerboseDate } from './util/date';
-import { Ship, ships } from './addons/ship/ship';
+import { Ship } from './addons/ship/ship';
+import { ships } from "./addons/ship/ships";
 import { initSelectedDiv, selected } from './addons/selected';
 import { Skills } from './addons/humanoid/skills';
 import { generateName } from './util/rng';
 import { Character } from './addons/humanoid/character';
 import { Health } from './addons/humanoid/health';
 import { addS, quickCreate } from './util/ui';
+import { addStar, Star, stars } from './addons/locations/star';
+import { Planet } from './addons/locations/planet';
+import { initStatusBar } from './addons/status/status';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 const selectedDiv: HTMLDivElement = <HTMLDivElement>initSelectedDiv();
@@ -145,6 +149,10 @@ function tick() {
     ships.forEach(ship => {
         ship.tick();
     });
+
+    stars.forEach(star => {
+        star.tick();
+    })
     
     setTimeout(tick, 100)
 }
@@ -152,16 +160,46 @@ function tick() {
 function initGame() {
     const shipDetails = document.createElement("details");
     const shipSummary = document.createElement("summary");
+    const starDetails = document.createElement("details");
+    const starSummary = document.createElement("summary");
     const currentTime = document.createElement("p");
     currentTime.id = "time";
-
+    
     // init time
     app?.appendChild(currentTime);
-
+    app?.appendChild(initStatusBar());
+    
     // init summary
     shipSummary.textContent = "Ships";
     shipDetails.appendChild(shipSummary);
+    
+    // init stars
+    const starDiv = document.createElement("div");
+    starDiv.classList.add("items")
+    starSummary.textContent = "Stars";
+    starDetails.appendChild(starSummary);
+    
+    const starAmount: number = Math.round(Math.random() * 18) + 1;
+
+    for (let i = 0; i < starAmount; i++) {
+        const star = new Star(generateShipName(), []);
+        const planets: Planet[] = [];
+        let planetAmount: number = Math.round(Math.random() * 4);
+        if (planetAmount < 1) planetAmount++;
+        for (let j = 0; j < planetAmount; j++) {
+            planets.push(new Planet(generatePlanetName(), star.id));          
+        }
+
+        planets.forEach(planet => {
+            star.addPlanet(planet);
+        })
+        starDiv.appendChild(star.init());
+        addStar(star);
+    }
+
     app?.appendChild(shipDetails);
+    app?.appendChild(starDetails);
+    starDetails.appendChild(starDiv);
     
     // initialize div
     app?.appendChild(selectedDiv);
@@ -173,6 +211,7 @@ function initGame() {
     ship.addPart(createFromRoomTemplate(Engines, ship.id)),
     ship.addPart(createFromRoomTemplate(Shields, ship.id)),
     ship.addPart(createFromRoomTemplate(Breakroom, ship.id)),
+    ship.location = pickFromArray(stars);
     // ship.addCrew(generateCharacter(ship.id));
     ship.addCrew(new Character(
         characterName,

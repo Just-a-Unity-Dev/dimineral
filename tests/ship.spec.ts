@@ -50,7 +50,7 @@ export function createShip(): Ship {
 }
 
 describe("ship", () => {
-    it("made a sihp without errors", () => {
+    it("made a ship without errors", () => {
         createShip();
     });
     it("get crew by name works", () => {

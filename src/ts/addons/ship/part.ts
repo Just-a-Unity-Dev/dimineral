@@ -1,4 +1,4 @@
-import { getShipById, removeShip } from "./ship";
+import { getShipById, removeShip } from "./ships";
 import { generateString } from "../../util/rng";
 import { selected, setSelected } from "../selected";
 
@@ -195,7 +195,7 @@ export class Part {
         damage.addEventListener("click", () => {
             this.dealDamage(10)
         });
-        div.appendChild(damage);
+        // div.appendChild(damage);
 
         getShipById(this.shipId)?.power.addConsumer(this.id + "-" + this.uid, this.consumed);
         getShipById(this.shipId)?.power.addSupplier(this.id + "-" + this.uid, this.supply);

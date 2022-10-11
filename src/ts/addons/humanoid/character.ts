@@ -1,7 +1,7 @@
 import { selected, setSelected } from "../../addons/selected";
 import { capitalizeFirstLetter } from "../../util/characters";
 import { addS } from "../../util/ui";
-import { getShipById, removeShip } from '../ship/ship';
+import { getShipById, removeShip } from '../ship/ships';
 import { Health } from './health';
 import { Skills } from './skills';
 
@@ -79,7 +79,7 @@ export class Character {
 
             return;
         }
-        const status: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${id}-crew-status`);
+        const status: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${id}-${this.name}-status`);
         status.textContent = `${this.name} is located at ${getShipById(this.shipId)?.getPartById(this.location)?.getName} and is ${this.health.getHealthPercentage() * 100}% healthy`;
         
         // skills
@@ -89,7 +89,7 @@ export class Character {
             if (label != null) label.textContent = `${capitalizeFirstLetter(key)}: ${this.skills[key]} ${addS(this.skills[key], "point")}`;
         });
 
-        const select: HTMLButtonElement = <HTMLButtonElement>document.getElementById(`${id}-select`);
+        const select: HTMLButtonElement = <HTMLButtonElement>document.getElementById(`${id}-${this.name}-select`);
         select.disabled = selected != "";
         select.textContent = (selected != "") ? "Selected" : "Select";
         switch (selected) {
@@ -120,12 +120,12 @@ export class Character {
         div.id = `${id}-${this.name}`
 
         const status = document.createElement("p");
-        status.id = `${id}-crew-status`
+        status.id = `${id}-${this.name}-status`
         div.appendChild(status);
 
         const button = document.createElement("button");
         button.textContent = "Select";
-        button.id = `${id}-select`
+        button.id = `${id}-${this.name}-select`
         div.appendChild(button);
 
         button.addEventListener("click", () => {

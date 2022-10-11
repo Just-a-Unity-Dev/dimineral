@@ -73,6 +73,12 @@ summary {
     display: flex;
 }
 
+details {
+    p {
+        margin-left: 32px;
+    }
+}
+
 .item {
     outline: 1px solid transparentize($color: $foreground, $amount: 0.9);
     transition: all 150ms ease-in;
@@ -81,8 +87,23 @@ summary {
     margin: 1rem;
     padding: 1rem;
     &.large {
-        max-width: 600px;
-        min-height: 400px;
+        width: 600px;
+        height: 400px;
+    }
+
+    &.medium {
+        width: 500px;
+        height: 300px;
+    }
+
+    &.small {
+        width: 310px;
+        height: 200px;
+    }
+
+    &.xs {
+        width: 80%;
+        height: 125px;
     }
 
     &.xl {
@@ -113,7 +134,7 @@ summary {
 
 @media only screen and (max-width: 600px) {
     #app {
-        width: 70%;
+        width: 100%;
     }
 
     .item {
