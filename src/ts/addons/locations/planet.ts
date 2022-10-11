@@ -27,7 +27,7 @@ export class Planet {
         const div = document.createElement("div");
         div.appendChild(quickCreate("h3", this.name));
         div.classList.add("item");
-        div.classList.add("small");
+        div.classList.add("xs");
 
         this.fly.addEventListener("click", () => {
             if (this.canFly) ships[0].fly(this);

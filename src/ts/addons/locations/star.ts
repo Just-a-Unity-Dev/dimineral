@@ -39,7 +39,7 @@ export class Star {
         div.appendChild(details);
         details.appendChild(summary);
         div.classList.add("item");
-        div.classList.add("medium");
+        div.classList.add("small");
         
         this.fly.id = this.id;
         this.fly.addEventListener("click", () => {

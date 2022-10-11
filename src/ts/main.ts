@@ -164,18 +164,21 @@ function initGame() {
     const starSummary = document.createElement("summary");
     const currentTime = document.createElement("p");
     currentTime.id = "time";
-
+    
     // init time
     app?.appendChild(currentTime);
     app?.appendChild(initStatusBar());
-
+    
     // init summary
     shipSummary.textContent = "Ships";
     shipDetails.appendChild(shipSummary);
-
+    
+    // init stars
+    const starDiv = document.createElement("div");
+    starDiv.classList.add("items")
     starSummary.textContent = "Stars";
     starDetails.appendChild(starSummary);
-
+    
     const starAmount: number = Math.round(Math.random() * 18) + 1;
 
     for (let i = 0; i < starAmount; i++) {
@@ -190,12 +193,13 @@ function initGame() {
         planets.forEach(planet => {
             star.addPlanet(planet);
         })
-        starDetails.appendChild(star.init());
+        starDiv.appendChild(star.init());
         addStar(star);
     }
 
     app?.appendChild(shipDetails);
     app?.appendChild(starDetails);
+    starDetails.appendChild(starDiv);
     
     // initialize div
     app?.appendChild(selectedDiv);
