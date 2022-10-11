@@ -179,8 +179,8 @@ function initGame() {
         addStar(star);
     }
 
-    app?.appendChild(starDetails);
     app?.appendChild(shipDetails);
+    app?.appendChild(starDetails);
     
     // initialize div
     app?.appendChild(selectedDiv);
