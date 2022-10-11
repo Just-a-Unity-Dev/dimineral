@@ -44,3 +44,23 @@ export function generateName(): string {
     // ${alias} generates a space at the beginning of the string
     return `${firstName}${alias} ${lastName}`
 }
+
+/**
+ * Generates a random planet name
+ * @returns string
+ */
+ export function generatePlanetName(): string {
+    return pickFromArray(shipNames);
+}
+
+/**
+ * Generates a random ship name
+ * @returns string
+ */
+export function generateShipName(): string {
+    const prefix = generateString(2).toUpperCase();
+    const id = Math.floor(Math.random() * 100);
+    const name = generatePlanetName();
+
+    return `${prefix}-${id} ${name}`
+}

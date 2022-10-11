@@ -1,6 +1,6 @@
 import { Breakroom, Bridge, createFromRoomTemplate, Engines, LifeSupport, Shields } from './util/templates';
 import { capitalizeFirstLetter, maxSkillPoints } from './util/characters';
-import { generateShipName } from './util/ship';
+import { generateShipName, generatePlanetName } from './util/rng';
 import { getVerboseDate } from './util/date';
 import { Ship, ships } from './addons/ship/ship';
 import { initSelectedDiv, selected } from './addons/selected';
@@ -171,12 +171,17 @@ function initGame() {
     starSummary.textContent = "Stars";
     starDetails.appendChild(starSummary);
 
-    for (let i = 0; i < 10; i++) {
-        const star = new Star(generateShipName(), [
-            new Planet(generateShipName()),
-            new Planet(generateShipName()),
-            new Planet(generateShipName()),
-        ]);
+    const starAmount: number = Math.round(Math.random() * 18) + 1;
+
+    for (let i = 0; i < starAmount; i++) {
+        const planets: Planet[] = [];
+        let planetAmount: number = Math.round(Math.random() * 4);
+        if (planetAmount < 1) planetAmount++;
+        for (let j = 0; j < planetAmount; j++) {
+            planets.push(new Planet(generatePlanetName()));          
+        }
+
+        const star = new Star(generateShipName(), planets);
         starDetails.appendChild(star.init());
         addStar(star);
     }
