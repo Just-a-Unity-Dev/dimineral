@@ -33,8 +33,21 @@ describe("locations", () => {
         expect(ship.location).toBe(planet2);
         expect(ship.fuel).toBe(25);
     });
-    it("handling", () => {
+    it("fuel handling", () => {
         ship.fuel = 0;
         expect(ship.fly(planet1)).toBe(false);
+        expect(ship.location).toBe(planet2);
+        ship.fuel = 30;
+    });
+    it("locked piloting handling", () => {
+        carmen.setLocation("Breakroom")
+        expect(ship.fly(planet1)).toBe(false);
+        expect(ship.location).toBe(planet2);
+        carmen.setLocation("Bridge")
+    });
+    it("engine disappearance handling", () => {
+        ship.getPartById("Engines")?.destroy();
+        expect(ship.fly(planet1)).toBe(false);
+        expect(ship.location).toBe(planet2);
     });
 })
