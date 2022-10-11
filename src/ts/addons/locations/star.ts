@@ -39,7 +39,7 @@ export class Star {
      * Tick's the UI and Star
      */
     public tick() {
-        this.fly.disabled = ships[0].canFly(this)
+        this.fly.disabled = ships[0].canFlyUi(this)
         this.planets.forEach(planet => {
             planet.tick();
         });

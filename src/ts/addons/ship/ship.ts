@@ -108,8 +108,6 @@ export class Ship {
                 array.push(member);
             }
         })
-        console.log(part, array)
-
         return array;
     }
 
@@ -141,7 +139,11 @@ export class Ship {
     }
 
     public canFly(loc: Star | Planet) {
-        return ((!this.pilotingControls || this.location == loc) && this.fuel > (fuelDiff - 1) && this.parts.find(p => p.name == "Engines") != null)
+        return ((this.pilotingControls || this.location == loc) && this.fuel > (fuelDiff - 1) && this.parts.find(p => p.name == "Engines") != null)
+    }
+
+    public canFlyUi(loc: Star | Planet) {
+        return ((this.pilotingControls || this.location == loc) && this.fuel > (fuelDiff - 1) && this.parts.find(p => p.name == "Engines") != null)
     }
 
     /**
