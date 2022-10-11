@@ -1,6 +1,6 @@
 import { quickCreate } from "../../util/ui";
 import { Planet } from "./planet";
-const stars: Star[] = [];
+export const stars: Star[] = [];
 
 export function addStar(star: Star) {
     stars.push(star);

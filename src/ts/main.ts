@@ -1,6 +1,6 @@
 import { Breakroom, Bridge, createFromRoomTemplate, Engines, LifeSupport, Shields } from './util/templates';
 import { capitalizeFirstLetter, maxSkillPoints } from './util/characters';
-import { generateShipName, generatePlanetName } from './util/rng';
+import { generateShipName, generatePlanetName, pickFromArray } from './util/rng';
 import { getVerboseDate } from './util/date';
 import { Ship, ships } from './addons/ship/ship';
 import { initSelectedDiv, selected } from './addons/selected';
@@ -9,7 +9,7 @@ import { generateName } from './util/rng';
 import { Character } from './addons/humanoid/character';
 import { Health } from './addons/humanoid/health';
 import { addS, quickCreate } from './util/ui';
-import { addStar, Star } from './addons/locations/star';
+import { addStar, Star, stars } from './addons/locations/star';
 import { Planet } from './addons/locations/planet';
 import { initStatusBar } from './addons/status/status';
 
@@ -199,6 +199,7 @@ function initGame() {
     ship.addPart(createFromRoomTemplate(Engines, ship.id)),
     ship.addPart(createFromRoomTemplate(Shields, ship.id)),
     ship.addPart(createFromRoomTemplate(Breakroom, ship.id)),
+    ship.location = pickFromArray(<Star[]>pickFromArray(stars).planets);
     // ship.addCrew(generateCharacter(ship.id));
     ship.addCrew(new Character(
         characterName,

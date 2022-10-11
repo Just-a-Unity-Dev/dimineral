@@ -4,6 +4,7 @@ import { Part } from './part';
 import { Power } from './power';
 import { addS } from '../../util/ui';
 import { addStatus, findStatus, Status } from '../status/status';
+import { Planet } from '../locations/planet';
 
 /**
  * The ships that the player can interact with.
@@ -28,7 +29,9 @@ export class Ship {
     public readonly crew: Character[] = [];
     public readonly id: string = "";
     public power: Power = new Power();
+    public location: Planet[] = [];
     public visible = true;
+    public fuel = 3;
 
     constructor(name: string, parts: Part[], crew: Character[], id?: string | undefined) {
         if (id == "" || id == undefined) {
