@@ -171,7 +171,9 @@ function initGame() {
 
     for (let i = 0; i < 10; i++) {
         const star = new Star(generateShipName(), [
-            new Planet(generateShipName())
+            new Planet(generateShipName()),
+            new Planet(generateShipName()),
+            new Planet(generateShipName()),
         ]);
         starDetails.appendChild(star.init());
         addStar(star);

@@ -27,7 +27,6 @@ export class Star {
         div.classList.add("medium");
 
         this.planets.forEach((planet: Planet) => {
-            console.log(planet.name);
             details.appendChild(planet.init());
         });
 
