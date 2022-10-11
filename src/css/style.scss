@@ -76,9 +76,6 @@ summary {
 details {
     p {
         margin-left: 32px;
-        &::before {
-            content: "- ";
-        }
     }
 }
 
