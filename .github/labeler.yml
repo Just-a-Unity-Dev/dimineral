@@ -1,14 +1,26 @@
-"textures":
-- 'public/textures'
+textures:
+  - 'public/textures/**'
 
-"typescript":
-- all: ['*.ts']
+typescript:
+  - '**/*.ts'
 
-"scss":
-- all: ['*.scss', '*.sass']
+scss:
+  - '**/*.scss'
 
-"tests":
-- 'tests/'
+universe:
+  - 'src/addons/locations/**'
 
-"no typescript":
-- all: ["!**/*.ts"]
+status:
+  - 'src/addons/status/**'
+
+ship:
+  - 'src/addons/ship/**'
+
+humanoids:
+  - 'src/addons/humanoid/**'
+
+json:
+  - 'src/json/**'
+
+tests:
+  - 'tests/**'
