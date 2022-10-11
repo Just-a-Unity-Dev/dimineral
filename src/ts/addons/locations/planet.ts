@@ -1,7 +1,7 @@
 import { generateString } from "../../util/rng";
 import { quickCreate } from "../../util/ui";
 import { ships } from "../ship/ships";
-import { Star, stars } from "./star";
+import { stars } from "./star";
 
 export class Planet {
     // BANNED FROM ARGO EVERYOONNNEE
