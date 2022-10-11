@@ -11,6 +11,7 @@ import { Health } from './addons/humanoid/health';
 import { addS, quickCreate } from './util/ui';
 import { addStar, Star } from './addons/locations/star';
 import { Planet } from './addons/locations/planet';
+import { initStatusBar } from './addons/status/status';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 const selectedDiv: HTMLDivElement = <HTMLDivElement>initSelectedDiv();
@@ -161,6 +162,7 @@ function initGame() {
 
     // init time
     app?.appendChild(currentTime);
+    app?.appendChild(initStatusBar());
 
     // init summary
     shipSummary.textContent = "Ships";
