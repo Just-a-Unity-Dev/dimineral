@@ -1,7 +1,7 @@
 import { generateString } from "../../util/rng";
 import { quickCreate } from "../../util/ui";
 import { ships } from "../ship/ships";
-import { stars } from "./star";
+import { Star, stars } from "./star";
 
 /**
  * A landable location
@@ -19,7 +19,13 @@ export class Planet {
     }
 
     public tick() {
-        this.fly.disabled = (!ships[0].pilotingControls || !this.canFly)
+        this.fly.disabled = ships[0].canFly(
+            <Star>stars.find(
+                star => star.planets.find(
+                    planet => planet == this
+                )
+            )
+        )
     }
 
     /**

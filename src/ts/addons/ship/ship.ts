@@ -6,6 +6,7 @@ import { addS } from '../../util/ui';
 import { addStatus, findStatus, Status } from '../status/status';
 import { Planet } from '../locations/planet';
 import { Star, stars } from '../locations/star';
+import { fuelDiff } from '../../consts';
 
 /**
  * A ship, consisting of parts and crew making sure it stays afloat.
@@ -18,7 +19,8 @@ export class Ship {
     public power: Power = new Power();
     public location: Star | Planet | null = null;
     public visible = true;
-    public fuel = 3;
+    public money = 250;
+    public fuel = 30;
 
     constructor(name: string, parts: Part[], crew: Character[], id?: string | undefined) {
         if (id == "" || id == undefined) {
@@ -136,12 +138,19 @@ export class Ship {
         return [hp, shield, total, totalMaxHp];
     }
 
+    public canFly(loc: Star | Planet) {
+        return ((!this.pilotingControls || this.location == loc) && this.fuel > fuelDiff && this.parts.find(p => p.name == "Engines") != null)
+    }
+
     /**
      * Flies to a location if it can. Use `setLocation` if you want to skip checks.
      * @param location Star | Planet
      */
     public fly(location: Star | Planet) {
-        if (this.pilotingControls && this.parts.find(p => p.name == "Engines") != null) this.setLocation(location);
+        if (this.canFly(location)) {
+            this.setLocation(location);
+            this.fuel -= fuelDiff;
+        }
     }
 
     /**
@@ -178,14 +187,16 @@ export class Ship {
 
         // update location
         const locationLabel: Status|null = findStatus("Docking Status");
-        if (locationLabel != null) {
-            locationLabel.value = <string>this.status;
-        }
+        if (locationLabel != null) locationLabel.value = <string>this.status;
 
         const pilotingLabel = <Status>findStatus("Piloting Locked");
-        if (pilotingLabel != null) {
-            pilotingLabel.value = !this.pilotingControls;
-        }
+        if (pilotingLabel != null) pilotingLabel.value = !this.pilotingControls;
+
+        const fuelLabel = findStatus("Fuel");
+        if (fuelLabel != null) fuelLabel.value = this.fuel;
+
+        const moneyLabel = findStatus("Money");
+        if (moneyLabel != null) moneyLabel.value = <string>this.money.toLocaleString() + "$";
 
         const power = document.getElementById(`${this.id}-power`);
         if (power != null) power.textContent = "Usage: " + this.power.power + "mW";
@@ -270,6 +281,8 @@ export class Ship {
         addStatus(new Status("Crew", `You have ${this.crew.length} ${addS(this.crew.length, "crewmember")} aboard this ship.`));
         addStatus(new Status("Piloting Locked", true));
         addStatus(new Status("Docking Status", <string>this.status));
+        addStatus(new Status("Fuel", this.fuel));
+        addStatus(new Status("Money", <string>this.money.toLocaleString() + "$"));
         return div;
     }
 }

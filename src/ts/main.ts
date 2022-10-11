@@ -211,7 +211,7 @@ function initGame() {
     ship.addPart(createFromRoomTemplate(Engines, ship.id)),
     ship.addPart(createFromRoomTemplate(Shields, ship.id)),
     ship.addPart(createFromRoomTemplate(Breakroom, ship.id)),
-    ship.location = pickFromArray(<Star[]>pickFromArray(stars).planets);
+    ship.location = pickFromArray(stars);
     // ship.addCrew(generateCharacter(ship.id));
     ship.addCrew(new Character(
         characterName,
