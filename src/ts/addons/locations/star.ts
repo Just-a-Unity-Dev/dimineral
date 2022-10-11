@@ -4,10 +4,17 @@ import { ships } from "../ship/ships";
 import { Planet } from "./planet";
 export const stars: Star[] = [];
 
+/**
+ * Add's a star to `stars`
+ * @param star Star
+ */
 export function addStar(star: Star) {
     stars.push(star);
 }
 
+/**
+ * A star system
+ */
 export class Star {
     public readonly name: string = "Star Scream";
     public readonly id: string = generateString(10);
@@ -20,10 +27,17 @@ export class Star {
         this.planets = planets;
     }
 
+    /**
+     * Add's a planet to this system's planet list
+     * @param planet Planet
+     */
     public addPlanet(planet: Planet) {
         this.planets.push(planet);
     }
 
+    /**
+     * Tick's the UI and Star
+     */
     public tick() {
         this.fly.disabled = (!ships[0].pilotingControls || ships[0].location == this)
         this.planets.forEach(planet => {
@@ -31,6 +45,10 @@ export class Star {
         });
     }
 
+    /**
+     * Initializes the Star
+     * @returns Node
+     */
     public init(): Node {
         const div = document.createElement("div");
         const details = quickCreate("details");

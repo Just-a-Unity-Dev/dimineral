@@ -3,6 +3,9 @@ import { quickCreate } from "../../util/ui";
 import { ships } from "../ship/ships";
 import { stars } from "./star";
 
+/**
+ * A landable location
+ */
 export class Planet {
     // BANNED FROM ARGO EVERYOONNNEE
     public readonly name: string = "Argo";
@@ -19,10 +22,17 @@ export class Planet {
         this.fly.disabled = (!ships[0].pilotingControls || !this.canFly)
     }
 
+    /**
+     * Checks whether the main ship is able to fly to this planet
+     */
     get canFly() {
         return ships[0].location == stars.find(star => star.id == this.sid);
     }
 
+    /**
+     * Initializes the planet
+     * @returns Node
+     */
     public init(): Node {
         const div = document.createElement("div");
         div.appendChild(quickCreate("h3", this.name));

@@ -1,6 +1,10 @@
 import { generateString } from "../../util/rng";
 import { quickCreate } from "../../util/ui";
 
+/**
+ * Initializes the status bar for all status watchers to be in
+ * @returns Node
+ */
 export function initStatusBar(): Node {
     const statusDetails = document.createElement("details");
     const statusSummary = document.createElement("summary");
@@ -14,6 +18,9 @@ export function initStatusBar(): Node {
     return statusDetails;
 }
 
+/**
+ * A status watcher
+ */
 export class Status {
     private v: number | boolean | string = 0;
     public readonly name: string = "Epic Status";
@@ -24,12 +31,19 @@ export class Status {
         this.v = value;
     }
 
+    /**
+     * Initializes the status
+     * @returns Node
+     */
     public init(): Node {
         const p = <HTMLParagraphElement>quickCreate("p");
         p.id = this.id;
         return p;
     }
 
+    /**
+     * Updates the UI of the status
+     */
     public updateUi() {
         const p: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(this.id);
 
@@ -60,6 +74,10 @@ export class Status {
 
 export const statuses: Status[] = [];
 
+/**
+ * Create's a status easily
+ * @param status Status
+ */
 export function addStatus(status: Status) {
     const statusBar = document.getElementById("status");
     statuses.push(status);

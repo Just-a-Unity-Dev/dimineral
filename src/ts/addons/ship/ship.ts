@@ -136,10 +136,18 @@ export class Ship {
         return [hp, shield, total, totalMaxHp];
     }
 
+    /**
+     * Flies to a location if it can. Use `setLocation` if you want to skip checks.
+     * @param location Star | Planet
+     */
     public fly(location: Star | Planet) {
-        if (this.pilotingControls) this.setLocation(location);
+        if (this.pilotingControls && this.parts.find(p => p.name == "Engines") != null) this.setLocation(location);
     }
 
+    /**
+     * Sets the location of this ship
+     * @param location Star | Planet
+     */
     public setLocation(location: Star | Planet) {
         this.location = location;
     }
