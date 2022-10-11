@@ -2,7 +2,8 @@ import { Breakroom, Bridge, createFromRoomTemplate, Engines, LifeSupport, Shield
 import { capitalizeFirstLetter, maxSkillPoints } from './util/characters';
 import { generateShipName, generatePlanetName, pickFromArray } from './util/rng';
 import { getVerboseDate } from './util/date';
-import { Ship, ships } from './addons/ship/ship';
+import { Ship } from './addons/ship/ship';
+import { ships } from "./addons/ship/ships";
 import { initSelectedDiv, selected } from './addons/selected';
 import { Skills } from './addons/humanoid/skills';
 import { generateName } from './util/rng';
@@ -148,6 +149,10 @@ function tick() {
     ships.forEach(ship => {
         ship.tick();
     });
+
+    stars.forEach(star => {
+        star.tick();
+    })
     
     setTimeout(tick, 100)
 }
@@ -174,14 +179,17 @@ function initGame() {
     const starAmount: number = Math.round(Math.random() * 18) + 1;
 
     for (let i = 0; i < starAmount; i++) {
+        const star = new Star(generateShipName(), []);
         const planets: Planet[] = [];
         let planetAmount: number = Math.round(Math.random() * 4);
         if (planetAmount < 1) planetAmount++;
         for (let j = 0; j < planetAmount; j++) {
-            planets.push(new Planet(generatePlanetName()));          
+            planets.push(new Planet(generatePlanetName(), star.id));          
         }
 
-        const star = new Star(generateShipName(), planets);
+        planets.forEach(planet => {
+            star.addPlanet(planet);
+        })
         starDetails.appendChild(star.init());
         addStar(star);
     }

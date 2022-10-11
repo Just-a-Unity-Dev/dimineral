@@ -1,4 +1,6 @@
+import { generateString } from "../../util/rng";
 import { quickCreate } from "../../util/ui";
+import { ships } from "../ship/ships";
 import { Planet } from "./planet";
 export const stars: Star[] = [];
 
@@ -7,13 +9,26 @@ export function addStar(star: Star) {
 }
 
 export class Star {
-    public readonly name: string = "Starscream";
+    public readonly name: string = "Star Scream";
+    public readonly id: string = generateString(10);
     public planets: Planet[] = [];
+    private fly: HTMLButtonElement = <HTMLButtonElement>quickCreate("button", "Fly to Orbit");
     // TODO: Add diplomacy owners and etc when its coded
 
     constructor (name: string, planets: Planet[]) {
         this.name = name;
         this.planets = planets;
+    }
+
+    public addPlanet(planet: Planet) {
+        this.planets.push(planet);
+    }
+
+    public tick() {
+        this.fly.disabled = (!ships[0].pilotingControls || ships[0].location == this)
+        this.planets.forEach(planet => {
+            planet.tick();
+        });
     }
 
     public init(): Node {
@@ -25,6 +40,12 @@ export class Star {
         details.appendChild(summary);
         div.classList.add("item");
         div.classList.add("medium");
+        
+        this.fly.id = this.id;
+        this.fly.addEventListener("click", () => {
+            ships[0].fly(this);
+        });
+        div.appendChild(this.fly);
 
         this.planets.forEach((planet: Planet) => {
             details.appendChild(planet.init());

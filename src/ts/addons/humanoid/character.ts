@@ -1,7 +1,7 @@
 import { selected, setSelected } from "../../addons/selected";
 import { capitalizeFirstLetter } from "../../util/characters";
 import { addS } from "../../util/ui";
-import { getShipById, removeShip } from '../ship/ship';
+import { getShipById, removeShip } from '../ship/ships';
 import { Health } from './health';
 import { Skills } from './skills';
 

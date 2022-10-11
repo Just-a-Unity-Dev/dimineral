@@ -5,21 +5,7 @@ import { Power } from './power';
 import { addS } from '../../util/ui';
 import { addStatus, findStatus, Status } from '../status/status';
 import { Planet } from '../locations/planet';
-import { Star } from '../locations/star';
-
-/**
- * The ships that the player can interact with.
- * Tip: ships[0] is ALWAYS the master ship, all playable characters are stored there.
- */
-export const ships: Ship[] = [];
-export function getShipById(id: string): Ship | undefined {
-    return ships.find(e => e.id == id);
-}
-
-export function removeShip(ship: Ship) {
-    document.getElementById(ship.id)?.remove();
-    ships.splice(ships.findIndex(s => s == ship), 1)
-}
+import { Star, stars } from '../locations/star';
 
 /**
  * A ship, consisting of parts and crew making sure it stays afloat.
@@ -30,7 +16,7 @@ export class Ship {
     public readonly crew: Character[] = [];
     public readonly id: string = "";
     public power: Power = new Power();
-    public location: Planet | Star | null = null;
+    public location: Star | Planet | null = null;
     public visible = true;
     public fuel = 3;
 
@@ -107,6 +93,23 @@ export class Ship {
     }
 
     /**
+     * Returns an array of Characters[] in a room
+     * @param id string
+     * @returns Character[]
+     */
+    public getCrewInRoom(id: string): Character[] {
+        const array: Character[] = [];
+        const part = this.getPartById(id);
+        this.crew.forEach(member => {
+            if (member.location == part?.id) {
+                array.push(member);
+            }
+        })
+
+        return array;
+    }
+
+    /**
      * Returns the totalHull in an array or a string if you want it verbose
      * @param verbose boolean
      * @returns number[] | string
@@ -131,6 +134,14 @@ export class Ship {
             return `${hp} hull + ${shield} shield = ${total} total (${Math.round((total / totalMaxHp) * 100)}%)`
         }
         return [hp, shield, total, totalMaxHp];
+    }
+
+    public fly(location: Star | Planet) {
+        if (this.pilotingControls) this.setLocation(location);
+    }
+
+    public setLocation(location: Star | Planet) {
+        this.location = location;
     }
 
     /**
@@ -163,8 +174,17 @@ export class Ship {
             locationLabel.value = <string>this.status;
         }
 
+        const pilotingLabel = <Status>findStatus("Piloting Locked");
+        if (pilotingLabel != null) {
+            pilotingLabel.value = !this.pilotingControls;
+        }
+
         const power = document.getElementById(`${this.id}-power`);
         if (power != null) power.textContent = "Usage: " + this.power.power + "mW";
+    }
+
+    get pilotingControls() {
+        return this.getCrewInRoom("bridge").length > 0;
     }
 
     get status() {
@@ -172,11 +192,14 @@ export class Ship {
             return "In space";
         }
         if (this.location instanceof Planet) {
-            return "Landed at " + this.location.name
+            // this is... very inpreformant especially at around 100+ planets
+            // however at 20 planets (which is the max that can happen) this works
+            return "Landed at planet \"" + this.location.name + "\", of star \"" + stars.find(star => star.planets.find(planet => planet == this.location))?.name +"\""
         }
         if (this.location instanceof Star) {
             return "Orbiting " + this.location.name
         }
+        return "???";
     }
 
     /**
