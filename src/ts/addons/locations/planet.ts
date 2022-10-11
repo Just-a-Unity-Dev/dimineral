@@ -19,7 +19,7 @@ export class Planet {
     }
 
     public tick() {
-        this.fly.disabled = ships[0].canFly(
+        this.fly.disabled = !ships[0].canFly(
             <Star>stars.find(
                 star => star.planets.find(
                     planet => planet == this

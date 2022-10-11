@@ -101,12 +101,14 @@ export class Ship {
      */
     public getCrewInRoom(id: string): Character[] {
         const array: Character[] = [];
-        const part = this.getPartById(id);
+        const part = <Part>this.getPartById(id);
+        if (part == undefined) return array;
         this.crew.forEach(member => {
             if (member.location == part?.id) {
                 array.push(member);
             }
         })
+        console.log(part, array)
 
         return array;
     }
@@ -139,18 +141,22 @@ export class Ship {
     }
 
     public canFly(loc: Star | Planet) {
-        return ((!this.pilotingControls || this.location == loc) && this.fuel > fuelDiff && this.parts.find(p => p.name == "Engines") != null)
+        return ((!this.pilotingControls || this.location == loc) && this.fuel > (fuelDiff - 1) && this.parts.find(p => p.name == "Engines") != null)
     }
 
     /**
      * Flies to a location if it can. Use `setLocation` if you want to skip checks.
      * @param location Star | Planet
+     * @returns boolean
      */
-    public fly(location: Star | Planet) {
+    public fly(location: Star | Planet): boolean {
         if (this.canFly(location)) {
             this.setLocation(location);
             this.fuel -= fuelDiff;
+
+            return true;
         }
+        return false
     }
 
     /**
@@ -203,7 +209,7 @@ export class Ship {
     }
 
     get pilotingControls() {
-        return this.getCrewInRoom("bridge").length > 0;
+        return this.getCrewInRoom("bridge").length > 0
     }
 
     get status() {
