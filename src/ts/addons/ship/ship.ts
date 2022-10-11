@@ -138,20 +138,20 @@ export class Ship {
         if (crewLabel != null) {
             crewLabel.value = `You have ${this.crew.length} ${addS(this.crew.length, "crewmember")} aboard this ship.`;
 
-            this.crew.forEach(member => {
-                member.tick(this.id);
-            });
         }
-
+        this.crew.forEach(member => {
+            member.tick(this.id);
+        });
+        
         // update parts
         const partLabel: Status|null = findStatus("Ship Hull");
         if (partLabel != null) {
             partLabel.value = <string>this.totalHull(true);
 
-            this.parts.forEach(part => {
-                part.tick(this.id);
-            });
         }
+        this.parts.forEach(part => {
+            part.tick(this.id);
+        });
 
         const power = document.getElementById(`${this.id}-power`);
         if (power != null) power.textContent = "Usage: " + this.power.power + "mW";
