@@ -5,6 +5,7 @@ import { Power } from './power';
 import { addS } from '../../util/ui';
 import { addStatus, findStatus, Status } from '../status/status';
 import { Planet } from '../locations/planet';
+import { Star } from '../locations/star';
 
 /**
  * The ships that the player can interact with.
@@ -29,7 +30,7 @@ export class Ship {
     public readonly crew: Character[] = [];
     public readonly id: string = "";
     public power: Power = new Power();
-    public location: Planet[] = [];
+    public location: Planet | Star | null = null;
     public visible = true;
     public fuel = 3;
 
@@ -150,14 +151,32 @@ export class Ship {
         const partLabel: Status|null = findStatus("Ship Hull");
         if (partLabel != null) {
             partLabel.value = <string>this.totalHull(true);
-
         }
+
         this.parts.forEach(part => {
             part.tick(this.id);
         });
 
+        // update location
+        const locationLabel: Status|null = findStatus("Docking Status");
+        if (locationLabel != null) {
+            locationLabel.value = <string>this.status;
+        }
+
         const power = document.getElementById(`${this.id}-power`);
         if (power != null) power.textContent = "Usage: " + this.power.power + "mW";
+    }
+
+    get status() {
+        if (this.location == null) {
+            return "In space";
+        }
+        if (this.location instanceof Planet) {
+            return "Landed at " + this.location.name
+        }
+        if (this.location instanceof Star) {
+            return "Orbiting " + this.location.name
+        }
     }
 
     /**
@@ -219,6 +238,7 @@ export class Ship {
         addStatus(new Status("Ship Hull", <string>this.totalHull(true)));
         addStatus(new Status("Crew", `You have ${this.crew.length} ${addS(this.crew.length, "crewmember")} aboard this ship.`));
         addStatus(new Status("Piloting Locked", true));
+        addStatus(new Status("Docking Status", <string>this.status));
         return div;
     }
 }
