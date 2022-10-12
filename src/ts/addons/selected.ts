@@ -1,3 +1,5 @@
+import { quickCreate } from "../util/ui";
+
 export let selected = "";
 
 export function setSelected(name: string) {
@@ -16,8 +18,7 @@ export function initSelectedDiv(): Node {
     name.id = "selected-name";
 
     // deselect button
-    const deselect = document.createElement("button");
-    deselect.textContent = "Deselect";
+    const deselect = <HTMLButtonElement>quickCreate("button", "Deselect");
 
     // this overwrites the previous onclick to prevent repeats
     deselect.onclick = function () {

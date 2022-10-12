@@ -19,11 +19,9 @@ const selectedDiv: HTMLDivElement = <HTMLDivElement>initSelectedDiv();
 
 // UI hell
 function initApp() {
-    const header = document.createElement("h1");
-    header.textContent = "Astrionics";
+    const header = quickCreate("h1", "Astrionics");
 
-    const setupButton = document.createElement("button");
-    setupButton.textContent = "New Game";
+    const setupButton = <HTMLButtonElement>quickCreate("button", "New Game");
     setupButton.addEventListener("click", () => {
         setupGame();
         setupButton.remove();
@@ -44,8 +42,7 @@ function setupGame() {
     const rname = document.createElement("p");
     rname.textContent = characterName + ", captain";
 
-    const rnameButton = document.createElement("button");
-    rnameButton.textContent = "Randomize Name";
+    const rnameButton = <HTMLButtonElement>quickCreate("button", "Randomize Name");
     rnameButton.addEventListener("click", () => {
         characterName = generateName();
         rname.textContent = characterName + ", captain";
@@ -77,7 +74,7 @@ function setupGame() {
 
 
     keys.forEach((key: string) => {
-        const button = document.createElement("button")
+        const button = <HTMLButtonElement>quickCreate("button", undefined)
         const add = (amount: number) => {
             skills[key] += amount;
             spent += amount;
@@ -115,8 +112,7 @@ function setupGame() {
     });
     setup?.appendChild(document.createElement("br"));
 
-    const playButton = document.createElement("button");
-    playButton.textContent = "Play";
+    const playButton = <HTMLButtonElement>quickCreate("button", "Play");
     playButton.addEventListener("click", () => {
         initGame();
         characterSkill = skills;

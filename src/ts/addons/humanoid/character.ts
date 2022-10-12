@@ -1,6 +1,6 @@
 import { selected, setSelected } from "../../addons/selected";
 import { capitalizeFirstLetter } from "../../util/characters";
-import { addS } from "../../util/ui";
+import { addS, quickCreate } from "../../util/ui";
 import { getShipById, removeShip } from '../ship/ships';
 import { Health } from './health';
 import { Skills } from './skills';
@@ -122,8 +122,7 @@ export class Character {
         status.id = `${this.shipId}-${this.name}-status`
         div.appendChild(status);
 
-        const button = document.createElement("button");
-        button.textContent = "Select";
+        const button = <HTMLButtonElement>quickCreate("button", "Select");
         button.id = `${this.shipId}-${this.name}-select`
         div.appendChild(button);
 
