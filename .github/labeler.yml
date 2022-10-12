@@ -1,6 +1,9 @@
 textures:
   - 'public/textures/**'
 
+audio:
+  - 'public/audio/**'
+
 typescript:
   - '**/*.ts'
 
