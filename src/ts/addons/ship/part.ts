@@ -197,9 +197,8 @@ export class Part {
         div.appendChild(data);
 
         // move here
-        const move = document.createElement("button");
+        const move = <HTMLButtonElement>quickCreate("button", "Move Here");
         move.id = `${this.shipId}-${this.id}-move`
-        move.textContent = "Move Here";
         move.disabled = true;
 
         move.addEventListener('click', () => {
@@ -211,8 +210,7 @@ export class Part {
         });
         div.appendChild(move);
 
-        const damage = document.createElement("button");
-        damage.textContent = "Damage";
+        const damage = <HTMLButtonElement>quickCreate("button", "Damage");
         damage.addEventListener("click", () => {
             this.dealDamage(10)
         });
