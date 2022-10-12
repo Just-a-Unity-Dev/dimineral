@@ -15,7 +15,7 @@ import { Planet } from './addons/locations/planet';
 import { initStatusBar } from './addons/status/status';
 import { initAudio, play } from './util/audio';
 
-const app = document.querySelector<HTMLDivElement>('#app');
+export const app = document.querySelector<HTMLDivElement>('#app');
 const selectedDiv: HTMLDivElement = <HTMLDivElement>initSelectedDiv();
 
 // UI hell
@@ -69,7 +69,6 @@ function setupGame() {
     };
     const keys: string[] = Object.keys(skills);
     let spent = 0;
-    
     // lets get skills up to date
     keys.forEach(el => spent += skills[el])
 
@@ -120,11 +119,13 @@ function setupGame() {
     playButton.addEventListener("click", () => {
         characterSkill = skills;
         playButton.disabled = true;
-        play("sfx/fire.wav");
-        if (app != null) app.style.opacity = '0';
+        play("sfx/warp.wav");
+        if (app != null)
+            app.style.opacity = '0';
         setTimeout(() => {
             initGame();
-            if (app != null) app.style.opacity = '1';
+            if (app != null)
+                app.style.opacity = '1';
             setup.remove();
         }, 500);
     });

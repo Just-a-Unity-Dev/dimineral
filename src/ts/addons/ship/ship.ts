@@ -8,6 +8,7 @@ import { Planet } from '../locations/planet';
 import { Star, stars } from '../locations/star';
 import { fuelDiff } from '../../consts';
 import { play } from '../../util/audio';
+import { app } from '../../main';
 
 /**
  * A ship, consisting of parts and crew making sure it stays afloat.
@@ -167,6 +168,12 @@ export class Ship {
             this.setLocation(location);
             this.fuel -= fuelDiff;
             play("sfx/warp.wav");
+            if (app != null)
+                app.style.opacity = '0';
+            setTimeout(() => {
+                if (app != null)
+                    app.style.opacity = '1';
+            }, 500);
 
             return true;
         }
