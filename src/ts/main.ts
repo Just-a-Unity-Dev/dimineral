@@ -13,6 +13,7 @@ import { addS, quickCreate } from './util/ui';
 import { addStar, Star, stars } from './addons/locations/star';
 import { Planet } from './addons/locations/planet';
 import { initStatusBar } from './addons/status/status';
+import { initAudio } from './util/audio';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 const selectedDiv: HTMLDivElement = <HTMLDivElement>initSelectedDiv();
@@ -21,6 +22,8 @@ const selectedDiv: HTMLDivElement = <HTMLDivElement>initSelectedDiv();
 function initApp() {
     const header = document.createElement("h1");
     header.textContent = "Astrionics";
+
+    initAudio();
 
     const setupButton = document.createElement("button");
     setupButton.textContent = "New Game";
