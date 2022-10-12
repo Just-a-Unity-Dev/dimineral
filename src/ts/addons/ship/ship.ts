@@ -190,7 +190,7 @@ export class Ship {
 
         }
         this.crew.forEach(member => {
-            member.tick(this.id);
+            member.tick();
         });
         
         // update parts
@@ -200,7 +200,7 @@ export class Ship {
         }
 
         this.parts.forEach(part => {
-            part.tick(this.id);
+            part.tick();
         });
 
         // update location
@@ -275,7 +275,7 @@ export class Ship {
         crewDetails.appendChild(crew);
 
         this.crew.forEach(member => {
-            crew.appendChild(member.init(this.id));
+            crew.appendChild(member.init());
         });
 
         // Parts
@@ -292,7 +292,7 @@ export class Ship {
         partDetails.appendChild(parts);
 
         this.parts.forEach(part => {
-            parts.appendChild(part.init(this.id));
+            parts.appendChild(part.init());
         });
 
         addStatus(new Status("Ship Hull", <string>this.totalHull(true)));

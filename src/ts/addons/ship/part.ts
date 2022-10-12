@@ -144,20 +144,19 @@ export class Part {
      * Updates the UI
      * @param id string
      */
-    public tick(id: string) {
-        const data: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${id}-${this.id}-data`);
+    public tick() {
+        const data: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${this.shipId}-${this.id}-data`);
         if (data != undefined) data.textContent = <string>this.totalHealth(true);
 
-        const move: HTMLButtonElement = <HTMLButtonElement>document.getElementById(`${id}-${this.id}-move`);
+        const move: HTMLButtonElement = <HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-move`);
         if (move != undefined) move.disabled = selected == "" ? true : false;
     }
 
     /**
      * Initialize UI
-     * @param id string
      * @returns Node
      */
-    public init(id: string): Node {
+    public init(): Node {
         // Main div
         const div = <HTMLDivElement>document.createElement("div");
         div.id = `${this.shipId}-${this.id}`;
@@ -177,7 +176,7 @@ export class Part {
 
         // move here
         const move = document.createElement("button");
-        move.id = `${id}-${this.id}-move`
+        move.id = `${this.shipId}-${this.id}-move`
         move.textContent = "Move Here";
         move.disabled = true;
 
