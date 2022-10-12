@@ -1,6 +1,6 @@
 ---
-name: Report an Issue
-about: "..."
+name: Report a Bug
+about: "Got a bug? Bring it up here!"
 title: 'Bug: '
 labels: 'bug'
 
