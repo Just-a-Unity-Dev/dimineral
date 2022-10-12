@@ -1,6 +1,18 @@
+import { play } from "./audio";
+
 export function quickCreate(node: string, message?: string): Node {
     const n = document.createElement(node);
-    if (message != undefined) n.textContent = message;
+    if (node == "button") {
+        n.addEventListener("mouseenter", () => {
+            play("select.wav");
+        });
+        n.addEventListener("mouseleave", () => {
+            play("select.wav");
+        });
+    }
+    if (message != undefined) {
+        n.textContent = message;
+    };
     return n;
 }
 
