@@ -13,7 +13,7 @@ import { addS, quickCreate } from './util/ui';
 import { addStar, Star, stars } from './addons/locations/star';
 import { Planet } from './addons/locations/planet';
 import { initStatusBar } from './addons/status/status';
-import { initAudio } from './util/audio';
+import { initAudio, play } from './util/audio';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 const selectedDiv: HTMLDivElement = <HTMLDivElement>initSelectedDiv();
@@ -21,8 +21,6 @@ const selectedDiv: HTMLDivElement = <HTMLDivElement>initSelectedDiv();
 // UI hell
 function initApp() {
     const header = quickCreate("h1", "Astrionics");
-
-    initAudio();
     
     const setupButton = <HTMLButtonElement>quickCreate("button", "New Game");
     setupButton.addEventListener("click", () => {
@@ -38,6 +36,9 @@ let characterSkill: Skills = {};
 let characterName: string = generateName();
 
 function setupGame() {
+    // audio
+    initAudio();
+
     // div
     const setup = document.createElement("div");
     
@@ -117,9 +118,13 @@ function setupGame() {
 
     const playButton = <HTMLButtonElement>quickCreate("button", "Play");
     playButton.addEventListener("click", () => {
-        initGame();
         characterSkill = skills;
-        setup.remove();
+        playButton.disabled = true;
+        play("sfx/fire.wav");
+        setTimeout(() => {
+            initGame();
+            setup.remove();
+        }, 1000);
     });
 
     app?.appendChild(setup);
@@ -228,3 +233,7 @@ function initGame() {
 }
 
 initApp();
+
+document.addEventListener("click", () => {
+    initAudio();
+})
