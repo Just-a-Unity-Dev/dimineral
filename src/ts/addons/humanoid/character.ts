@@ -68,7 +68,7 @@ export class Character {
      * @param id string
      * @returns null
      */
-    public tick(id: string) {
+    public tick() {
         // this has to do be done first before the rest of the UI because it might break stuff
         // either a CRITICAL error or they were in a part when it was destroyed
         // regardless, they need to be removed.
@@ -79,7 +79,7 @@ export class Character {
 
             return;
         }
-        const status: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${id}-${this.name}-status`);
+        const status: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${this.shipId}-${this.name}-status`);
         status.textContent = `${this.name} is located at ${getShipById(this.shipId)?.getPartById(this.location)?.getName} and is ${this.health.getHealthPercentage() * 100}% healthy`;
         
         // skills
@@ -89,7 +89,7 @@ export class Character {
             if (label != null) label.textContent = `${capitalizeFirstLetter(key)}: ${this.skills[key]} ${addS(this.skills[key], "point")}`;
         });
 
-        const select: HTMLButtonElement = <HTMLButtonElement>document.getElementById(`${id}-${this.name}-select`);
+        const select: HTMLButtonElement = <HTMLButtonElement>document.getElementById(`${this.shipId}-${this.name}-select`);
         select.disabled = selected != "";
         select.textContent = (selected != "") ? "Selected" : "Select";
         switch (selected) {
@@ -106,10 +106,9 @@ export class Character {
 
     /**
      * Initializes the UI
-     * @param id string
      * @returns Node
      */
-    public init(id: string): Node {
+    public init(): Node {
         const div = document.createElement("div");
         const name = document.createElement("h3");
         name.textContent = this.fullName;
@@ -117,15 +116,15 @@ export class Character {
         div.classList.add("item");
         div.style.height = "150px";
         div.style.maxWidth = "250px";
-        div.id = `${id}-${this.name}`
+        div.id = `${this.shipId}-${this.name}`
 
         const status = document.createElement("p");
-        status.id = `${id}-${this.name}-status`
+        status.id = `${this.shipId}-${this.name}-status`
         div.appendChild(status);
 
         const button = document.createElement("button");
         button.textContent = "Select";
-        button.id = `${id}-${this.name}-select`
+        button.id = `${this.shipId}-${this.name}-select`
         div.appendChild(button);
 
         button.addEventListener("click", () => {
