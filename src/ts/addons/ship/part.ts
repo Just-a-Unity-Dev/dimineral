@@ -1,6 +1,7 @@
 import { getShipById, removeShip } from "./ships";
 import { generateString } from "../../util/rng";
 import { selected, setSelected } from "../selected";
+import { quickCreate } from "../../util/ui";
 
 /**
  * A part in a `Ship`
@@ -140,6 +141,27 @@ export class Part {
         return total;
     }
 
+    public heal(hull: number | undefined, shield: number | undefined) {
+        if (hull == undefined) this.health = this.maxHull;
+        else this.health = hull;
+        if (shield == undefined) this.shield = this.maxShield;
+        else this.shield = shield;
+    }
+
+    get isRepairable() {
+        let mechanical = 0;
+        getShipById(this.shipId)?.getCrewInRoom(this.id).forEach(crew => {
+            mechanical += crew.skills.mechanical;
+        });
+        return mechanical >= 6 && this.partHpPercentage != 1;
+    }
+
+    private updateButton(button: HTMLButtonElement, disabled: boolean) {
+        if (button != undefined) {
+            button.disabled = disabled;
+        }
+    }
+
     /**
      * Updates the UI
      * @param id string
@@ -148,8 +170,8 @@ export class Part {
         const data: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${this.shipId}-${this.id}-data`);
         if (data != undefined) data.textContent = <string>this.totalHealth(true);
 
-        const move: HTMLButtonElement = <HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-move`);
-        if (move != undefined) move.disabled = selected == "" ? true : false;
+        this.updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-move`), selected == "" ? true : false)
+        this.updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-repair`), !this.isRepairable)
     }
 
     /**
@@ -190,11 +212,20 @@ export class Part {
         div.appendChild(move);
 
         const damage = document.createElement("button");
-        damage.textContent = "damage";
+        damage.textContent = "Damage";
         damage.addEventListener("click", () => {
             this.dealDamage(10)
         });
         // div.appendChild(damage);
+
+        const repair = <HTMLButtonElement>quickCreate("button", "Repair (6+ Mechanical)");
+        repair.id = `${this.shipId}-${this.id}-repair`;
+        repair.addEventListener("click", () => {
+            if (this.isRepairable) {
+                this.heal(undefined, undefined);
+            }
+        });
+        div.appendChild(repair);
 
         getShipById(this.shipId)?.power.addConsumer(this.id + "-" + this.uid, this.consumed);
         getShipById(this.shipId)?.power.addSupplier(this.id + "-" + this.uid, this.supply);

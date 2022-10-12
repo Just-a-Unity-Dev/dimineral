@@ -69,4 +69,12 @@ describe("ship", () => {
 
         expect(ship.totalHull()).toStrictEqual([325,25,350,350]);
     })
+    it("healing works", () => {
+        const ship: Ship = createShip();
+        const bridge: Part = <Part>ship.getPartById("bridge");
+        bridge.dealDamage(25);
+        expect(bridge.totalHp).toBe(75)
+        bridge.heal(undefined, undefined)
+        expect(bridge.totalHp).toBe(100)
+    })
 });
