@@ -60,8 +60,6 @@ export async function play(sample: string) {
             sampleSource.buffer = samples[paths.findIndex(path => path == sample)];
             sampleSource.connect(audioCtx.destination);
             sampleSource.start(0);
-
-            console.log(samples);
         }
     });
 }
