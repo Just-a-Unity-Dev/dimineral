@@ -24,6 +24,7 @@ function initApp() {
 
     initAudio();
     
+    const setupButton = <HTMLButtonElement>quickCreate("button", "New Game");
     setupButton.addEventListener("click", () => {
         setupGame();
         setupButton.remove();
