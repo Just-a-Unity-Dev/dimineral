@@ -121,10 +121,12 @@ function setupGame() {
         characterSkill = skills;
         playButton.disabled = true;
         play("sfx/fire.wav");
+        if (app != null) app.style.opacity = '0';
         setTimeout(() => {
             initGame();
+            if (app != null) app.style.opacity = '1';
             setup.remove();
-        }, 1000);
+        }, 500);
     });
 
     app?.appendChild(setup);

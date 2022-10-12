@@ -130,6 +130,7 @@ details {
 #app {
     width: 50%;
     margin: auto;
+    transition: all $tween-time ease-in;
 }
 
 @media only screen and (max-width: 600px) {
