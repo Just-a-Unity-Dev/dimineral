@@ -7,6 +7,7 @@ import { addStatus, findStatus, Status } from '../status/status';
 import { Planet } from '../locations/planet';
 import { Star, stars } from '../locations/star';
 import { fuelDiff } from '../../consts';
+import { play } from '../../util/audio';
 
 /**
  * A ship, consisting of parts and crew making sure it stays afloat.
@@ -165,6 +166,7 @@ export class Ship {
         if (this.canFly(location)) {
             this.setLocation(location);
             this.fuel -= fuelDiff;
+            play("warp.wav");
 
             return true;
         }
