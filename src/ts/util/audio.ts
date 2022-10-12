@@ -1,4 +1,4 @@
-// this is massive shitcode. for the love of god.
+// this is massive shitcode. for the love of god. refactor this. please.
 // if you do this I will cut off your legs
 // eslint-disable-next-line
 export const paths: string[] = [
