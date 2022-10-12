@@ -166,7 +166,7 @@ export class Ship {
         if (this.canFly(location)) {
             this.setLocation(location);
             this.fuel -= fuelDiff;
-            play("warp.wav");
+            play("sfx/warp.wav");
 
             return true;
         }

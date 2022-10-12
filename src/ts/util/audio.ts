@@ -18,7 +18,14 @@ export function play(path: string) {
 
     const source = audioCtx.createBufferSource();
     source.buffer = buffer;
+
+    const gainNode = audioCtx.createGain();
+    gainNode.gain.value = 0.25; // 10 %
+    gainNode.connect(audioCtx.destination);
+    source.connect(gainNode);
+
     source.connect(audioCtx.destination);
+
     source.start();
 }
 

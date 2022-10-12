@@ -4,15 +4,12 @@ export function quickCreate(node: string, message?: string): Node {
     const n = document.createElement(node);
     if (node == "button") {
         n.addEventListener("mouseenter", () => {
-            play("select.wav");
-        });
-        n.addEventListener("mouseleave", () => {
-            play("select.wav");
+            play("sfx/select.wav");
         });
     }
     if (message != undefined) {
         n.textContent = message;
-    };
+    }
     return n;
 }
 
