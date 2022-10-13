@@ -38,7 +38,6 @@ export async function setupSamples() {
     if (samples.length > 1) return;
     const audioBuffers: AudioBuffer[] = [];
 
-    console.log(paths);
     for (const path of paths) {
         const sample = await getAudioFile(path);
         if (sample != null) {
