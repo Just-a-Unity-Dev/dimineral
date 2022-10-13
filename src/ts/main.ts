@@ -192,7 +192,7 @@ function initGame() {
     const starDisabled = document.createElement("h2")
     starDisabled.id = "stars-closed";
     starDisabled.classList.add("error");
-    starDisabled.textContent = "Piloting systems are not manned!";
+    starDisabled.textContent = "Piloting systems are not manned or available!";
     starDisabled.style.textAlign = "center";
     starDisabled.style.display = "none";
     starDetails.appendChild(starDisabled);

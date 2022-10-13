@@ -15,6 +15,7 @@ export class Part {
     private readonly maxHull: number = 0
     private readonly maxShield: number = 0;
     private readonly the: boolean = false;
+    public disabled = false;
     private health = 0;
     private shield = 0;
     public readonly uid: string = generateString(8);
@@ -65,7 +66,6 @@ export class Part {
             removeShip(ship);
         }
         ship.removePart(this.id);
-
     }
 
     /**
@@ -81,6 +81,10 @@ export class Part {
             }
         } else {
             this.health -= damage;
+        }
+
+        if (this.partHpPercentage <= 0.2) {
+            this.setDisabled(true);
         }
 
         if (this.health <= 0) {
@@ -148,12 +152,31 @@ export class Part {
         else this.shield = shield;
     }
 
-    get isRepairable() {
+    get isHealable() {
         let mechanical = 0;
         getShipById(this.shipId)?.getCrewInRoom(this.id).forEach(crew => {
             mechanical += crew.skills.mechanical;
         });
-        return mechanical >= 6 && this.partHpPercentage != 1;
+        return mechanical >= 4 && this.partHpPercentage != 1;
+    }
+
+    get isRepairable() {
+        let electrical = 0;
+        getShipById(this.shipId)?.getCrewInRoom(this.id).forEach(crew => {
+            electrical += crew.skills.electrical;
+        });
+        return electrical >= 3 && this.disabled;
+    }
+
+    public setDisabled(value: boolean) {
+        this.disabled = value;
+        if (value) {
+            getShipById(this.shipId)?.power.addConsumer(this.id + "-" + this.uid, this.consumed);
+            getShipById(this.shipId)?.power.addSupplier(this.id + "-" + this.uid, this.supply);
+        } else {
+            getShipById(this.shipId)?.power.removeConsumer(this.id + "-" + this.uid);
+            getShipById(this.shipId)?.power.removeSupplier(this.id + "-" + this.uid);
+        }
     }
 
     private updateButton(button: HTMLButtonElement, disabled: boolean) {
@@ -170,7 +193,11 @@ export class Part {
         const data: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${this.shipId}-${this.id}-data`);
         if (data != undefined) data.textContent = <string>this.totalHealth(true);
 
+        const disabled: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${this.shipId}-${this.id}-disabled`);
+        if (disabled != undefined) disabled.style.display = this.disabled ? "block" : "none";
+
         this.updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-move`), selected == "" ? true : false)
+        this.updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-heal`), !this.isHealable)
         this.updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-repair`), !this.isRepairable)
     }
 
@@ -196,6 +223,12 @@ export class Part {
         data.textContent = <string>this.totalHealth(true);
         div.appendChild(data);
 
+        const disabled = document.createElement("p");
+        disabled.id = `${this.shipId}-${this.id}-disabled`;
+        disabled.textContent = "DISABLED";
+        disabled.classList.add("error");
+        div.appendChild(disabled);
+
         // move here
         const move = <HTMLButtonElement>quickCreate("button", "Move Here");
         move.id = `${this.shipId}-${this.id}-move`
@@ -214,13 +247,22 @@ export class Part {
         damage.addEventListener("click", () => {
             this.dealDamage(10)
         });
-        // div.appendChild(damage);
+        div.appendChild(damage);
 
-        const repair = <HTMLButtonElement>quickCreate("button", "Repair (6+ Mechanical)");
+        const heal = <HTMLButtonElement>quickCreate("button", "Repair (4+ Mechanical)");
+        heal.id = `${this.shipId}-${this.id}-heal`;
+        heal.addEventListener("click", () => {
+            if (this.isHealable) {
+                this.heal();
+            }
+        });
+        div.appendChild(heal);
+
+        const repair = <HTMLButtonElement>quickCreate("button", "Repair (3+ Electrical)");
         repair.id = `${this.shipId}-${this.id}-repair`;
         repair.addEventListener("click", () => {
             if (this.isRepairable) {
-                this.heal();
+                this.setDisabled(false);
             }
         });
         div.appendChild(repair);
