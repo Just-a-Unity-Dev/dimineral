@@ -304,12 +304,12 @@ export class Ship {
             parts.appendChild(part.init());
         });
 
-        addStatus(new Status("Ship Hull", <string>this.totalHull(true)));
+        addStatus(new Status("Hull", <string>this.totalHull(true)));
         addStatus(new Status("Crew", `You have ${this.crew.length} ${addS(this.crew.length, "crewmember")} aboard this ship.`));
-        addStatus(new Status("Piloting", false, ["Available", "Unavailable"]));
-        addStatus(new Status("Docking Status", <string>this.status));
-        addStatus(new Status("Fuel", this.fuel));
         addStatus(new Status("Money", <string>this.money.toLocaleString() + "$"));
+        addStatus(new Status("Dock", <string>this.status));
+        addStatus(new Status("Piloting", false, ["Available", "Unavailable"]));
+        addStatus(new Status("Fuel", this.fuel >= 5, ["Fueled", "Empty"]));
         return div;
     }
 }
