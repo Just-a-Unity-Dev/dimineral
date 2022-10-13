@@ -153,6 +153,11 @@ function tick() {
         currentTime.textContent = getVerboseDate(4131, today.getMonth(), today.getDate(), today.getHours(), today.getMinutes());
     }
 
+    const starsDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("star-containers");
+    const starsClosed: HTMLHeadingElement = <HTMLHeadingElement>document.getElementById("stars-closed");
+    if (starsDiv != null) starsDiv.style.display = ships[0].pilotingControls ? "block" : "none";
+    if (starsClosed != null) starsClosed.style.display = ships[0].pilotingControls ? "none" : "block";
+
     ships.forEach(ship => {
         ship.tick();
     });
@@ -182,7 +187,17 @@ function initGame() {
     
     // init stars
     const starDiv = document.createElement("div");
-    starDiv.classList.add("items")
+    starDiv.id = "star-containers";
+
+    const starDisabled = document.createElement("h2")
+    starDisabled.id = "stars-closed";
+    starDisabled.classList.add("error");
+    starDisabled.textContent = "Piloting systems are not manned!";
+    starDisabled.style.textAlign = "center";
+    starDisabled.style.display = "none";
+    starDetails.appendChild(starDisabled);
+
+    starDiv.classList.add("items");
     starSummary.textContent = "Stars";
     starDetails.appendChild(starSummary);
     

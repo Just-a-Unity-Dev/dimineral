@@ -1,0 +1,13 @@
+@use './variables' as *;
+
+.error {
+    color: $red;
+}
+
+.warn {
+    color: $yellow;
+}
+
+.ok {
+    color: $green
+}
