@@ -140,13 +140,31 @@ export class Ship {
         return [hp, shield, total, totalMaxHp];
     }
 
+    public hasPart(part: string) {
+        if (this.parts.find(p => p.id == part) != null) {
+            if (!this.parts.find(p => p.id == part)?.disabled) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public partManned(part: string) {
+        if (this.hasPart(part)) {
+            if (this.getPartById(part) != null) {
+                return this.getCrewInRoom(part).length > 0;
+            }
+        }
+        return false;
+    }
+
     /**
      * Return whether you are able to fly to this star, if using UI use function `canFlyUi`
      * @param loc Star | Planet
      * @returns boolean
      */
     public canFly(loc: Star | Planet) {
-        return ((this.pilotingControls || this.location == loc) && this.fuel > (fuelDiff - 1) && this.parts.find(p => p.name == "Engines") != null)
+        return ((this.pilotingControls || this.location == loc) && this.fuel > (fuelDiff - 1) && this.hasPart("bridge"))
     }
 
     /**
@@ -155,7 +173,7 @@ export class Ship {
      * @returns boolean
      */
     public canFlyUi(loc: Star | Planet) {
-        return ((!this.pilotingControls || this.location == loc) && this.fuel > (fuelDiff - 1) && this.parts.find(p => p.name == "Engines") != null)
+        return ((!this.pilotingControls || this.location == loc) && this.fuel > (fuelDiff - 1) && this.hasPart("engine"))
     }
 
     /**
@@ -230,7 +248,7 @@ export class Ship {
     }
 
     get pilotingControls() {
-        return this.getCrewInRoom("bridge").length > 0
+        return this.partManned("bridge");
     }
 
     get status() {
