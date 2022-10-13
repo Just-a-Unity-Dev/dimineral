@@ -1,7 +1,7 @@
 import { Character } from "../addons/humanoid/character";
 import { Health } from "../addons/humanoid/health";
 import { Skills } from "../addons/humanoid/skills";
-import { generateName } from "./rng";
+import { generateName, pickFromArray } from "./rng";
 import { makeSkills } from "./skills";
 
 /**
@@ -42,7 +42,7 @@ export function getJob(name: string): (string | Skills)[] {
  */
 export function generateCharacter(id: string): Character {
     const keys = Object.keys(jobs);
-    const job: (string | Skills)[] = getJob(keys[Math.floor(Math.random() * keys.length)]);
+    const job: (string | Skills)[] = getJob(pickFromArray(keys));
     const member: Character = new Character(
         generateName(),
         <string>job[0],

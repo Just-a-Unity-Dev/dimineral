@@ -1,8 +1,8 @@
 textures:
-  - 'public/textures/**'
+  - 'public/textures/**/*'
 
 audio:
-  - 'public/audio/**'
+  - 'public/audio/**/*'
 
 typescript:
   - '**/*.ts'
@@ -11,16 +11,16 @@ scss:
   - '**/*.scss'
 
 universe:
-  - 'src/addons/locations/**'
+  - 'src/addons/locations/**/*'
 
 status:
-  - 'src/addons/status/**'
+  - 'src/addons/status/**/*'
 
 ship:
-  - 'src/addons/ship/**'
+  - 'src/addons/ship/**/*'
 
 humanoids:
-  - 'src/addons/humanoid/**'
+  - 'src/addons/humanoid/**/*'
 
 json:
   - 'src/json/**'
