@@ -38,9 +38,12 @@ export async function setupSamples() {
     if (samples.length > 1) return;
     const audioBuffers: AudioBuffer[] = [];
 
+    console.log(paths);
     for (const path of paths) {
         const sample = await getAudioFile(path);
-        audioBuffers.push(<AudioBuffer>sample);
+        if (sample != null) {
+            audioBuffers.push(<AudioBuffer>sample);
+        }
     }
 
     samples = audioBuffers;
@@ -61,7 +64,7 @@ export async function play(sample: string) {
         sampleSource.connect(audioCtx.destination);
         sampleSource.start(0);
     } catch {
-        console.log("Unable to play sound, have you interacted with the DOM or in a testing environment?")
+        // console.log("Unable to play sound, have you interacted with the DOM or in a testing environment?")
     }
 }
 
