@@ -131,10 +131,18 @@ details {
     background-clip: content-box;
 }
 
+strong {
+    font-style: normal;
+    font-weight: 1000;
+}
+
 #app {
-    width: 50%;
-    margin: auto;
     transition: all $tween-time ease-in;
+    margin: auto;
+    padding: 30px;
+    padding-top: 5px;
+    width: 50%;
+    height: 100%;
 }
 
 @media only screen and (max-width: 600px) {
