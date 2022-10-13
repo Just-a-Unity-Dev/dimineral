@@ -22,7 +22,7 @@ export let audioCtx: any;
  */
 export async function getAudioFile(path: string) {
     if (audioCtx != null) {
-        const response = await fetch("/audio/" + path);
+        const response = await fetch("/astrionics/audio/" + path);
         const arrayBuffer = await response.arrayBuffer();
         const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
         return audioBuffer;
