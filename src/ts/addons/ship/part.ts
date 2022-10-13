@@ -141,7 +141,7 @@ export class Part {
         return total;
     }
 
-    public heal(hull: number | undefined, shield: number | undefined) {
+    public heal(hull: number | undefined = undefined, shield: number | undefined = undefined) {
         if (hull == undefined) this.health = this.maxHull;
         else this.health = hull;
         if (shield == undefined) this.shield = this.maxShield;
@@ -220,7 +220,7 @@ export class Part {
         repair.id = `${this.shipId}-${this.id}-repair`;
         repair.addEventListener("click", () => {
             if (this.isRepairable) {
-                this.heal(undefined, undefined);
+                this.heal();
             }
         });
         div.appendChild(repair);

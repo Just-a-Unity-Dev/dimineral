@@ -74,7 +74,7 @@ describe("ship", () => {
         const bridge: Part = <Part>ship.getPartById("bridge");
         bridge.dealDamage(25);
         expect(bridge.totalHp).toBe(75)
-        bridge.heal(undefined, undefined)
+        bridge.heal()
         expect(bridge.totalHp).toBe(100)
     })
 });

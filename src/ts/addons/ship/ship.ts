@@ -216,7 +216,7 @@ export class Ship {
         const locationLabel: Status|null = findStatus("Docking Status");
         if (locationLabel != null) locationLabel.value = <string>this.status;
 
-        const pilotingLabel = <Status>findStatus("Piloting Unlocked");
+        const pilotingLabel = <Status>findStatus("Piloting");
         if (pilotingLabel != null) pilotingLabel.value = this.pilotingControls;
 
         const fuelLabel = findStatus("Fuel");
@@ -306,7 +306,7 @@ export class Ship {
 
         addStatus(new Status("Ship Hull", <string>this.totalHull(true)));
         addStatus(new Status("Crew", `You have ${this.crew.length} ${addS(this.crew.length, "crewmember")} aboard this ship.`));
-        addStatus(new Status("Piloting Unlocked", false));
+        addStatus(new Status("Piloting", false, ["Available", "Unavailable"]));
         addStatus(new Status("Docking Status", <string>this.status));
         addStatus(new Status("Fuel", this.fuel));
         addStatus(new Status("Money", <string>this.money.toLocaleString() + "$"));

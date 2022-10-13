@@ -23,12 +23,14 @@ export function initStatusBar(): Node {
  */
 export class Status {
     private v: number | boolean | string = 0;
+    private readonly statuses: string[]; 
     public readonly name: string = "Epic Status";
     public readonly id: string = generateString(10);
 
-    constructor(name: string, value: number | boolean | string) {
+    constructor(name: string, value: number | boolean | string, statuses: string[] = ["Yes", "No"]) {
         this.name = name;
         this.v = value;
+        this.statuses = statuses;
     }
 
     /**
@@ -51,11 +53,11 @@ export class Status {
         if (p != null) {
             if (typeof this.v == "boolean") {
                 if (this.v) {
-                    p.innerHTML = "<strong>" + this.name + "</strong>: " + "Yes";
+                    p.innerHTML = "<strong>" + this.name + "</strong>: " + this.statuses[0];
                     p.classList.remove("error");
                     p.classList.add("ok");
                 } else {
-                    p.innerHTML = "<strong>" + this.name + "</strong>: " + "No";
+                    p.innerHTML = "<strong>" + this.name + "</strong>: " + this.statuses[1];
                     p.classList.add("error");
                     p.classList.remove("ok");
                 }
