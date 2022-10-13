@@ -66,6 +66,10 @@ summary {
     }
 }
 
+.status {
+    transition: all $tween-time ease-in;
+}
+
 .items {
     justify-content: flex-start;
     align-items: flex-start;
