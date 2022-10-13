@@ -18,11 +18,20 @@ export function generateString(length: number): string {
 }
 
 /**
+ * The percentage of something happening. Under NO circumstance should this affect gameplay. (A good example of this function being used is generateShipName)
+ * @remarks Basically just the BYOND proc.
+ * @param percent number
+ */
+export function prob(percent: number): boolean {
+    const percentage: number = Math.random();
+    return (percentage * 100) < percent;
+}
+
+/**
  * Picks a random from an array.
  * @param array any[]
  * @returns any
  */
-//
 // eslint-disable-next-line
 export function pickFromArray(array: any[]): any {
     return array[Math.floor(Math.random() * array.length)]
@@ -35,22 +44,28 @@ export function pickFromArray(array: any[]): any {
 export function generateName(): string {
     const firstName = pickFromArray(first);
     const lastName = pickFromArray(last);
-    let alias = "";
+    const output: string[] = [];
 
-    if (Math.random() < 0.3) {
-       alias = ` '${pickFromArray(shipNames)}'`
+    output.push(firstName);
+    if (prob(30)) {
+       output.push(`'${pickFromArray(shipNames)}'`);
     }
+    output.push(lastName);
 
-    // ${alias} generates a space at the beginning of the string
-    return `${firstName}${alias} ${lastName}`
+    return output.join(" ");
 }
 
 /**
- * Generates a random planet name
+ * Generates a random location name
  * @returns string
  */
- export function generatePlanetName(): string {
-    return pickFromArray(shipNames);
+export function generateLocationName(): string {
+    const output: string[] = []
+    if (prob(30)) {
+        output.push(pickFromArray(first) + "'s")
+    }
+    output.push(pickFromArray(shipNames))
+    return output.join(" ");
 }
 
 /**
@@ -60,7 +75,17 @@ export function generateName(): string {
 export function generateShipName(): string {
     const prefix = generateString(2).toUpperCase();
     const id = Math.floor(Math.random() * 100);
-    const name = generatePlanetName();
+    const output: string[] = [];
+    output.push(`${prefix}-${id}`)
+    if (prob(15)) {
+        output.push("The");
+    }
+    if (prob(30)) {
+        output.push(pickFromArray(shipNames) + "'s");
+    } else {
+        output.push(pickFromArray(shipNames));
+    }
+    output.push(pickFromArray(shipNames));
 
-    return `${prefix}-${id} ${name}`
+    return output.join(" ");
 }
