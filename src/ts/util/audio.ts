@@ -12,36 +12,38 @@ export const paths: string[] = [
     "sfx/good.wav",
     "sfx/warp.wav",
 ]
-export let samples: any;
-export let audioCtx: any;
+export let samples: (AudioBuffer | undefined)[] = [];
+export let audioCtx: AudioContext;
 
 /**
  * Returns an audio buffer
  * @param path string
- * @returns audioBuffer
+ * @returns AudioBuffer
  */
-export async function getAudioFile(path: string) {
+export async function getAudioFile(path: string): Promise<AudioBuffer | null> {
     if (audioCtx != null) {
         const response = await fetch("/astrionics/audio/" + path);
         const arrayBuffer = await response.arrayBuffer();
         const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
         return audioBuffer;
     }
+
+    return null;
 }
 
 /**
- * Returns an array of audio buffers
- * @returns audioBuffer[]
+ * Sets up samples
  */
 export async function setupSamples() {
-    const audioBuffers = [];
+    if (samples.length > 1) return;
+    const audioBuffers: AudioBuffer[] = [];
 
     for (const path of paths) {
         const sample = await getAudioFile(path);
-        audioBuffers.push(sample);
+        audioBuffers.push(<AudioBuffer>sample);
     }
 
-    return audioBuffers;
+    samples = audioBuffers;
 }
 
 /**
@@ -52,16 +54,15 @@ export async function setupSamples() {
  * play("sfx/fire.wav")
  */
 export async function play(sample: string) {
-    setupSamples().then(response => {
-        if (audioCtx != null) {
-            samples = response;
-
-            const sampleSource = audioCtx.createBufferSource();
-            sampleSource.buffer = samples[paths.findIndex(path => path == sample)];
-            sampleSource.connect(audioCtx.destination);
-            sampleSource.start(0);
-        }
-    });
+    setupSamples();
+    try {
+        const sampleSource = audioCtx.createBufferSource();
+        sampleSource.buffer = <AudioBuffer>samples[paths.findIndex(path => path == sample)];
+        sampleSource.connect(audioCtx.destination);
+        sampleSource.start(0);
+    } catch {
+        console.log("Unable to play sound, have you interacted with the DOM or in a testing environment?")
+    }
 }
 
 /**
