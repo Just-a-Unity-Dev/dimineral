@@ -139,11 +139,6 @@ details {
     background-clip: content-box;
 }
 
-strong {
-    font-style: normal;
-    font-weight: 1000;
-}
-
 #app {
     scroll-behavior: smooth;
     transition: all $tween-time ease-in;
