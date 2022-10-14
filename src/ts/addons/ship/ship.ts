@@ -235,7 +235,7 @@ export class Ship {
         });
 
         // update location
-        const locationLabel: Status|null = findStatus("Docking Status");
+        const locationLabel: Status|null = findStatus("Dock");
         if (locationLabel != null) locationLabel.value = <string>this.status;
 
         const pilotingLabel = <Status>findStatus("Piloting");
