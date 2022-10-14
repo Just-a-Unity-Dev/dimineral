@@ -9,8 +9,6 @@ body {
 
 p,summary,details,h1,h2,h3,h4,h5,h6,button,a {
     font-family: 'Fira Sans', sans-serif;
-    text-align: justify;
-    text-justify: inter-ideograph;
     color: $foreground;
 }
 
@@ -137,11 +135,6 @@ details {
     border-radius: 20px;
     border: 9px solid transparent;
     background-clip: content-box;
-}
-
-strong {
-    font-style: normal;
-    font-weight: 1000;
 }
 
 #app {
