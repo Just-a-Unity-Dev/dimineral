@@ -34,3 +34,9 @@ li {
         }
     }
 }
+
+@media only screen and (max-width: 600px) {
+    nav {
+        background-color: transparent;
+    }
+}
