@@ -2,12 +2,16 @@
 
 body {
     background-color: $background;
+    margin-left: 0;
+    margin-top: 0;
     zoom: 125%;
 }
 
-p,summary,details,h1,h2,h3,h4,h5,h6,button {
-    color: $foreground;
+p,summary,details,h1,h2,h3,h4,h5,h6,button,a {
     font-family: 'Fira Sans', sans-serif;
+    text-align: justify;
+    text-justify: inter-ideograph;
+    color: $foreground;
 }
 
 button {
@@ -118,6 +122,10 @@ details {
     &:hover {
         outline: 1px solid $foreground;
     }
+
+    button {
+        width: 90%;
+    }
 }
 
 ::-webkit-scrollbar {
@@ -137,6 +145,7 @@ strong {
 }
 
 #app {
+    scroll-behavior: smooth;
     transition: all $tween-time ease-in;
     margin: auto;
     padding: 30px;
@@ -147,6 +156,7 @@ strong {
 
 @media only screen and (max-width: 600px) {
     #app {
+        margin-left: 16px;
         width: 100%;
     }
 
