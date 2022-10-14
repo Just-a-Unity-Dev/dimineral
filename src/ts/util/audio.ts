@@ -59,8 +59,12 @@ export async function play(sample: string) {
     setupSamples();
     try {
         const sampleSource = audioCtx.createBufferSource();
+        const gainNode = audioCtx.createGain();
+        gainNode.gain.value = 0.5;
+        gainNode.connect(audioCtx.destination);
+        sampleSource.connect(gainNode);
+
         sampleSource.buffer = <AudioBuffer>samples[paths.findIndex(path => path == sample)];
-        sampleSource.connect(audioCtx.destination);
         sampleSource.start(0);
     } catch {
         // console.log("Unable to play sound, have you interacted with the DOM or in a testing environment?")
