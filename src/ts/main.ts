@@ -16,6 +16,7 @@ import { initStatusBar } from './addons/status/status';
 import { initAudio, play } from './util/audio';
 
 export const app = document.querySelector<HTMLDivElement>('#app');
+const navbar = document.getElementById("navbar");
 const selectedDiv: HTMLDivElement = <HTMLDivElement>initSelectedDiv();
 
 // UI hell
@@ -174,9 +175,10 @@ function initGame() {
     const shipSummary = document.createElement("summary");
     const starDetails = document.createElement("details");
     const starSummary = document.createElement("summary");
-    const navbar = document.getElementById("navbar");
     const currentTime = document.createElement("p");
-    if (navbar != null) navbar.style.display = "block";
+    if (navbar != null) {
+        navbar.style.opacity = "1";
+    }
     currentTime.id = "time";
     
     // init time
