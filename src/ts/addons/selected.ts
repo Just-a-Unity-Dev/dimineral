@@ -1,3 +1,4 @@
+import { play } from "../util/audio";
 import { quickCreate } from "../util/ui";
 
 export let selected = "";
@@ -23,6 +24,7 @@ export function initSelectedDiv(): Node {
     // this overwrites the previous onclick to prevent repeats
     deselect.onclick = function () {
         // deselected
+        play("sfx/sift.wav")
         setSelected("");
     }
     
