@@ -174,7 +174,9 @@ function initGame() {
     const shipSummary = document.createElement("summary");
     const starDetails = document.createElement("details");
     const starSummary = document.createElement("summary");
+    const navbar = document.getElementById("navbar");
     const currentTime = document.createElement("p");
+    if (navbar != null) navbar.style.display = "block";
     currentTime.id = "time";
     
     // init time
@@ -183,9 +185,11 @@ function initGame() {
     
     // init summary
     shipSummary.textContent = "Ships";
+    shipSummary.id = "ship-summary";
     shipDetails.appendChild(shipSummary);
     
     // init stars
+    starSummary.id = "stars-summary";
     const starDiv = document.createElement("div");
     starDiv.id = "star-containers";
 
