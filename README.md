@@ -4,7 +4,7 @@
 
 Astrionics is a web game about sailing throughout space, managing a crew and staying alive.
 
-Astrionics is powered via [Typescript](https://typescriptlang.org) and [Vite](https://vitejs.org)
+Astrionics is powered via [Typescript](https://typescriptlang.org) and [Vite](https://vitejs.dev)
 
 ## Running
 
