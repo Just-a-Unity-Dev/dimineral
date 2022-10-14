@@ -156,8 +156,8 @@ function tick() {
 
     const starsDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("star-containers");
     const starsClosed: HTMLHeadingElement = <HTMLHeadingElement>document.getElementById("stars-closed");
-    if (starsDiv != null) starsDiv.style.display = ships[0].pilotingControls ? "flex" : "none";
-    if (starsClosed != null) starsClosed.style.display = ships[0].pilotingControls ? "none" : "block";
+    if (starsDiv != null) starsDiv.style.display = ships[0].canFly() ? "flex" : "none";
+    if (starsClosed != null) starsClosed.style.display = ships[0].canFly() ? "none" : "block";
 
     ships.forEach(ship => {
         ship.tick();

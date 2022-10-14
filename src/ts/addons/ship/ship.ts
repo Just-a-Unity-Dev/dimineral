@@ -163,7 +163,11 @@ export class Ship {
      * @param loc Star | Planet
      * @returns boolean
      */
-    public canFly(loc: Star | Planet) {
+    public canFly(loc: Star | Planet | undefined) {
+        if (loc == undefined) {
+            return (this.pilotingControls && this.fuel > (fuelDiff - 1) && this.hasPart("bridge"))
+
+        }
         return ((this.pilotingControls || this.location == loc) && this.fuel > (fuelDiff - 1) && this.hasPart("bridge"))
     }
 
@@ -238,7 +242,7 @@ export class Ship {
         if (pilotingLabel != null) pilotingLabel.value = this.pilotingControls;
 
         const fuelLabel = findStatus("Fuel");
-        if (fuelLabel != null) fuelLabel.value = this.fuel;
+        if (fuelLabel != null) fuelLabel.value = this.fuel >= 5;
 
         const moneyLabel = findStatus("Money");
         if (moneyLabel != null) moneyLabel.value = <string>this.money.toLocaleString() + "$";

@@ -247,7 +247,7 @@ export class Part {
         damage.addEventListener("click", () => {
             this.dealDamage(10)
         });
-        // div.appendChild(damage);
+        div.appendChild(damage);
 
         const heal = <HTMLButtonElement>quickCreate("button", "Repair (4+ Mechanical)");
         heal.id = `${this.shipId}-${this.id}-heal`;
