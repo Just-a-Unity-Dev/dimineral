@@ -26,7 +26,7 @@ export class Power {
      * @param value number
      */
     public removeConsumer(id: string) {
-        delete this.consumers[id]
+        delete this.consumers[id];
     }
 
     /**
@@ -35,7 +35,7 @@ export class Power {
      * @param value number
      */
     public removeSupplier(id: string) {
-        delete this.suppliers[id]
+        delete this.suppliers[id];
     }
 
     /**

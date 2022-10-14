@@ -166,7 +166,6 @@ export class Ship {
     public canFly(loc: Star | Planet | undefined) {
         if (loc == undefined) {
             return (this.pilotingControls && this.fuel > (fuelDiff - 1) && this.hasPart("bridge"))
-
         }
         return ((this.pilotingControls || this.location == loc) && this.fuel > (fuelDiff - 1) && this.hasPart("bridge"))
     }
@@ -252,7 +251,7 @@ export class Ship {
     }
 
     get pilotingControls() {
-        return this.partManned("bridge");
+        return this.partManned("bridge") && this.powered;
     }
 
     get status() {
