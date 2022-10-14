@@ -6,6 +6,9 @@ export function quickCreate(node: string, message?: string): Node {
         n.addEventListener("mouseenter", () => {
             play("sfx/select.wav");
         });
+        n.addEventListener("mouseleave", () => {
+            play("sfx/select.wav");
+        });
     }
     if (message != undefined) {
         n.textContent = message;
