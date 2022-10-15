@@ -159,6 +159,14 @@ function tick() {
     if (starsDiv != null) starsDiv.style.display = ships[0].canFly(undefined) ? "flex" : "none";
     if (starsClosed != null) starsClosed.style.display = ships[0].canFly(undefined) ? "none" : "block";
 
+    const planetDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("planet-containers");
+    const planetClosed: HTMLHeadingElement = <HTMLHeadingElement>document.getElementById("planet-closed");
+    if (planetClosed != null)
+    if (planetDiv != null) {
+        planetClosed.style.display = (ships[0].location instanceof Planet) ? "none" : "block";
+        planetDiv.style.display = (ships[0].location instanceof Planet) ? "flex" : "none";
+    }
+
     ships.forEach(ship => {
         ship.tick();
     });
@@ -171,33 +179,34 @@ function tick() {
 }
 
 function initGame() {
-    const shipDetails = document.createElement("details");
-    const shipSummary = document.createElement("summary");
-    const starDetails = document.createElement("details");
-    const starSummary = document.createElement("summary");
+    // init time
     const currentTime = document.createElement("p");
     if (navbar != null) {
         navbar.style.opacity = "1";
     }
     currentTime.id = "time";
-    
-    // init time
     app?.appendChild(currentTime);
     app?.appendChild(initStatusBar());
     
     // init summary
+    const shipDetails = document.createElement("details");
+    const shipSummary = document.createElement("summary");
     shipSummary.textContent = "Ships";
     shipSummary.id = "ship-summary";
     shipDetails.appendChild(shipSummary);
+    app?.appendChild(shipDetails);
     
     // init stars
+    const starDetails = document.createElement("details");
+    const starSummary = document.createElement("summary");
     starSummary.id = "stars-summary";
     const starDiv = document.createElement("div");
     starDiv.id = "star-containers";
 
+    // stars disabled
     const starDisabled = document.createElement("h2")
-    starDisabled.id = "stars-closed";
     starDisabled.classList.add("error");
+    starDisabled.id = "stars-closed";
     starDisabled.textContent = "Piloting systems are not manned or available!";
     starDisabled.style.textAlign = "center";
     starDisabled.style.display = "none";
@@ -225,9 +234,29 @@ function initGame() {
         addStar(star);
     }
 
-    app?.appendChild(shipDetails);
     app?.appendChild(starDetails);
     starDetails.appendChild(starDiv);
+
+    // init planet
+    const planetDetails = document.createElement("details");
+    const planetSummary = document.createElement("summary");
+    planetSummary.id = "planets-summary";
+    planetSummary.textContent = "Planet";
+    const planetDiv = document.createElement("div");
+    planetDiv.id = "planet-containers";
+
+    // planet disabled
+    const planetDisabled = document.createElement("h2")
+    planetDisabled.classList.add("error");
+    planetDisabled.id = "planet-closed";
+    planetDisabled.textContent = "You are not landed at a planet!";
+    planetDisabled.style.textAlign = "center";
+    planetDisabled.style.display = "none";
+    planetDetails.appendChild(planetDisabled);
+
+    planetDetails.appendChild(planetSummary);
+    planetDetails.appendChild(planetDiv);
+    app?.appendChild(planetDetails);
     
     // initialize div
     app?.appendChild(selectedDiv);
