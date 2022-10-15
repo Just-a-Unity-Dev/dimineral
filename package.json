@@ -1,16 +1,19 @@
 {
   "name": "astrionics",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "homepage": "https://github.com/Just-a-Unity-Dev/astrionics#readme",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts",
+    "tauri": "tauri"
   },
   "devDependencies": {
+    "@tauri-apps/cli": "^1.1.1",
     "@typescript-eslint/eslint-plugin": "^5.39.0",
     "@typescript-eslint/parser": "^5.39.0",
     "eslint": "^8.25.0",
