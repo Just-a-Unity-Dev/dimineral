@@ -25,11 +25,7 @@ describe("locations", () => {
     star.addPlanet(planet3);
     carmen.setLocation("bridge");
     it("can fly", () => {
-        // console.log(ship.getCrewByName("Carmen Miranda")?.location)
-        // console.log(ship.getCrewInRoom("bridge"))
-        
         expect(ship.fly(planet2)).toBe(true);
-        // TODO: fix this test broken
         expect(ship.location).toBe(planet2);
         expect(ship.fuel).toBe(25);
     });

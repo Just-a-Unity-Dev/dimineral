@@ -46,7 +46,7 @@ export function createShip(): Ship {
     ship.addPart(createFromRoomTemplate(LifeSupport, ship.id));
     ship.addPart(createFromRoomTemplate(Engines, ship.id));
     ship.addCrew(makeCharacter(ship.id));
-    return ship
+    return ship;
 }
 
 describe("ship", () => {

@@ -53,21 +53,28 @@ export class Power {
     }
 
     /**
+     * Returns the total consumed
+     */
+    get consumed() {
+        const con = Object.keys(this.consumers);
+        let consumed = 0;
+
+        con.forEach(consumer => {
+            consumed += this.consumers[consumer];
+        });
+        console.log(consumed)
+
+        return consumed;
+    }
+
+    /**
      * Returns the total power (suppliers - consumers)
      */
     get power() {
-        let supply = 0;
-        let consumed = 0;
+        const supply = this.supply;
+        const consumed = this.consumed;
 
-    // eslint-disable-next-line
-        for (const [_key, value] of Object.entries(this.suppliers)) {
-            supply += value;
-        }
-
-    // eslint-disable-next-line
-        for (const [_key, value] of Object.entries(this.consumers)) {
-            consumed += value;
-        }
+        console.log(supply,consumed,supply - consumed)
 
         return supply - consumed;
     }
