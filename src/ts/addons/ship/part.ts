@@ -2,7 +2,6 @@ import { getShipById, removeShip } from "./ships";
 import { generateString } from "../../util/rng";
 import { selected, setSelected } from "../selected";
 import { quickCreate } from "../../util/ui";
-import { Ship } from "./ship";
 
 /**
  * A part in a `Ship`
@@ -171,16 +170,12 @@ export class Part {
 
     public setDisabled(value: boolean) {
         this.disabled = value;
-        console.log("y")
-        const ship: Ship | undefined = getShipById(this.shipId);
-        if (ship != undefined) {
-            if (!value) {
-                ship.power.addConsumer(this.id + "-" + this.uid, this.consumed);
-                ship.power.addSupplier(this.id + "-" + this.uid, this.supply);
-            } else {
-                ship.power.removeConsumer(this.id + "-" + this.uid);
-                ship.power.removeSupplier(this.id + "-" + this.uid);
-            }
+        if (value) {
+            getShipById(this.shipId)?.power.addConsumer(this.id + "-" + this.uid, this.consumed);
+            getShipById(this.shipId)?.power.addSupplier(this.id + "-" + this.uid, this.supply);
+        } else {
+            getShipById(this.shipId)?.power.removeConsumer(this.id + "-" + this.uid);
+            getShipById(this.shipId)?.power.removeSupplier(this.id + "-" + this.uid);
         }
     }
 
