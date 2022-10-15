@@ -5,7 +5,7 @@ description = "A space sailing game"
 authors = ["eclipsedotspace@gmail.com"]
 license = "MIT"
 repository = "https://github.com/Just-a-Unity-Dev/astrionics"
-default-run = "app"
+default-run = "astrionics"
 edition = "2021"
 rust-version = "1.57"
 
