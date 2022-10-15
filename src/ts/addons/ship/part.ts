@@ -170,7 +170,7 @@ export class Part {
 
     public setDisabled(value: boolean) {
         this.disabled = value;
-        if (value) {
+        if (!value) {
             getShipById(this.shipId)?.power.addConsumer(this.id + "-" + this.uid, this.consumed);
             getShipById(this.shipId)?.power.addSupplier(this.id + "-" + this.uid, this.supply);
         } else {

@@ -252,7 +252,7 @@ export class Ship {
     }
 
     get pilotingControls() {
-        return this.partManned("bridge");
+        return this.partManned("bridge") && this.powered;
     }
 
     get status() {
