@@ -1,5 +1,9 @@
 @use './variables' as *;
 
+html, body {
+    scroll-behavior: smooth;
+}
+
 body {
     background-color: $background;
     margin-left: 0;
@@ -138,7 +142,6 @@ details {
 }
 
 #app {
-    scroll-behavior: smooth;
     transition: all $tween-time ease-in;
     margin: auto;
     padding: 30px;
