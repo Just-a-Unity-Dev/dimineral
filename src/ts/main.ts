@@ -161,10 +161,33 @@ function tick() {
 
     const planetDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("planet-containers");
     const planetClosed: HTMLHeadingElement = <HTMLHeadingElement>document.getElementById("planet-closed");
-    if (planetClosed != null)
+    
     if (planetDiv != null) {
         planetClosed.style.display = (ships[0].location instanceof Planet) ? "none" : "block";
         planetDiv.style.display = (ships[0].location instanceof Planet) ? "flex" : "none";
+        
+        const planetHeader: HTMLHeadingElement = <HTMLHeadingElement>document.getElementById("planet-header");
+        planetHeader.textContent = <string>ships[0].location?.name;
+
+        // fuel
+        const planetFuel = <HTMLParagraphElement>document.getElementById("planet-fuel");
+        planetFuel.textContent = `You have ${ships[0].fuel} fuel.`
+
+        // refuel
+        const planetRefuel: HTMLButtonElement = <HTMLButtonElement>document.getElementById("planet-refuel");
+        planetRefuel.textContent = `Buy Fuel (${(<Planet>ships[0].location).fuelCost}$)`
+        planetRefuel.onclick = () => {
+            const cost = (<Planet>ships[0].location).fuelCost;
+            const money = ships[0].money
+
+            if (money >= cost) {
+                ships[0].fuel += 1
+                ships[0].money -= (<Planet>ships[0].location).fuelCost;
+                play("sfx/good.wav");
+            } else {
+                play("sfx/death.wav");
+            }
+        }
     }
 
     ships.forEach(ship => {
@@ -242,8 +265,10 @@ function initGame() {
     const planetSummary = document.createElement("summary");
     planetSummary.id = "planets-summary";
     planetSummary.textContent = "Planet";
+
     const planetDiv = document.createElement("div");
     planetDiv.id = "planet-containers";
+    planetDiv.classList.add("items");
 
     // planet disabled
     const planetDisabled = document.createElement("h2")
@@ -257,6 +282,40 @@ function initGame() {
     planetDetails.appendChild(planetSummary);
     planetDetails.appendChild(planetDiv);
     app?.appendChild(planetDetails);
+
+    // planet header
+    const planetWrapper = <HTMLDivElement>quickCreate("div")
+    planetWrapper.classList.add("item")
+    planetWrapper.classList.add("xl")
+
+    const planetHeader: HTMLHeadingElement = <HTMLHeadingElement>quickCreate("h2", "???");
+    planetHeader.id = "planet-header";
+    planetWrapper.appendChild(planetHeader);
+
+    planetWrapper.appendChild(document.createElement("br"))
+
+    // current fuel
+    const planetFuel = <HTMLParagraphElement>quickCreate("p", "You have 0 fuel.");
+    planetFuel.id = "planet-fuel";
+    planetWrapper.appendChild(planetFuel);
+
+    // refuel
+    const planetRefuel: HTMLButtonElement = <HTMLButtonElement>quickCreate("button", "Refuel");
+    planetRefuel.id = "planet-refuel"
+    planetRefuel.onclick = () => {
+        const cost = (<Planet>ships[0].location).fuelCost;
+        const money = ships[0].money
+
+        if (money >= cost) {
+            ships[0].fuel += 1
+            ships[0].money -= (<Planet>ships[0].location).fuelCost;
+            play("sfx/good.wav");
+        } else {
+            play("sfx/death.wav");
+        }
+    }
+    planetWrapper.appendChild(planetRefuel);
+    planetDiv.appendChild(planetWrapper);
     
     // initialize div
     app?.appendChild(selectedDiv);

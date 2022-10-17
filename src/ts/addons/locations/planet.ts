@@ -11,11 +11,13 @@ export class Planet {
     public readonly name: string = "Argo";
     public readonly id: string = generateString(10);
     public readonly sid: string;
+    public fuelCost = 0;
     private fly: HTMLButtonElement = <HTMLButtonElement>quickCreate("button", "Land");
 
     constructor (name: string, sid: string) {
         this.name = name;
         this.sid = sid;
+        this.fuelCost = Math.floor(Math.random() * 50);
     }
 
     public tick() {
