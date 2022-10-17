@@ -171,7 +171,7 @@ function tick() {
 
         // fuel
         const planetFuel = <HTMLParagraphElement>document.getElementById("planet-fuel");
-        planetFuel.textContent = `You have ${ships[0].fuel} fuel.`
+        planetFuel.textContent = `You have ${ships[0].fuel} fuel with 5 being used per warp.`
 
         // refuel
         const planetRefuel: HTMLButtonElement = <HTMLButtonElement>document.getElementById("planet-refuel");
