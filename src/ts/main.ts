@@ -159,6 +159,37 @@ function tick() {
     if (starsDiv != null) starsDiv.style.display = ships[0].canFly(undefined) ? "flex" : "none";
     if (starsClosed != null) starsClosed.style.display = ships[0].canFly(undefined) ? "none" : "block";
 
+    const planetDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("planet-containers");
+    const planetClosed: HTMLHeadingElement = <HTMLHeadingElement>document.getElementById("planet-closed");
+    
+    if (planetDiv != null) {
+        planetClosed.style.display = (ships[0].location instanceof Planet) ? "none" : "block";
+        planetDiv.style.display = (ships[0].location instanceof Planet) ? "flex" : "none";
+        
+        const planetHeader: HTMLHeadingElement = <HTMLHeadingElement>document.getElementById("planet-header");
+        planetHeader.textContent = <string>ships[0].location?.name;
+
+        // fuel
+        const planetFuel = <HTMLParagraphElement>document.getElementById("planet-fuel");
+        planetFuel.textContent = `You have ${ships[0].fuel} fuel with 5 being used per warp.`
+
+        // refuel
+        const planetRefuel: HTMLButtonElement = <HTMLButtonElement>document.getElementById("planet-refuel");
+        planetRefuel.textContent = `Buy Fuel (${(<Planet>ships[0].location).fuelCost}$)`
+        planetRefuel.onclick = () => {
+            const cost = (<Planet>ships[0].location).fuelCost;
+            const money = ships[0].money
+
+            if (money >= cost) {
+                ships[0].fuel += 1
+                ships[0].money -= (<Planet>ships[0].location).fuelCost;
+                play("sfx/good.wav");
+            } else {
+                play("sfx/death.wav");
+            }
+        }
+    }
+
     ships.forEach(ship => {
         ship.tick();
     });
@@ -171,33 +202,34 @@ function tick() {
 }
 
 function initGame() {
-    const shipDetails = document.createElement("details");
-    const shipSummary = document.createElement("summary");
-    const starDetails = document.createElement("details");
-    const starSummary = document.createElement("summary");
+    // init time
     const currentTime = document.createElement("p");
     if (navbar != null) {
         navbar.style.opacity = "1";
     }
     currentTime.id = "time";
-    
-    // init time
     app?.appendChild(currentTime);
     app?.appendChild(initStatusBar());
     
     // init summary
+    const shipDetails = document.createElement("details");
+    const shipSummary = document.createElement("summary");
     shipSummary.textContent = "Ships";
     shipSummary.id = "ship-summary";
     shipDetails.appendChild(shipSummary);
+    app?.appendChild(shipDetails);
     
     // init stars
+    const starDetails = document.createElement("details");
+    const starSummary = document.createElement("summary");
     starSummary.id = "stars-summary";
     const starDiv = document.createElement("div");
     starDiv.id = "star-containers";
 
+    // stars disabled
     const starDisabled = document.createElement("h2")
-    starDisabled.id = "stars-closed";
     starDisabled.classList.add("error");
+    starDisabled.id = "stars-closed";
     starDisabled.textContent = "Piloting systems are not manned or available!";
     starDisabled.style.textAlign = "center";
     starDisabled.style.display = "none";
@@ -225,9 +257,65 @@ function initGame() {
         addStar(star);
     }
 
-    app?.appendChild(shipDetails);
     app?.appendChild(starDetails);
     starDetails.appendChild(starDiv);
+
+    // init planet
+    const planetDetails = document.createElement("details");
+    const planetSummary = document.createElement("summary");
+    planetSummary.id = "planets-summary";
+    planetSummary.textContent = "Planet";
+
+    const planetDiv = document.createElement("div");
+    planetDiv.id = "planet-containers";
+    planetDiv.classList.add("items");
+
+    // planet disabled
+    const planetDisabled = document.createElement("h2")
+    planetDisabled.classList.add("error");
+    planetDisabled.id = "planet-closed";
+    planetDisabled.textContent = "You are not landed at a planet!";
+    planetDisabled.style.textAlign = "center";
+    planetDisabled.style.display = "none";
+    planetDetails.appendChild(planetDisabled);
+
+    planetDetails.appendChild(planetSummary);
+    planetDetails.appendChild(planetDiv);
+    app?.appendChild(planetDetails);
+
+    // planet header
+    const planetWrapper = <HTMLDivElement>quickCreate("div")
+    planetWrapper.classList.add("item")
+    planetWrapper.classList.add("xl")
+
+    const planetHeader: HTMLHeadingElement = <HTMLHeadingElement>quickCreate("h2", "???");
+    planetHeader.id = "planet-header";
+    planetWrapper.appendChild(planetHeader);
+
+    planetWrapper.appendChild(document.createElement("br"))
+
+    // current fuel
+    const planetFuel = <HTMLParagraphElement>quickCreate("p", "You have 0 fuel.");
+    planetFuel.id = "planet-fuel";
+    planetWrapper.appendChild(planetFuel);
+
+    // refuel
+    const planetRefuel: HTMLButtonElement = <HTMLButtonElement>quickCreate("button", "Refuel");
+    planetRefuel.id = "planet-refuel"
+    planetRefuel.onclick = () => {
+        const cost = (<Planet>ships[0].location).fuelCost;
+        const money = ships[0].money
+
+        if (money >= cost) {
+            ships[0].fuel += 1
+            ships[0].money -= (<Planet>ships[0].location).fuelCost;
+            play("sfx/good.wav");
+        } else {
+            play("sfx/death.wav");
+        }
+    }
+    planetWrapper.appendChild(planetRefuel);
+    planetDiv.appendChild(planetWrapper);
     
     // initialize div
     app?.appendChild(selectedDiv);
