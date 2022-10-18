@@ -9,11 +9,9 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "lint": "eslint . --ext .ts",
-    "tauri": "tauri"
+    "lint": "eslint . --ext .ts"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1.1.1",
     "@typescript-eslint/eslint-plugin": "^5.39.0",
     "@typescript-eslint/parser": "^5.39.0",
     "eslint": "^8.25.0",
