@@ -1,10 +1,9 @@
 import { Breakroom, Bridge, createFromRoomTemplate, Engines, LifeSupport, Shields } from './util/templates';
 import { capitalizeFirstLetter, maxSkillPoints } from './util/characters';
 import { generateShipName, generateLocationName, pickFromArray } from './util/rng';
-import { getVerboseDate } from './util/date';
 import { Ship } from './addons/ship/ship';
 import { ships } from "./addons/ship/ships";
-import { initSelectedDiv, selected } from './addons/selected';
+import { initSelectedDiv } from './addons/selected';
 import { Skills } from './addons/humanoid/skills';
 import { generateName } from './util/rng';
 import { Character } from './addons/humanoid/character';
@@ -14,10 +13,11 @@ import { addStar, Star, stars } from './addons/locations/star';
 import { Planet } from './addons/locations/planet';
 import { initStatusBar } from './addons/status/status';
 import { initAudio, play } from './util/audio';
+import { tick } from './gameticker/gameticker';
 
 export const app = document.querySelector<HTMLDivElement>('#app');
-const navbar = document.getElementById("navbar");
-const selectedDiv: HTMLDivElement = <HTMLDivElement>initSelectedDiv();
+export const selectedDiv: HTMLDivElement = <HTMLDivElement>initSelectedDiv();
+export const navbar = document.getElementById("navbar");
 
 // UI hell
 function initApp() {
@@ -133,72 +133,6 @@ function setupGame() {
 
     app?.appendChild(setup);
     setup?.appendChild(playButton);
-}
-
-function tick() {    
-    // basic selected DIV
-    if (selected == "") {
-        selectedDiv.style.display = 'none';
-    } else {
-        // make it visible
-        selectedDiv.style.display = 'block';
-        const name: HTMLHeadingElement = <HTMLHeadingElement>document.getElementById("selected-name");
-        // if (name != null) {
-            name.textContent = selected;
-        // }
-    }
-
-    const today: Date = new Date();
-    const currentTime = document.getElementById("time");
-    if (currentTime != null) {
-        currentTime.textContent = getVerboseDate(4131, today.getMonth(), today.getDate(), today.getHours(), today.getMinutes());
-    }
-
-    const starsDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("star-containers");
-    const starsClosed: HTMLHeadingElement = <HTMLHeadingElement>document.getElementById("stars-closed");
-    if (starsDiv != null) starsDiv.style.display = ships[0].canFly(undefined) ? "flex" : "none";
-    if (starsClosed != null) starsClosed.style.display = ships[0].canFly(undefined) ? "none" : "block";
-
-    const planetDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("planet-containers");
-    const planetClosed: HTMLHeadingElement = <HTMLHeadingElement>document.getElementById("planet-closed");
-    
-    if (planetDiv != null) {
-        planetClosed.style.display = (ships[0].location instanceof Planet) ? "none" : "block";
-        planetDiv.style.display = (ships[0].location instanceof Planet) ? "flex" : "none";
-        
-        const planetHeader: HTMLHeadingElement = <HTMLHeadingElement>document.getElementById("planet-header");
-        planetHeader.textContent = <string>ships[0].location?.name;
-
-        // fuel
-        const planetFuel = <HTMLParagraphElement>document.getElementById("planet-fuel");
-        planetFuel.textContent = `You have ${ships[0].fuel} fuel with 5 being used per warp.`
-
-        // refuel
-        const planetRefuel: HTMLButtonElement = <HTMLButtonElement>document.getElementById("planet-refuel");
-        planetRefuel.textContent = `Buy Fuel (${(<Planet>ships[0].location).fuelCost}$)`
-        planetRefuel.onclick = () => {
-            const cost = (<Planet>ships[0].location).fuelCost;
-            const money = ships[0].money
-
-            if (money >= cost) {
-                ships[0].fuel += 1
-                ships[0].money -= (<Planet>ships[0].location).fuelCost;
-                play("sfx/good.wav");
-            } else {
-                play("sfx/death.wav");
-            }
-        }
-    }
-
-    ships.forEach(ship => {
-        ship.tick();
-    });
-
-    stars.forEach(star => {
-        star.tick();
-    })
-    
-    setTimeout(tick, 100)
 }
 
 function initGame() {
@@ -341,7 +275,7 @@ function initGame() {
     ships.push(ship);
     shipDetails?.appendChild(ships[0].init());
     
-    setTimeout(tick, 10);
+    setInterval(tick, 100);
 }
 
 initApp();
