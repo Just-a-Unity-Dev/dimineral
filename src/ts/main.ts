@@ -10,7 +10,6 @@ import { generateName } from './util/rng';
 import { Character } from './addons/humanoid/character';
 import { Health } from './addons/humanoid/health';
 import { addS, quickCreate, appendChilds } from './util/ui';
-import { stars } from './addons/locations/star';
 import { initStatusBar } from './addons/status/status';
 import { initAudio, play } from './util/audio';
 
@@ -157,10 +156,6 @@ function tick() {
     ships.forEach(ship => {
         ship.tick();
     });
-
-    stars.forEach(star => {
-        star.tick();
-    })
 }
 
 function initGame() {
@@ -181,7 +176,6 @@ function initGame() {
     ship.addPart(createFromRoomTemplate(LifeSupport, ship.id)),
     ship.addPart(createFromRoomTemplate(Engines, ship.id)),
     ship.addPart(createFromRoomTemplate(Breakroom, ship.id)),
-    ship.location = pickFromArray(stars);
     // ship.addCrew(generateCharacter(ship.id));
     ship.addCrew(new Character(
         characterName,
