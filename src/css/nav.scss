@@ -1,5 +1,9 @@
 @use './variables' as *;
 
+#navbar {
+    display: block;
+}
+
 nav {
     transition: all $tween-time ease-in;
     list-style-type: none;

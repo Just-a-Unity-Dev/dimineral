@@ -22,7 +22,7 @@ export let audioCtx: AudioContext;
  */
 export async function getAudioFile(path: string): Promise<AudioBuffer | null> {
     if (audioCtx != null) {
-        const response = await fetch("/astrionics/audio/" + path);
+        const response = await fetch("/dimineral/audio/" + path);
         const arrayBuffer = await response.arrayBuffer();
         const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
         return audioBuffer;

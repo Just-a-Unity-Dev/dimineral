@@ -1,6 +1,14 @@
 import { play } from "./audio";
 
-export function quickCreate(node: string, message?: string): Node {
+// Easily append multiple children to one element.
+export function appendChilds(element: HTMLElement, nodes: Node[]) {
+    nodes.forEach(node => {
+        element.appendChild(node);
+    });
+}
+
+// Quickly creates an element alongside other utility functions.
+export function quickCreate(node: string, message?: string, image?: string): Node {
     const n = document.createElement(node);
     if (node == "button") {
         n.addEventListener("mouseenter", () => {
@@ -12,6 +20,9 @@ export function quickCreate(node: string, message?: string): Node {
         n.addEventListener("click", () => {
             play("sfx/sift.wav")
         })
+    }
+    if (node == "img" && image != undefined) {
+        (n as HTMLImageElement).src = image;
     }
     if (message != undefined) {
         n.textContent = message;

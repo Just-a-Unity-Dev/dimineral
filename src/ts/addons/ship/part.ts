@@ -10,22 +10,22 @@ export class Part {
     public readonly name: string = ""
     public readonly id: string = ""
     public readonly shipId: string = "";
+    private readonly the: boolean = false;
+    
     public supply = 0;
     public consumed = 0;
-    private readonly maxHull: number = 0
-    private readonly maxShield: number = 0;
-    private readonly the: boolean = false;
+    
     public disabled = false;
+    
+    private readonly maxHealth: number = 0
     private health = 0;
-    private shield = 0;
+
     public readonly uid: string = generateString(8);
 
     constructor (
         name: string,
         id: string,
         health: number,
-        maxHull: number,
-        shield: number,
         shipId: string,
         the: boolean,
         power: number
@@ -33,10 +33,9 @@ export class Part {
         this.name = name;
         this.id = id;
         this.health = health;
-        this.maxHull = maxHull;
-        this.maxShield = shield;
-        this.shield = shield;
+        this.maxHealth = health;
         this.shipId = shipId;
+        this.maxHealth = health;
         this.the = the;
 
         // If it's negative, then make it a consumer
@@ -73,15 +72,7 @@ export class Part {
      * @param damage number
      */
     public dealDamage(damage: number) {
-        if (this.shieldHp > 0) {
-            this.shield -= damage;
-            if (this.shield < 0) {
-                this.health -= this.shield * -1
-                this.shield = 0
-            }
-        } else {
-            this.health -= damage;
-        }
+        this.health -= damage;
 
         if (this.partHpPercentage <= 0.2) {
             this.setDisabled(true);
@@ -102,26 +93,17 @@ export class Part {
     }
 
     /**
-     * Returns the shield health of this part
-     * If you need total health, use `totalHealth`
-     * @returns number
-     */
-    get shieldHp() {
-        return this.shield;
-    }
-
-    /**
      * Returns the total HP
      */
     get totalHp() {
-        return this.health + this.shield;
+        return this.health;
     }
 
     /**
      * Returns the total max HP
      */
     get totalMaxHp() {
-        return this.maxHull + this.maxShield;
+        return this.maxHealth;
     }
     
     /**
@@ -140,16 +122,14 @@ export class Part {
     public totalHealth(verbose = false): number | string {
         const total: number = this.totalHp;
         if (verbose) {
-            return `${this.health} hull + ${this.shield} shield = ${total} total (${Math.round(this.partHpPercentage * 100)}%)`;
+            return `${this.health} hull (${Math.round(this.partHpPercentage * 100)}%)`;
         }
         return total;
     }
 
-    public heal(hull: number | undefined = undefined, shield: number | undefined = undefined) {
-        if (hull == undefined) this.health = this.maxHull;
+    public heal(hull: number | undefined = undefined) {
+        if (hull == undefined) this.health = this.maxHealth;
         else this.health = hull;
-        if (shield == undefined) this.shield = this.maxShield;
-        else this.shield = shield;
     }
 
     get isHealable() {

@@ -7,8 +7,8 @@
    viewBox="0 0 135.46667 135.46667"
    version="1.1"
    id="svg5"
-   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14, custom)"
-   sodipodi:docname="lobo.svg"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   sodipodi:docname="logo.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -25,46 +25,74 @@
      inkscape:document-units="mm"
      showgrid="false"
      showguides="true"
-     inkscape:zoom="0.62182986"
-     inkscape:cx="40.203923"
-     inkscape:cy="293.48864"
-     inkscape:window-width="1366"
-     inkscape:window-height="701"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:zoom="0.87940022"
+     inkscape:cx="328.63308"
+     inkscape:cy="221.74204"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1" />
   <defs
      id="defs2" />
   <g
-     inkscape:label="Layer 1"
+     inkscape:label="Ore"
      inkscape:groupmode="layer"
      id="layer1">
-    <ellipse
-       style="fill:#ffff00;stroke-width:0.811434"
-       id="path111"
-       cx="14.914698"
-       cy="96.938866"
-       rx="29.560232"
-       ry="25.846811"
-       transform="matrix(0.63487327,-0.77261629,0.84082812,0.5413022,0,0)" />
-    <g
-       id="g3017"
-       transform="matrix(2.0743408,0,0,2.0743408,-116.14065,-2.7517235)">
-      <ellipse
-         style="fill:#00ff00;stroke-width:0.555638"
-         id="ellipse3019"
-         cx="79.11557"
-         cy="39.500427"
-         rx="9.5265579"
-         ry="10.417141" />
-      <ellipse
-         style="fill:#008000;stroke-width:0.555638"
-         id="path275-3"
-         cx="77.820503"
-         cy="40.395084"
-         rx="9.5265579"
-         ry="10.417141" />
-    </g>
+    <circle
+       style="opacity:1;fill:#aa4400;stroke:#000000;stroke-width:1.38464;stroke-dasharray:none"
+       id="path1850"
+       cx="92.065262"
+       cy="55.553669"
+       r="18.562067"
+       inkscape:label="Diamond" />
+    <path
+       style="opacity:1;fill:#ffff00;stroke:#feff00;stroke-width:1.38464;stroke-dasharray:none;stroke-opacity:1"
+       d="M 89.8843,57.992295 123.91999,24.107043"
+       id="path5629"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="opacity:1;fill:#ffff00;stroke:#feff00;stroke-width:1.38464;stroke-dasharray:none;stroke-opacity:1"
+       d="m 89.8843,57.992295 14.88858,31.816783"
+       id="path6009"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="opacity:1;fill:#ffff00;stroke:#feff00;stroke-width:1.38464;stroke-dasharray:none;stroke-opacity:1"
+       d="m 89.8843,57.992295 c 9.592179,-0.164683 25.8245,4.312441 38.73675,6.468661"
+       id="path6011"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="opacity:1;fill:#ffff00;stroke:#feff00;stroke-width:1.38464;stroke-dasharray:none;stroke-opacity:1"
+       d="M 89.8843,57.992295 91.012551,18.653812"
+       id="path6013"
+       sodipodi:nodetypes="cc" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Pickaxe">
+    <rect
+       style="fill:#c87137;stroke:#000000;stroke-width:1.24999747;opacity:1;stroke-dasharray:none"
+       id="rect441"
+       width="19.9981"
+       height="73.610031"
+       x="70.937523"
+       y="15.307232"
+       rx="8.4274197"
+       ry="8.4817629"
+       transform="rotate(20.679524)"
+       inkscape:label="Pick" />
+    <rect
+       style="fill:#4d4d4d;stroke:#000000;stroke-width:1.38464004;opacity:1;stroke-dasharray:none"
+       id="rect497"
+       width="58.915382"
+       height="29.457691"
+       x="50.805088"
+       y="6.1074462"
+       rx="9.3351736"
+       ry="9.3953705"
+       transform="rotate(20.679524)"
+       inkscape:label="Axe" />
   </g>
 </svg>

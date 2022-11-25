@@ -6,9 +6,6 @@ import { addS } from '../../util/ui';
 import { addStatus, findStatus, Status } from '../status/status';
 import { Planet } from '../locations/planet';
 import { Star, stars } from '../locations/star';
-import { fuelDiff } from '../../consts';
-import { play } from '../../util/audio';
-import { app } from '../../main';
 
 /**
  * A ship, consisting of parts and crew making sure it stays afloat.
@@ -22,7 +19,8 @@ export class Ship {
     public location: Star | Planet | null = null;
     public visible = true;
     public money = 250;
-    public fuel = 30;
+    public ore = 30;
+    public incidents = 0;
 
     constructor(name: string, parts: Part[], crew: Character[], id?: string | undefined) {
         if (id == "" || id == undefined) {
@@ -126,18 +124,15 @@ export class Ship {
      */
     public totalHull(verbose = false): number[] | string {
         let hp = 0;
-        let shield = 0;
         let totalMaxHp = 0;
         this.parts.forEach(part => {
             hp += part.hull;
-            shield += part.shieldHp;
             totalMaxHp += part.totalMaxHp;
         });
-        const total = hp + shield;
         if (verbose) {
-            return `${hp} hull + ${shield} shield = ${total} total (${Math.round((total / totalMaxHp) * 100)}%)`
+            return `${hp} hull (${Math.round((hp / totalMaxHp) * 100)}%)`
         }
-        return [hp, shield, total, totalMaxHp];
+        return [hp, totalMaxHp];
     }
 
     public hasPart(part: string) {
@@ -156,50 +151,6 @@ export class Ship {
             }
         }
         return false;
-    }
-
-    /**
-     * Return whether you are able to fly to this star, if using UI use function `canFlyUi`
-     * @param loc Star | Planet
-     * @returns boolean
-     */
-    public canFly(loc: Star | Planet | undefined) {
-        if (loc == undefined) {
-            return (this.pilotingControls && this.fuel > (fuelDiff - 1) && this.hasPart("bridge"))
-
-        }
-        return ((this.pilotingControls || this.location == loc) && this.fuel > (fuelDiff - 1) && this.hasPart("bridge"))
-    }
-
-    /**
-     * Returns whether if you can fly to this star, but with the piloting controls inversed.
-     * @param loc Star | Planet
-     * @returns boolean
-     */
-    public canFlyUi(loc: Star | Planet) {
-        return ((!this.pilotingControls || this.location == loc) && this.fuel > (fuelDiff - 1) && this.hasPart("engine"))
-    }
-
-    /**
-     * Flies to a location if it can. Use `setLocation` if you want to skip checks.
-     * @param location Star | Planet
-     * @returns boolean
-     */
-    public fly(location: Star | Planet): boolean {
-        if (this.canFly(location)) {
-            this.setLocation(location);
-            this.fuel -= fuelDiff;
-            play("sfx/warp.wav");
-            if (app != null)
-                app.style.opacity = '0';
-            setTimeout(() => {
-                if (app != null)
-                    app.style.opacity = '1';
-            }, 500);
-
-            return true;
-        }
-        return false
     }
 
     /**
@@ -242,7 +193,7 @@ export class Ship {
         if (pilotingLabel != null) pilotingLabel.value = this.pilotingControls;
 
         const fuelLabel = findStatus("Fuel");
-        if (fuelLabel != null) fuelLabel.value = this.fuel >= 5;
+        if (fuelLabel != null) fuelLabel.value = this.incidents;
 
         const moneyLabel = findStatus("Money");
         if (moneyLabel != null) moneyLabel.value = <string>this.money.toLocaleString() + "$";
@@ -327,11 +278,10 @@ export class Ship {
         });
 
         addStatus(new Status("Hull", <string>this.totalHull(true)));
-        addStatus(new Status("Crew", `You have ${this.crew.length} ${addS(this.crew.length, "crewmember")} aboard this ship.`));
+        addStatus(new Status("Crew", `You have ${this.crew.length} ${addS(this.crew.length, "crewmember")} on this colony.`));
+        addStatus(new Status("Incidents", `You have had ${this.incidents} ${addS(this.incidents, "incident")} on this colony.`));
         addStatus(new Status("Money", <string>this.money.toLocaleString() + "$"));
-        addStatus(new Status("Dock", <string>this.status));
-        addStatus(new Status("Piloting", false, ["Available", "Unavailable"]));
-        addStatus(new Status("Fuel", this.fuel >= 5, ["Fueled", "Empty"]));
+        addStatus(new Status("Ore", this.ore));
         return div;
     }
 }

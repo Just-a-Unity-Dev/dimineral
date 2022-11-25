@@ -5,6 +5,6 @@ import { createShip } from './ship.spec';
 describe("parts", () => {
     it("hull is correct", () => {
         const ship: Ship = createShip();
-        expect(ship.getPartById("life")?.totalHp).toBe(100);
+        expect(ship.getPartById("life")?.totalHp).toBe(75);
     })
 })

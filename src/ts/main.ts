@@ -1,6 +1,6 @@
 import { Breakroom, Bridge, createFromRoomTemplate, Engines, LifeSupport, Shields } from './util/templates';
 import { capitalizeFirstLetter, maxSkillPoints } from './util/characters';
-import { generateShipName, generateLocationName, pickFromArray } from './util/rng';
+import { generateShipName, pickFromArray } from './util/rng';
 import { getVerboseDate } from './util/date';
 import { Ship } from './addons/ship/ship';
 import { ships } from "./addons/ship/ships";
@@ -9,28 +9,30 @@ import { Skills } from './addons/humanoid/skills';
 import { generateName } from './util/rng';
 import { Character } from './addons/humanoid/character';
 import { Health } from './addons/humanoid/health';
-import { addS, quickCreate } from './util/ui';
-import { addStar, Star, stars } from './addons/locations/star';
-import { Planet } from './addons/locations/planet';
+import { addS, quickCreate, appendChilds } from './util/ui';
+import { stars } from './addons/locations/star';
 import { initStatusBar } from './addons/status/status';
 import { initAudio, play } from './util/audio';
 
-export const app = document.querySelector<HTMLDivElement>('#app');
+export const app = <HTMLDivElement>document.querySelector<HTMLDivElement>('#app');
 const navbar = document.getElementById("navbar");
 const selectedDiv: HTMLDivElement = <HTMLDivElement>initSelectedDiv();
 
 // UI hell
 function initApp() {
-    const header = quickCreate("h1", "Astrionics");
+    const header = <HTMLHeadingElement>quickCreate("h1", "Dimineral");
+    const logo = <HTMLImageElement>quickCreate("img", "test", "./textures/logo.svg")
     
+    logo.style.maxWidth = "256px";
+
     const setupButton = <HTMLButtonElement>quickCreate("button", "New Game");
     setupButton.addEventListener("click", () => {
         setupGame();
         setupButton.remove();
+        logo.remove();
     });
 
-    app?.appendChild(header);
-    app?.appendChild(setupButton);
+    appendChilds(app, [header, logo, document.createElement("br"), setupButton]);
 }
 
 let characterSkill: Skills = {};
@@ -45,18 +47,17 @@ function setupGame() {
     
     // name
     const rname = document.createElement("p");
-    rname.textContent = characterName + ", captain";
+    rname.textContent = characterName + ", miner";
 
     const rnameButton = <HTMLButtonElement>quickCreate("button", "Randomize Name");
     rnameButton.addEventListener("click", () => {
         characterName = generateName();
-        rname.textContent = characterName + ", captain";
+        rname.textContent = characterName + ", miner";
     });
 
     setup.appendChild(rname);
     setup.appendChild(rnameButton);
-    setup?.appendChild(quickCreate("br"));
-    setup?.appendChild(quickCreate("br"));
+    appendChilds(setup, [rname, rnameButton, quickCreate("br"), quickCreate("br")])
 
     // skill points
     const skills: Skills = <Skills>{
@@ -110,8 +111,7 @@ function setupGame() {
             ev.preventDefault();
             add(-1)
         });
-        setup?.appendChild(button);
-        setup?.appendChild(document.createElement("br"));
+        appendChilds(setup, [document.createElement("br"), button]);
         characterSkill = skills;
     });
     setup?.appendChild(document.createElement("br"));
@@ -131,8 +131,8 @@ function setupGame() {
         }, 500);
     });
 
-    app?.appendChild(setup);
-    setup?.appendChild(playButton);
+    appendChilds(app, [setup]);
+    appendChilds(setup, [playButton])
 }
 
 function tick() {    
@@ -143,51 +143,15 @@ function tick() {
         // make it visible
         selectedDiv.style.display = 'block';
         const name: HTMLHeadingElement = <HTMLHeadingElement>document.getElementById("selected-name");
-        // if (name != null) {
+        if (name != null) {
             name.textContent = selected;
-        // }
+        }
     }
 
     const today: Date = new Date();
     const currentTime = document.getElementById("time");
     if (currentTime != null) {
-        currentTime.textContent = getVerboseDate(4131, today.getMonth(), today.getDate(), today.getHours(), today.getMinutes());
-    }
-
-    const starsDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("star-containers");
-    const starsClosed: HTMLHeadingElement = <HTMLHeadingElement>document.getElementById("stars-closed");
-    if (starsDiv != null) starsDiv.style.display = ships[0].canFly(undefined) ? "flex" : "none";
-    if (starsClosed != null) starsClosed.style.display = ships[0].canFly(undefined) ? "none" : "block";
-
-    const planetDiv: HTMLDivElement = <HTMLDivElement>document.getElementById("planet-containers");
-    const planetClosed: HTMLHeadingElement = <HTMLHeadingElement>document.getElementById("planet-closed");
-    
-    if (planetDiv != null) {
-        planetClosed.style.display = (ships[0].location instanceof Planet) ? "none" : "block";
-        planetDiv.style.display = (ships[0].location instanceof Planet) ? "flex" : "none";
-        
-        const planetHeader: HTMLHeadingElement = <HTMLHeadingElement>document.getElementById("planet-header");
-        planetHeader.textContent = <string>ships[0].location?.name;
-
-        // fuel
-        const planetFuel = <HTMLParagraphElement>document.getElementById("planet-fuel");
-        planetFuel.textContent = `You have ${ships[0].fuel} fuel with 5 being used per warp.`
-
-        // refuel
-        const planetRefuel: HTMLButtonElement = <HTMLButtonElement>document.getElementById("planet-refuel");
-        planetRefuel.textContent = `Buy Fuel (${(<Planet>ships[0].location).fuelCost}$)`
-        planetRefuel.onclick = () => {
-            const cost = (<Planet>ships[0].location).fuelCost;
-            const money = ships[0].money
-
-            if (money >= cost) {
-                ships[0].fuel += 1
-                ships[0].money -= (<Planet>ships[0].location).fuelCost;
-                play("sfx/good.wav");
-            } else {
-                play("sfx/death.wav");
-            }
-        }
+        currentTime.textContent = getVerboseDate(2462, today.getMonth(), today.getDate(), today.getHours(), today.getMinutes());
     }
 
     ships.forEach(ship => {
@@ -197,151 +161,41 @@ function tick() {
     stars.forEach(star => {
         star.tick();
     })
-    
-    setTimeout(tick, 100)
 }
 
 function initGame() {
+    appendChilds(app, [selectedDiv]);
+
     // init time
     const currentTime = document.createElement("p");
     if (navbar != null) {
         navbar.style.opacity = "1";
     }
     currentTime.id = "time";
-    app?.appendChild(currentTime);
-    app?.appendChild(initStatusBar());
+    appendChilds(app, [currentTime, initStatusBar()]);
     
     // init summary
-    const shipDetails = document.createElement("details");
-    const shipSummary = document.createElement("summary");
-    shipSummary.textContent = "Ships";
-    shipSummary.id = "ship-summary";
-    shipDetails.appendChild(shipSummary);
-    app?.appendChild(shipDetails);
-    
-    // init stars
-    const starDetails = document.createElement("details");
-    const starSummary = document.createElement("summary");
-    starSummary.id = "stars-summary";
-    const starDiv = document.createElement("div");
-    starDiv.id = "star-containers";
-
-    // stars disabled
-    const starDisabled = document.createElement("h2")
-    starDisabled.classList.add("error");
-    starDisabled.id = "stars-closed";
-    starDisabled.textContent = "Piloting systems are not manned or available!";
-    starDisabled.style.textAlign = "center";
-    starDisabled.style.display = "none";
-    starDetails.appendChild(starDisabled);
-
-    starDiv.classList.add("items");
-    starSummary.textContent = "Stars";
-    starDetails.appendChild(starSummary);
-    
-    const starAmount: number = Math.round(Math.random() * 18) + 1;
-
-    for (let i = 0; i < starAmount; i++) {
-        const star = new Star(generateLocationName(), []);
-        const planets: Planet[] = [];
-        let planetAmount: number = Math.round(Math.random() * 4);
-        if (planetAmount < 1) planetAmount++;
-        for (let j = 0; j < planetAmount; j++) {
-            planets.push(new Planet(generateLocationName(), star.id));          
-        }
-
-        planets.forEach(planet => {
-            star.addPlanet(planet);
-        })
-        starDiv.appendChild(star.init());
-        addStar(star);
-    }
-
-    app?.appendChild(starDetails);
-    starDetails.appendChild(starDiv);
-
-    // init planet
-    const planetDetails = document.createElement("details");
-    const planetSummary = document.createElement("summary");
-    planetSummary.id = "planets-summary";
-    planetSummary.textContent = "Planet";
-
-    const planetDiv = document.createElement("div");
-    planetDiv.id = "planet-containers";
-    planetDiv.classList.add("items");
-
-    // planet disabled
-    const planetDisabled = document.createElement("h2")
-    planetDisabled.classList.add("error");
-    planetDisabled.id = "planet-closed";
-    planetDisabled.textContent = "You are not landed at a planet!";
-    planetDisabled.style.textAlign = "center";
-    planetDisabled.style.display = "none";
-    planetDetails.appendChild(planetDisabled);
-
-    planetDetails.appendChild(planetSummary);
-    planetDetails.appendChild(planetDiv);
-    app?.appendChild(planetDetails);
-
-    // planet header
-    const planetWrapper = <HTMLDivElement>quickCreate("div")
-    planetWrapper.classList.add("item")
-    planetWrapper.classList.add("xl")
-
-    const planetHeader: HTMLHeadingElement = <HTMLHeadingElement>quickCreate("h2", "???");
-    planetHeader.id = "planet-header";
-    planetWrapper.appendChild(planetHeader);
-
-    planetWrapper.appendChild(document.createElement("br"))
-
-    // current fuel
-    const planetFuel = <HTMLParagraphElement>quickCreate("p", "You have 0 fuel.");
-    planetFuel.id = "planet-fuel";
-    planetWrapper.appendChild(planetFuel);
-
-    // refuel
-    const planetRefuel: HTMLButtonElement = <HTMLButtonElement>quickCreate("button", "Refuel");
-    planetRefuel.id = "planet-refuel"
-    planetRefuel.onclick = () => {
-        const cost = (<Planet>ships[0].location).fuelCost;
-        const money = ships[0].money
-
-        if (money >= cost) {
-            ships[0].fuel += 1
-            ships[0].money -= (<Planet>ships[0].location).fuelCost;
-            play("sfx/good.wav");
-        } else {
-            play("sfx/death.wav");
-        }
-    }
-    planetWrapper.appendChild(planetRefuel);
-    planetDiv.appendChild(planetWrapper);
-    
-    // initialize div
-    app?.appendChild(selectedDiv);
-
     // ship
     const ship = new Ship(generateShipName(), [], []);
     ship.addPart(createFromRoomTemplate(Bridge, ship.id)),
     ship.addPart(createFromRoomTemplate(LifeSupport, ship.id)),
     ship.addPart(createFromRoomTemplate(Engines, ship.id)),
-    ship.addPart(createFromRoomTemplate(Shields, ship.id)),
     ship.addPart(createFromRoomTemplate(Breakroom, ship.id)),
     ship.location = pickFromArray(stars);
     // ship.addCrew(generateCharacter(ship.id));
     ship.addCrew(new Character(
         characterName,
-        "captain",
+        "miner",
         "breakroom",
         new Health({"physical": 0, "temperature": 0, "chemical": 0, "psychological": 0, "genetic": 0}),
         characterSkill,
         ship.id
-    ))
+    ));
 
     ships.push(ship);
-    shipDetails?.appendChild(ships[0].init());
+    app.appendChild(ships[0].init());
     
-    setTimeout(tick, 10);
+    setInterval(tick, 100);
 }
 
 initApp();

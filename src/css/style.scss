@@ -8,16 +8,20 @@ body {
     background-color: $background;
     margin-left: 0;
     margin-top: 0;
+    
     zoom: 125%;
+    
+    background-image: linear-gradient(to bottom right, $background, $abackground);
+    background-attachment: fixed;
 }
 
-p,summary,details,h1,h2,h3,h4,h5,h6,button,a {
+p,summary,details,h1,h2,h3,h4,h5,h6,button,a,em,strong {
     font-family: 'Fira Sans', sans-serif;
     color: $foreground;
 }
 
 button {
-    background-color: $pink;
+    background-color: $button;
     text-decoration: none;
     margin: 5px;
     display: inline-block;
@@ -30,15 +34,7 @@ button {
     transition: all $tween-time ease-in;
 
     &:disabled {
-        background-color: transparentize($color: $pink, $amount: 0.6)
-    }
-
-    &:disabled:hover {
-        background-color: transparentize($color: $purple, $amount: 0.6)
-    }
-
-    &:hover {
-        background-color: $purple;
+        background-color: transparentize($color: $button, $amount: 0.6)
     }
 }
 
@@ -68,7 +64,7 @@ summary {
     padding: 6px;
 
     &.solid {
-        background-color: $background;
+        background-color: $abackground;
     }
 }
 

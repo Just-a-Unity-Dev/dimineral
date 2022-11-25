@@ -1,8 +1,8 @@
 {
-  "name": "astrionics",
+  "name": "dimineral",
   "private": true,
   "version": "0.0.1",
-  "homepage": "https://github.com/Just-a-Unity-Dev/astrionics#readme",
+  "homepage": "https://github.com/Just-a-Unity-Dev/dimineral#readme",
   "type": "module",
   "scripts": {
     "dev": "vite",
