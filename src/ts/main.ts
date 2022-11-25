@@ -1,6 +1,6 @@
-import { Breakroom, Bridge, createFromRoomTemplate, Engines, LifeSupport, Shields } from './util/templates';
+import { Breakroom, Bridge, createFromRoomTemplate, Engines, LifeSupport } from './util/templates';
 import { capitalizeFirstLetter, maxSkillPoints } from './util/characters';
-import { generateShipName, pickFromArray } from './util/rng';
+import { generateShipName } from './util/rng';
 import { getVerboseDate } from './util/date';
 import { Ship } from './addons/ship/ship';
 import { ships } from "./addons/ship/ships";
