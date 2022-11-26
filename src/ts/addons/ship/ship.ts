@@ -1,7 +1,7 @@
 import { generateString } from '../../util/rng';
 import { Character } from '../../addons/humanoid/character';
 import { Part } from './part';
-import { addS } from '../../util/ui';
+import { addS, appendChilds } from '../../util/ui';
 import { addStatus, findStatus, Status } from '../status/status';
 import { Cargo, Item } from '../cargo/cargo';
 
@@ -164,6 +164,9 @@ export class Ship {
             part.tick();
         });
 
+        const cargoDiv: HTMLDivElement|null = <HTMLDivElement>document.getElementById(`${this.id}-cargo`);
+        if (cargoDiv != null) this.icargoloop(cargoDiv);
+
         // update location
         const locationLabel: Status|null = findStatus("Dock");
         if (locationLabel != null) locationLabel.value = <string>this.status;
@@ -189,6 +192,36 @@ export class Ship {
         return "deprecated, you shouldn't see this";
     }
 
+    // loop
+    icargoloop(rdiv: HTMLDivElement) {
+        rdiv.replaceChildren();
+
+        const items = this.cargobay.getAllItems();
+        const keys = Object.keys(items);
+        
+        keys.forEach(key => {
+            const div = document.createElement("div");
+            div.id = `${this.id}-cargo-${key}`;
+            div.classList.add("item");
+
+            // todo fix on hover transition
+            div.style.transition = "none";
+
+            const value = items[key];
+
+            const header = document.createElement("h2");
+            const strong = document.createElement("strong");
+            const label = document.createElement("p");
+            header.textContent = value[0];
+            label.id = `${this.id}-${this.name}-${key}`;
+            label.textContent = `You have ${value[1]} ${value[0]}`;
+
+            strong?.appendChild(label);
+            appendChilds(div, [header, strong])
+            rdiv.appendChild(div);
+        });
+    }
+
     /**
      * Generate the initial UI
      * @returns Node
@@ -207,39 +240,64 @@ export class Ship {
 
         div.appendChild(document.createElement("br"));
 
-        // Crew
-        const crewDetails = document.createElement("details");
-        div.appendChild(crewDetails)
+        const crewUi = () => {
+            // Crew
+            const crewDetails = document.createElement("details");
+            div.appendChild(crewDetails)
+    
+            const crewLabel = document.createElement("summary");
+            crewLabel.textContent = "Crew";
+            crewDetails.appendChild(crewLabel);
+    
+            const crew = document.createElement("div");
+            crew.classList.add("items");
+            crew.id = `${this.id}-crew`
+            crewDetails.appendChild(crew);
+    
+            this.crew.forEach(member => {
+                crew.appendChild(member.init());
+            });
+        }
 
-        const crewLabel = document.createElement("summary");
-        crewLabel.textContent = "Crew";
-        crewDetails.appendChild(crewLabel);
+        const partUi = () => {
+            // Parts
+            const partDetails = document.createElement("details");
+            div.appendChild(partDetails)
+    
+            const partLabel = document.createElement("summary");
+            partLabel.textContent = "Rooms";
+            partDetails.appendChild(partLabel);
+    
+            const parts = document.createElement("div");
+            parts.classList.add("items");
+            parts.id = `${this.id}-parts`
+            partDetails.appendChild(parts);
+    
+            this.parts.forEach(part => {
+                parts.appendChild(part.init());
+            });
+        }
 
-        const crew = document.createElement("div");
-        crew.classList.add("items");
-        crew.id = `${this.id}-crew`
-        crewDetails.appendChild(crew);
+        const cargoUi = () => {
+            // Cargo
+            const cargoDetails = document.createElement("details");
+            div.appendChild(cargoDetails)
 
-        this.crew.forEach(member => {
-            crew.appendChild(member.init());
-        });
+            const cargoLabel = document.createElement("summary");
+            cargoLabel.textContent = "Cargo";
+            cargoDetails.appendChild(cargoLabel);
 
-        // Parts
-        const partDetails = document.createElement("details");
-        div.appendChild(partDetails)
+            const cargo = document.createElement("div");
+            cargo.classList.add("items");
+            cargo.id = `${this.id}-cargo`
+            cargoDetails.appendChild(cargo);
 
-        const partLabel = document.createElement("summary");
-        partLabel.textContent = "Rooms";
-        partDetails.appendChild(partLabel);
+            this.icargoloop(cargo);
+        }
 
-        const parts = document.createElement("div");
-        parts.classList.add("items");
-        parts.id = `${this.id}-parts`
-        partDetails.appendChild(parts);
-
-        this.parts.forEach(part => {
-            parts.appendChild(part.init());
-        });
+        crewUi();
+        partUi();
+        cargoUi();
 
         addStatus(new Status("Hull", <string>this.totalHull(true)));
         addStatus(new Status("Crew", `You have ${this.crew.length} ${addS(this.crew.length, "crewmember")} on this colony.`));

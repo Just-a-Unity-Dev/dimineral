@@ -1,6 +1,6 @@
 import { Breakroom, Bridge, createFromRoomTemplate, LifeSupport, Medbay } from './util/templates';
 import { capitalizeFirstLetter, maxSkillPoints } from './util/characters';
-import { generateShipName } from './util/rng';
+import { generateShipName, generateString } from './util/rng';
 import { Ship } from './addons/ship/ship';
 import { ships } from "./addons/ship/ships";
 import { initSelectedDiv } from './addons/selected';
@@ -12,6 +12,7 @@ import { addS, quickCreate, appendChilds } from './util/ui';
 import { tick } from './addons/ticker/tick';
 import { initStatusBar } from './addons/status/status';
 import { initAudio, play } from './util/audio';
+import { CoalOre, IronOre } from './addons/cargo/items/ore';
 
 export const app = <HTMLDivElement>document.querySelector<HTMLDivElement>('#app');
 export const navbar = document.getElementById("navbar");
@@ -147,7 +148,7 @@ function initGame() {
     
     // init summary
     // ship
-    const ship = new Ship(generateShipName(), [], []);
+    const ship = new Ship(generateShipName(), [], [], generateString(15), [new IronOre(),new IronOre(),new IronOre(),new IronOre(),new IronOre(),new CoalOre()]);
     ship.addPart(createFromRoomTemplate(Bridge, ship.id)),
     ship.addPart(createFromRoomTemplate(LifeSupport, ship.id)),
     ship.addPart(createFromRoomTemplate(Medbay, ship.id)),
