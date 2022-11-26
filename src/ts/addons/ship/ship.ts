@@ -3,6 +3,7 @@ import { Character } from '../../addons/humanoid/character';
 import { Part } from './part';
 import { addS } from '../../util/ui';
 import { addStatus, findStatus, Status } from '../status/status';
+import { Cargo, Item } from '../cargo/cargo';
 
 /**
  * A ship, consisting of parts and crew making sure it stays afloat.
@@ -12,11 +13,12 @@ export class Ship {
     public readonly parts: Part[] = [];
     public readonly crew: Character[] = [];
     public readonly id: string = "";
+    public cargobay: Cargo;
     public visible = true;
     public money = 250;
     public incidents = 0;
 
-    constructor(name: string, parts: Part[], crew: Character[], id?: string | undefined) {
+    constructor(name: string, parts: Part[], crew: Character[], id?: string | undefined, items?: Item[]) {
         if (id == "" || id == undefined) {
             id = generateString(15);
         }
@@ -24,6 +26,7 @@ export class Ship {
         this.id = id;
         this.parts = parts;
         this.crew = crew;
+        this.cargobay = new Cargo(<Item[]>items);
     }
 
     /**

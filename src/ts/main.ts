@@ -1,4 +1,4 @@
-import { Breakroom, Bridge, CargoBay, createFromRoomTemplate, LifeSupport, Medbay } from './util/templates';
+import { Breakroom, Bridge, createFromRoomTemplate, LifeSupport, Medbay } from './util/templates';
 import { capitalizeFirstLetter, maxSkillPoints } from './util/characters';
 import { generateShipName } from './util/rng';
 import { Ship } from './addons/ship/ship';
@@ -152,7 +152,6 @@ function initGame() {
     ship.addPart(createFromRoomTemplate(LifeSupport, ship.id)),
     ship.addPart(createFromRoomTemplate(Medbay, ship.id)),
     ship.addPart(createFromRoomTemplate(Breakroom, ship.id)),
-    ship.addPart(createFromRoomTemplate(CargoBay, ship.id)),
     // ship.addCrew(generateCharacter(ship.id));
     ship.addCrew(new Character(
         characterName,

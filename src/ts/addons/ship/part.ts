@@ -143,9 +143,10 @@ export class Part {
         this.disabled = value;
     }
 
-    private updateButton(button: HTMLButtonElement, disabled: boolean) {
+    private updateButton(button: HTMLButtonElement, disabled: boolean, show: boolean) {
         if (button != undefined) {
             button.disabled = disabled;
+            button.style.display = show ? "block" : "none";
         }
     }
 
@@ -160,9 +161,9 @@ export class Part {
         const disabled: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${this.shipId}-${this.id}-disabled`);
         if (disabled != undefined) disabled.style.display = this.disabled ? "block" : "none";
 
-        this.updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-move`), selected == "" ? true : false)
-        this.updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-heal`), !this.isHealable)
-        this.updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-repair`), !this.isRepairable)
+        this.updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-move`), selected == "" ? true : false, true)
+        this.updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-heal`), !this.isHealable, this.isHealable)
+        this.updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-repair`), !this.isRepairable, this.isRepairable)
     }
 
     /**
