@@ -1,4 +1,4 @@
-import { Breakroom, Bridge, createFromRoomTemplate, Engines, LifeSupport } from './util/templates';
+import { Breakroom, Bridge, CargoBay, createFromRoomTemplate, Engines, LifeSupport } from './util/templates';
 import { capitalizeFirstLetter, maxSkillPoints } from './util/characters';
 import { generateShipName } from './util/rng';
 import { getVerboseDate } from './util/date';
@@ -174,8 +174,8 @@ function initGame() {
     const ship = new Ship(generateShipName(), [], []);
     ship.addPart(createFromRoomTemplate(Bridge, ship.id)),
     ship.addPart(createFromRoomTemplate(LifeSupport, ship.id)),
-    ship.addPart(createFromRoomTemplate(Engines, ship.id)),
     ship.addPart(createFromRoomTemplate(Breakroom, ship.id)),
+    ship.addPart(createFromRoomTemplate(CargoBay, ship.id)),
     // ship.addCrew(generateCharacter(ship.id));
     ship.addCrew(new Character(
         characterName,

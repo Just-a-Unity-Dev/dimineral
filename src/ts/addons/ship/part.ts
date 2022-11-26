@@ -26,9 +26,7 @@ export class Part {
         name: string,
         id: string,
         health: number,
-        shipId: string,
-        the: boolean,
-        power: number
+        shipId: string
     ){
         this.name = name;
         this.id = id;
@@ -36,14 +34,7 @@ export class Part {
         this.maxHealth = health;
         this.shipId = shipId;
         this.maxHealth = health;
-        this.the = the;
-
-        // If it's negative, then make it a consumer
-        if (power > 0) {
-            this.supply = power;
-        } else {
-            this.consumed = (power * -1);
-        }
+        this.the = true;
     }
     
     /**
@@ -150,13 +141,6 @@ export class Part {
 
     public setDisabled(value: boolean) {
         this.disabled = value;
-        if (value) {
-            getShipById(this.shipId)?.power.addConsumer(this.id + "-" + this.uid, this.consumed);
-            getShipById(this.shipId)?.power.addSupplier(this.id + "-" + this.uid, this.supply);
-        } else {
-            getShipById(this.shipId)?.power.removeConsumer(this.id + "-" + this.uid);
-            getShipById(this.shipId)?.power.removeSupplier(this.id + "-" + this.uid);
-        }
     }
 
     private updateButton(button: HTMLButtonElement, disabled: boolean) {
@@ -247,9 +231,6 @@ export class Part {
         });
         div.appendChild(repair);
 
-        getShipById(this.shipId)?.power.addConsumer(this.id + "-" + this.uid, this.consumed);
-        getShipById(this.shipId)?.power.addSupplier(this.id + "-" + this.uid, this.supply);
-        
         return div;
     }
 }

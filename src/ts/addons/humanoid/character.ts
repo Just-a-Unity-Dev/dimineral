@@ -132,6 +132,7 @@ export class Character {
         });
 
         // skills
+        div.appendChild(quickCreate("h3", "Skills"));
         const keys: string[] = Object.keys(this.skills);
         
         keys.forEach((key: string) => {

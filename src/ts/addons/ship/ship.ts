@@ -1,7 +1,6 @@
 import { generateString } from '../../util/rng';
 import { Character } from '../../addons/humanoid/character';
 import { Part } from './part';
-import { Power } from './power';
 import { addS } from '../../util/ui';
 import { addStatus, findStatus, Status } from '../status/status';
 
@@ -13,7 +12,6 @@ export class Ship {
     public readonly parts: Part[] = [];
     public readonly crew: Character[] = [];
     public readonly id: string = "";
-    public power: Power = new Power();
     public visible = true;
     public money = 250;
     public ore = 30;
@@ -30,14 +28,6 @@ export class Ship {
     }
 
     /**
-     * Checks if the ship's power is bigger than zero.
-     * @returns boolean
-     */
-    get powered () {
-        return this.power.power > 0;
-    }
-
-    /**
      * Add's a part to the Ship's part list
      * @param part 
      */
@@ -51,9 +41,7 @@ export class Ship {
      */
     public removePart(id: string) {
         const partIndex: number = this.parts.findIndex(e => e.id == id);
-        const part: Part = this.parts[partIndex];
-        this.power.removeConsumer(part.id + "-" + part.uid);
-        this.power.removeSupplier(part.id + "-" + part.uid);
+        // const part: Part = this.parts[partIndex];
         this.parts.splice(partIndex, 1);
     }
 
@@ -186,9 +174,6 @@ export class Ship {
 
         const moneyLabel = findStatus("Money");
         if (moneyLabel != null) moneyLabel.value = <string>this.money.toLocaleString() + "$";
-
-        const power = document.getElementById(`${this.id}-power`);
-        if (power != null) power.textContent = "Usage: " + this.power.power + "mW";
     }
 
     get pilotingControls() {
@@ -218,10 +203,6 @@ export class Ship {
         header.textContent = this.name;
         div.appendChild(header);
 
-        const power = document.createElement("em");
-        power.id = `${this.id}-power`;
-        div.appendChild(power);
-
         div.appendChild(document.createElement("br"));
 
         // Crew
@@ -246,7 +227,7 @@ export class Ship {
         div.appendChild(partDetails)
 
         const partLabel = document.createElement("summary");
-        partLabel.textContent = "Parts";
+        partLabel.textContent = "Rooms";
         partDetails.appendChild(partLabel);
 
         const parts = document.createElement("div");
