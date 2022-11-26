@@ -14,7 +14,6 @@ export class Ship {
     public readonly id: string = "";
     public visible = true;
     public money = 250;
-    public ore = 30;
     public incidents = 0;
 
     constructor(name: string, parts: Part[], crew: Character[], id?: string | undefined) {
@@ -243,7 +242,6 @@ export class Ship {
         addStatus(new Status("Crew", `You have ${this.crew.length} ${addS(this.crew.length, "crewmember")} on this colony.`));
         addStatus(new Status("Incidents", `You have had ${this.incidents} ${addS(this.incidents, "incident")} on this colony.`));
         addStatus(new Status("Money", <string>this.money.toLocaleString() + "$"));
-        addStatus(new Status("Ore", this.ore));
         return div;
     }
 }
