@@ -2,6 +2,9 @@ import { play } from "./audio";
 
 // Easily append multiple children to one element.
 export function appendChilds(element: HTMLElement, nodes: Node[]) {
+    if (element == null)
+        return;
+
     nodes.forEach(node => {
         element.appendChild(node);
     });

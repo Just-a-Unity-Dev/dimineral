@@ -1,21 +1,21 @@
-import { Breakroom, Bridge, CargoBay, createFromRoomTemplate, Engines, LifeSupport } from './util/templates';
+import { Breakroom, Bridge, CargoBay, createFromRoomTemplate, LifeSupport, Medbay } from './util/templates';
 import { capitalizeFirstLetter, maxSkillPoints } from './util/characters';
 import { generateShipName } from './util/rng';
-import { getVerboseDate } from './util/date';
 import { Ship } from './addons/ship/ship';
 import { ships } from "./addons/ship/ships";
-import { initSelectedDiv, selected } from './addons/selected';
+import { initSelectedDiv } from './addons/selected';
 import { Skills } from './addons/humanoid/skills';
 import { generateName } from './util/rng';
 import { Character } from './addons/humanoid/character';
 import { Health } from './addons/humanoid/health';
 import { addS, quickCreate, appendChilds } from './util/ui';
+import { tick } from './addons/ticker/tick';
 import { initStatusBar } from './addons/status/status';
 import { initAudio, play } from './util/audio';
 
 export const app = <HTMLDivElement>document.querySelector<HTMLDivElement>('#app');
-const navbar = document.getElementById("navbar");
-const selectedDiv: HTMLDivElement = <HTMLDivElement>initSelectedDiv();
+export const navbar = document.getElementById("navbar");
+export const selectedDiv: HTMLDivElement = <HTMLDivElement>initSelectedDiv();
 
 // UI hell
 function initApp() {
@@ -134,30 +134,6 @@ function setupGame() {
     appendChilds(setup, [playButton])
 }
 
-function tick() {    
-    // basic selected DIV
-    if (selected == "") {
-        selectedDiv.style.display = 'none';
-    } else {
-        // make it visible
-        selectedDiv.style.display = 'block';
-        const name: HTMLHeadingElement = <HTMLHeadingElement>document.getElementById("selected-name");
-        if (name != null) {
-            name.textContent = selected;
-        }
-    }
-
-    const today: Date = new Date();
-    const currentTime = document.getElementById("time");
-    if (currentTime != null) {
-        currentTime.textContent = getVerboseDate(2462, today.getMonth(), today.getDate(), today.getHours(), today.getMinutes());
-    }
-
-    ships.forEach(ship => {
-        ship.tick();
-    });
-}
-
 function initGame() {
     appendChilds(app, [selectedDiv]);
 
@@ -174,6 +150,7 @@ function initGame() {
     const ship = new Ship(generateShipName(), [], []);
     ship.addPart(createFromRoomTemplate(Bridge, ship.id)),
     ship.addPart(createFromRoomTemplate(LifeSupport, ship.id)),
+    ship.addPart(createFromRoomTemplate(Medbay, ship.id)),
     ship.addPart(createFromRoomTemplate(Breakroom, ship.id)),
     ship.addPart(createFromRoomTemplate(CargoBay, ship.id)),
     // ship.addCrew(generateCharacter(ship.id));

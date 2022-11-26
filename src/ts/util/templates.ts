@@ -1,12 +1,13 @@
 import { Part } from "../addons/ship/part";
 
 export type RoomTemplate = (string | number | boolean)[];
-export const Bridge: RoomTemplate = ["Bridge", "bridge", 100, 100, false, -25];
-export const Breakroom: RoomTemplate = ["Breakroom", "breakroom", 75, 0, true, -25];
-export const CargoBay: RoomTemplate = ["Cargo Bay", "cargobay", 125, 0, false, -25];
-export const LifeSupport: RoomTemplate = ["Life Support Generators", "life", 75, 25, true, 200];
-export const Engines: RoomTemplate = ["Engines", "engine", 75, 0, false, -30];
-export const Shields: RoomTemplate = ["Shields", "shields", 75,100, false, -50]
+export const Bridge: RoomTemplate = ["Bridge", "bridge", 100];
+export const Breakroom: RoomTemplate = ["Breakroom", "breakroom", 75];
+export const Medbay: RoomTemplate = ["Medical Bay", "medbay", 50];
+export const CargoBay: RoomTemplate = ["Cargo Bay", "cargobay", 125];
+export const LifeSupport: RoomTemplate = ["Life Support Generators", "life", 75];
+export const Engines: RoomTemplate = ["Engines", "engine", 75];
+export const Shields: RoomTemplate = ["Shields", "shields", 75];
 
 /**
  * Creates a Part from a RoomTemplate
@@ -19,8 +20,6 @@ export function createFromRoomTemplate(room: RoomTemplate, id: string) {
         <string>room[0],
         <string>room[1],
         <number>room[2],
-        id,
-        <boolean>room[5],
-        <number>room[6]
+        id
     )
 }

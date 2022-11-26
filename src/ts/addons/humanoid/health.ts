@@ -3,11 +3,11 @@
  * If you want to use this for Health, please use `Health`
  */
 export interface DamageSpecifier {
-    physical: number
-    temperature: number
-    psychological: number
-    chemical: number
-    genetic: number
+    "physical": number
+    "temperature": number
+    "psychological": number
+    "chemical": number
+    "genetic": number
 }
 
 /**

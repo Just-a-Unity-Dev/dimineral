@@ -2,6 +2,7 @@ import { selected, setSelected } from "../../addons/selected";
 import { capitalizeFirstLetter } from "../../util/characters";
 import { addS, quickCreate } from "../../util/ui";
 import { getShipById, removeShip } from '../ship/ships';
+import { ctick } from "../ticker/tick";
 import { Health } from './health';
 import { Skills } from './skills';
 
@@ -88,6 +89,19 @@ export class Character {
             const label = document.getElementById(`${this.shipId}-${this.name}-${key}`);
             if (label != null) label.textContent = `${capitalizeFirstLetter(key)}: ${this.skills[key]} ${addS(this.skills[key], "point")}`;
         });
+
+        // 1 second
+        if (ctick % 10) {
+            if (this.health.getHealthPercentage() < 1) {
+                this.health.dealDamage({
+                    "physical": 1,
+                    "temperature": 1,
+                    "chemical": 1,
+                    "genetic": 0,
+                    "psychological": 0
+                });
+            }
+        }
 
         const select: HTMLButtonElement = <HTMLButtonElement>document.getElementById(`${this.shipId}-${this.name}-select`);
         select.disabled = selected != "";
