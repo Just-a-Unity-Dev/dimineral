@@ -12,7 +12,7 @@ import { addS, quickCreate, appendChilds } from './util/ui';
 import { tick } from './addons/ticker/tick';
 import { initStatusBar } from './addons/status/status';
 import { initAudio, play } from './util/audio';
-import { CoalOre, IronOre } from './addons/cargo/items/ore';
+import { IronOre } from './addons/cargo/items/ore';
 
 export const app = <HTMLDivElement>document.querySelector<HTMLDivElement>('#app');
 export const navbar = document.getElementById("navbar");
@@ -147,25 +147,42 @@ function initGame() {
     appendChilds(app, [currentTime, initStatusBar()]);
     
     // init summary
-    // ship
-    const ship = new Ship(generateShipName(), [], [], generateString(15), [new IronOre(),new IronOre(),new IronOre(),new IronOre(),new IronOre(),new CoalOre()]);
-    ship.addPart(createFromRoomTemplate(Bridge, ship.id)),
-    ship.addPart(createFromRoomTemplate(LifeSupport, ship.id)),
-    ship.addPart(createFromRoomTemplate(Medbay, ship.id)),
-    ship.addPart(createFromRoomTemplate(Breakroom, ship.id)),
-    // ship.addCrew(generateCharacter(ship.id));
-    ship.addCrew(new Character(
-        characterName,
-        "miner",
-        "breakroom",
-        new Health({"physical": 0, "temperature": 0, "chemical": 0, "psychological": 0, "genetic": 0}),
-        characterSkill,
-        ship.id
-    ));
+    const ship = () => {
+        // ship
+        const ship = new Ship(generateShipName(), [], [], generateString(15), [new IronOre(),new IronOre(),new IronOre(),new IronOre(),new IronOre()]);
+        ship.addPart(createFromRoomTemplate(Bridge, ship.id)),
+        ship.addPart(createFromRoomTemplate(LifeSupport, ship.id)),
+        ship.addPart(createFromRoomTemplate(Medbay, ship.id)),
+        ship.addPart(createFromRoomTemplate(Breakroom, ship.id)),
+        // ship.addCrew(generateCharacter(ship.id));
+        ship.addCrew(new Character(
+            characterName,
+            "miner",
+            "breakroom",
+            new Health({"physical": 0, "temperature": 0, "chemical": 0, "psychological": 0, "genetic": 0}),
+            characterSkill,
+            ship.id
+        ));
 
-    ships.push(ship);
-    app.appendChild(ships[0].init());
-    
+        ships.push(ship);
+        app.appendChild(ships[0].init());
+    };
+
+    // TODO: Split this into it's own code?
+    const mining = () => {
+        const details: HTMLDetailsElement = <HTMLDetailsElement>quickCreate("details");
+        const summary: HTMLElement = <HTMLElement>quickCreate("summary", "Mining");
+        const div: HTMLDivElement = document.createElement("div");
+        div.classList.add("item");
+
+        appendChilds(details, [summary, div]);
+        appendChilds(div, [quickCreate("h2", "Mining")])
+        app.appendChild(details);
+    };
+
+    mining();
+    ship();
+
     setInterval(tick, 100);
 }
 

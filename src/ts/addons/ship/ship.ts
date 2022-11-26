@@ -177,7 +177,7 @@ export class Ship {
         const fuelLabel = findStatus("Fuel");
         if (fuelLabel != null) fuelLabel.value = this.incidents;
 
-        const moneyLabel = findStatus("Money");
+        const moneyLabel = findStatus("Frelapee");
         if (moneyLabel != null) moneyLabel.value = <string>this.money.toLocaleString() + "$";
     }
 
@@ -302,7 +302,7 @@ export class Ship {
         addStatus(new Status("Hull", <string>this.totalHull(true)));
         addStatus(new Status("Crew", `You have ${this.crew.length} ${addS(this.crew.length, "crewmember")} on this colony.`));
         addStatus(new Status("Incidents", `You have had ${this.incidents} ${addS(this.incidents, "incident")} on this colony.`));
-        addStatus(new Status("Money", <string>this.money.toLocaleString() + "$"));
+        addStatus(new Status("Frelapee", <string>this.money.toLocaleString() + "$"));
         return div;
     }
 }
