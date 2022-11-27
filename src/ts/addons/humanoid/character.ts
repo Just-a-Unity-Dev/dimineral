@@ -1,7 +1,7 @@
 import { selected, setSelected } from "../../addons/selected";
 import { capitalizeFirstLetter } from "../../util/characters";
 import { addS, quickCreate } from "../../util/ui";
-import { getShipById, removeShip } from '../ship/ships';
+import { mainShip } from "../ship/ships";
 import { ctick } from "../ticker/tick";
 import { Health } from './health';
 import { Skills } from './skills';
@@ -46,13 +46,13 @@ export class Character {
      */
     public destroy() {
         setSelected("");
-        const ship = getShipById(this.shipId);
+        const ship = mainShip;
         if (ship == undefined) return;
 
         document.getElementById(`${this.shipId}-${this.name}`)?.remove();
-        if ((ship.crew.length - 1) <= 0) {
-            removeShip(ship);
-        }
+        // if ((ship.crew.length - 1) <= 0) {
+        //     removeShip(ship);
+        // }
         ship.removeCrew(this.name);
     }
 
@@ -73,7 +73,7 @@ export class Character {
         // this has to do be done first before the rest of the UI because it might break stuff
         // either a CRITICAL error or they were in a part when it was destroyed
         // regardless, they need to be removed.
-        if (getShipById(this.shipId)?.getPartById(this.location)?.getName == undefined) {
+        if (mainShip.getPartById(this.location)?.getName == undefined) {
             // probably shouldn't do this in UI update
             // but it technically updates UI so...
             this.destroy();
@@ -81,7 +81,7 @@ export class Character {
             return;
         }
         const status: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${this.shipId}-${this.name}-status`);
-        status.textContent = `${this.name} is located at ${getShipById(this.shipId)?.getPartById(this.location)?.getName} and is ${this.health.getHealthPercentage() * 100}% healthy`;
+        status.textContent = `${this.name} is located at ${mainShip.getPartById(this.location)?.getName} and is ${this.health.getHealthPercentage() * 100}% healthy`;
         
         // skills
         const keys: string[] = Object.keys(this.skills);        

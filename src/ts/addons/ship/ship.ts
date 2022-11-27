@@ -1,7 +1,7 @@
 import { generateString } from '../../util/rng';
 import { Character } from '../../addons/humanoid/character';
 import { Part } from './part';
-import { addS, appendChilds, quickCreate } from '../../util/ui';
+import { addS } from '../../util/ui';
 import { addStatus, findStatus, Status } from '../status/status';
 import { Cargo, Item } from '../cargo/cargo';
 
@@ -14,11 +14,12 @@ export class Ship {
     public readonly crew: Character[] = [];
     public readonly id: string = "";
     public cargobay: Cargo;
+    public inmine: Cargo;
     public visible = true;
     public money = 250;
     public incidents = 0;
 
-    constructor(name: string, parts: Part[], crew: Character[], id?: string | undefined, items?: Item[]) {
+    constructor(name: string, parts: Part[], crew: Character[], id?: string | undefined, cargo?: Item[], cargoload?: Item[]) {
         if (id == "" || id == undefined) {
             id = generateString(15);
         }
@@ -26,7 +27,8 @@ export class Ship {
         this.id = id;
         this.parts = parts;
         this.crew = crew;
-        this.cargobay = new Cargo(<Item[]>items);
+        this.cargobay = new Cargo(<Item[]>cargo);
+        this.inmine = new Cargo(<Item[]>cargoload);
     }
 
     /**
@@ -165,7 +167,7 @@ export class Ship {
         });
 
         const cargoDiv: HTMLDivElement|null = <HTMLDivElement>document.getElementById(`${this.id}-cargo`);
-        if (cargoDiv != null) this.icargoloop(cargoDiv);
+        if (cargoDiv != null) this.cargobay.cargoloop(cargoDiv);
 
         // update location
         const locationLabel: Status|null = findStatus("Dock");
@@ -190,41 +192,6 @@ export class Ship {
     */
     get status() {
         return "deprecated, you shouldn't see this";
-    }
-
-    // loop
-    icargoloop(rdiv: HTMLDivElement) {
-        rdiv.replaceChildren();
-
-        if (this.cargobay.cargo.length == 0) {
-            rdiv.appendChild(quickCreate("em", "No ores in the cargo bay."))
-            return;
-        }
-
-        const items = this.cargobay.getAllItems();
-        const keys = Object.keys(items);
-        
-        keys.forEach(key => {
-            const div = document.createElement("div");
-            div.id = `${this.id}-cargo-${key}`;
-            div.classList.add("item");
-
-            // todo fix on hover transition
-            div.style.transition = "none";
-
-            const value = items[key];
-
-            const header = document.createElement("h2");
-            const strong = document.createElement("strong");
-            const label = document.createElement("p");
-            header.textContent = value[0];
-            label.id = `${this.id}-${this.name}-${key}`;
-            label.textContent = `You have ${value[1]} ${value[0]}`;
-
-            strong?.appendChild(label);
-            appendChilds(div, [header, strong])
-            rdiv.appendChild(div);
-        });
     }
 
     /**
@@ -297,7 +264,7 @@ export class Ship {
             cargo.id = `${this.id}-cargo`
             cargoDetails.appendChild(cargo);
 
-            this.icargoloop(cargo);
+            this.cargobay.cargoloop(cargo);
         }
 
         crewUi();

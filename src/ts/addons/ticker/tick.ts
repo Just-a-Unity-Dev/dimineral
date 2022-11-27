@@ -1,7 +1,7 @@
 import { selectedDiv } from "../../main";
 import { getVerboseDate } from "../../util/date";
 import { selected } from "../selected";
-import { ships } from "../ship/ships";
+import { mainShip } from "../ship/ships";
 
 export let ctick = 0;
 
@@ -28,9 +28,7 @@ export function tick() {
         currentTime.textContent = getVerboseDate(2462, today.getMonth(), today.getDate(), today.getHours(), today.getMinutes());
     }
 
-    ships.forEach(ship => {
-        ship.tick();
-    });
+    mainShip.tick();
 
     ctick++;
 }

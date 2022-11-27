@@ -2,7 +2,7 @@ import { Breakroom, Bridge, createFromRoomTemplate, LifeSupport, Medbay } from '
 import { capitalizeFirstLetter, maxSkillPoints } from './util/characters';
 import { generateShipName, generateString } from './util/rng';
 import { Ship } from './addons/ship/ship';
-import { ships } from "./addons/ship/ships";
+import { mainShip, setMainShip } from "./addons/ship/ships";
 import { initSelectedDiv } from './addons/selected';
 import { Skills } from './addons/humanoid/skills';
 import { generateName } from './util/rng';
@@ -165,8 +165,8 @@ function initGame() {
             ship.id
         ));
 
-        ships.push(ship);
-        app.appendChild(ships[0].init());
+        setMainShip(ship);
+        app.appendChild(mainShip.init());
     };
 
     mining();

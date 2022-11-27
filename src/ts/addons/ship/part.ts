@@ -1,7 +1,7 @@
-import { getShipById, removeShip } from "./ships";
 import { generateString } from "../../util/rng";
 import { selected, setSelected } from "../selected";
 import { quickCreate } from "../../util/ui";
+import { mainShip } from "./ships";
 
 /**
  * A part in a `Ship`
@@ -125,7 +125,7 @@ export class Part {
 
     get isHealable() {
         let mechanical = 0;
-        getShipById(this.shipId)?.getCrewInRoom(this.id).forEach(crew => {
+        mainShip.getCrewInRoom(this.id).forEach(crew => {
             mechanical += crew.skills.mechanical;
         });
         return mechanical >= 4 && this.partHpPercentage != 1;
@@ -133,7 +133,7 @@ export class Part {
 
     get isRepairable() {
         let electrical = 0;
-        getShipById(this.shipId)?.getCrewInRoom(this.id).forEach(crew => {
+        mainShip.getCrewInRoom(this.id).forEach(crew => {
             electrical += crew.skills.electrical;
         });
         return electrical >= 3 && this.disabled;
@@ -201,7 +201,7 @@ export class Part {
 
         move.addEventListener('click', () => {
             // change the location
-            getShipById(this.shipId)?.getCrewByName(selected)?.setLocation(this.id);
+            mainShip.getCrewByName(selected)?.setLocation(this.id);
 
             // we're done with it, we can close it now
             setSelected("");
