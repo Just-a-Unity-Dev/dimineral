@@ -13,6 +13,7 @@ import { tick } from './addons/ticker/tick';
 import { initStatusBar } from './addons/status/status';
 import { initAudio, play } from './util/audio';
 import { IronOre } from './addons/cargo/items/ore';
+import { mining } from './addons/cargo/mning';
 
 export const app = <HTMLDivElement>document.querySelector<HTMLDivElement>('#app');
 export const navbar = document.getElementById("navbar");
@@ -166,18 +167,6 @@ function initGame() {
 
         ships.push(ship);
         app.appendChild(ships[0].init());
-    };
-
-    // TODO: Split this into it's own code?
-    const mining = () => {
-        const details: HTMLDetailsElement = <HTMLDetailsElement>quickCreate("details");
-        const summary: HTMLElement = <HTMLElement>quickCreate("summary", "Mining");
-        const div: HTMLDivElement = document.createElement("div");
-        div.classList.add("item");
-
-        appendChilds(details, [summary, div]);
-        appendChilds(div, [quickCreate("h2", "Mining")])
-        app.appendChild(details);
     };
 
     mining();
