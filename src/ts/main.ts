@@ -1,4 +1,4 @@
-import { Breakroom, Bridge, createFromRoomTemplate, LifeSupport, Medbay } from './util/templates';
+import { Airlock, Breakroom, Bridge, createFromRoomTemplate, LifeSupport, Medbay } from './util/templates';
 import { capitalizeFirstLetter, maxSkillPoints } from './util/characters';
 import { generateShipName, generateString } from './util/rng';
 import { Ship } from './addons/ship/ship';
@@ -13,7 +13,7 @@ import { tick } from './addons/ticker/tick';
 import { initStatusBar } from './addons/status/status';
 import { initAudio, play } from './util/audio';
 import { IronOre } from './addons/cargo/items/ore';
-import { mining } from './addons/cargo/mining';
+import { mineInit } from './addons/cargo/mining';
 
 export const app = <HTMLDivElement>document.querySelector<HTMLDivElement>('#app');
 export const navbar = document.getElementById("navbar");
@@ -150,11 +150,19 @@ function initGame() {
     // init summary
     const ship = () => {
         // ship
-        const ship = new Ship(generateShipName(), [], [], generateString(15), [new IronOre(),new IronOre(),new IronOre(),new IronOre(),new IronOre()]);
+        const ship = new Ship(
+            generateShipName(),
+            [],
+            [],
+            generateString(15),
+            [new IronOre(),new IronOre(),new IronOre(),new IronOre(),new IronOre()],
+            // [new CoalOre(),new CoalOre(),new CoalOre(),new CoalOre(),new CoalOre()]
+        );
         ship.addPart(createFromRoomTemplate(Bridge, ship.id)),
         ship.addPart(createFromRoomTemplate(LifeSupport, ship.id)),
         ship.addPart(createFromRoomTemplate(Medbay, ship.id)),
         ship.addPart(createFromRoomTemplate(Breakroom, ship.id)),
+        ship.addPart(createFromRoomTemplate(Airlock, ship.id)),
         // ship.addCrew(generateCharacter(ship.id));
         ship.addCrew(new Character(
             characterName,
@@ -166,10 +174,10 @@ function initGame() {
         ));
 
         setMainShip(ship);
+        mineInit();
         app.appendChild(mainShip.init());
     };
 
-    mining();
     ship();
 
     setInterval(tick, 100);

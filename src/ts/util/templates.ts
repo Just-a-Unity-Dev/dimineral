@@ -7,6 +7,7 @@ export const Medbay: RoomTemplate = ["Medical Bay", "medbay", 50];
 export const CargoBay: RoomTemplate = ["Cargo Bay", "cargobay", 125];
 export const LifeSupport: RoomTemplate = ["Life Support Generators", "life", 75];
 export const Engines: RoomTemplate = ["Engines", "engine", 75];
+export const Airlock: RoomTemplate = ["Airlock", "airlock", 200];
 export const Shields: RoomTemplate = ["Shields", "shields", 75];
 
 /**

@@ -10,6 +10,13 @@ export function appendChilds(element: HTMLElement, nodes: Node[]) {
     });
 }
 
+export function updateButton(button: HTMLButtonElement, disabled: boolean, show: boolean) {
+    if (button != undefined) {
+        button.disabled = disabled;
+        button.style.display = show ? "block" : "none";
+    }
+}
+
 // Quickly creates an element alongside other utility functions.
 export function quickCreate(node: string, message?: string, image?: string): Node {
     const n = document.createElement(node);

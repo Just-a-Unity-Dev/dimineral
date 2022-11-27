@@ -1,6 +1,6 @@
 import { generateString } from "../../util/rng";
 import { selected, setSelected } from "../selected";
-import { quickCreate } from "../../util/ui";
+import { quickCreate, updateButton } from "../../util/ui";
 import { mainShip } from "./ships";
 
 /**
@@ -48,13 +48,13 @@ export class Part {
      * Destroys the Part
      */
     public destroy() {
-        const ship = getShipById(this.shipId);
+        const ship = mainShip;
         if (ship  == undefined) return;
 
         document.getElementById(`${this.shipId}-${this.id}`)?.remove();
-        if ((ship.parts.length - 1) <= 0) {
-            removeShip(ship);
-        }
+        // if ((ship.parts.length - 1) <= 0) {
+        //     removeShip(ship);
+        // }
         ship.removePart(this.id);
     }
 
@@ -143,13 +143,6 @@ export class Part {
         this.disabled = value;
     }
 
-    private updateButton(button: HTMLButtonElement, disabled: boolean, show: boolean) {
-        if (button != undefined) {
-            button.disabled = disabled;
-            button.style.display = show ? "block" : "none";
-        }
-    }
-
     /**
      * Updates the UI
      * @param id string
@@ -161,9 +154,9 @@ export class Part {
         const disabled: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${this.shipId}-${this.id}-disabled`);
         if (disabled != undefined) disabled.style.display = this.disabled ? "block" : "none";
 
-        this.updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-move`), selected == "" ? true : false, true)
-        this.updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-heal`), !this.isHealable, this.isHealable)
-        this.updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-repair`), !this.isRepairable, this.isRepairable)
+        updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-move`), selected == "" ? true : false, true)
+        updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-heal`), !this.isHealable, this.isHealable)
+        updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-repair`), !this.isRepairable, this.isRepairable)
     }
 
     /**

@@ -1,5 +1,6 @@
 import { selectedDiv } from "../../main";
 import { getVerboseDate } from "../../util/date";
+import { mineTick } from "../cargo/mining";
 import { selected } from "../selected";
 import { mainShip } from "../ship/ships";
 
@@ -29,6 +30,7 @@ export function tick() {
     }
 
     mainShip.tick();
+    mineTick();
 
     ctick++;
 }
