@@ -13,7 +13,7 @@ import { tick } from './addons/ticker/tick';
 import { initStatusBar } from './addons/status/status';
 import { initAudio, play } from './util/audio';
 import { IronOre } from './addons/cargo/items/ore';
-import { mining } from './addons/cargo/mning';
+import { mining } from './addons/cargo/mining';
 
 export const app = <HTMLDivElement>document.querySelector<HTMLDivElement>('#app');
 export const navbar = document.getElementById("navbar");
