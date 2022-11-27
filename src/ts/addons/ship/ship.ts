@@ -1,7 +1,7 @@
 import { generateString } from '../../util/rng';
 import { Character } from '../../addons/humanoid/character';
 import { Part } from './part';
-import { addS, appendChilds } from '../../util/ui';
+import { addS, appendChilds, quickCreate } from '../../util/ui';
 import { addStatus, findStatus, Status } from '../status/status';
 import { Cargo, Item } from '../cargo/cargo';
 
@@ -195,6 +195,11 @@ export class Ship {
     // loop
     icargoloop(rdiv: HTMLDivElement) {
         rdiv.replaceChildren();
+
+        if (this.cargobay.cargo.length == 0) {
+            rdiv.appendChild(quickCreate("em", "No ores in the cargo bay."))
+            return;
+        }
 
         const items = this.cargobay.getAllItems();
         const keys = Object.keys(items);
