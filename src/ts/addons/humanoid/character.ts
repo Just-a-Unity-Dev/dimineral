@@ -2,7 +2,6 @@ import { selected, setSelected } from "../../addons/selected";
 import { capitalizeFirstLetter } from "../../util/characters";
 import { addS, quickCreate } from "../../util/ui";
 import { mainShip } from "../ship/ships";
-import { ctick } from "../ticker/tick";
 import { Health } from './health';
 import { Skills } from './skills';
 
@@ -53,9 +52,6 @@ export class Character {
         if (ship == undefined) return;
 
         document.getElementById(`${this.shipId}-${this.name}`)?.remove();
-        // if ((ship.crew.length - 1) <= 0) {
-        //     removeShip(ship);
-        // }
         ship.removeCrew(this.name);
     }
 
@@ -94,19 +90,20 @@ export class Character {
         });
 
         // 1 second
-        if (ctick % 100) {
-            if (this.location == "medbay") {
-                if (this.health.getHealthPercentage() < 1) {
-                    this.health.dealDamage({
-                        "physical": -1,
-                        "temperature": -1,
-                        "chemical": -1,
-                        "genetic": 0,
-                        "psychological": 0
-                    });
-                }
-            }
-        }
+        // this is broken
+        // if (ctick % 10000) {
+        //     if (this.location == "medbay") {
+        //         if (this.health.getHealthPercentage() < 1) {
+        //             this.health.dealDamage({
+        //                 "physical": -1,
+        //                 "temperature": -1,
+        //                 "chemical": -1,
+        //                 "genetic": 0,
+        //                 "psychological": 0
+        //             });
+        //         }
+        //     }
+        // }
 
         const select: HTMLButtonElement = <HTMLButtonElement>document.getElementById(`${this.shipId}-${this.name}-select`);
         select.disabled = selected != "" || this.disabled;
