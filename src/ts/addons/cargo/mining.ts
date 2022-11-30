@@ -1,7 +1,11 @@
 import { app } from "../../main";
+import { play } from "../../util/audio";
+import { next, prob } from "../../util/rng";
 import { appendChilds, quickCreate, updateButton } from "../../util/ui";
-import { selected } from "../selected";
+import { Character } from "../humanoid/character";
+import { selected, setSelected } from "../selected";
 import { mainShip } from "../ship/ships";
+import { CoalOre, IronOre, Plastic, Steel } from "./items/ore";
 
 export function mineTick() {
     const load = <HTMLButtonElement>document.getElementById("mine-load");
@@ -21,7 +25,7 @@ export function mineTick() {
         }
     }
 
-
+    mainShip.inmine.cargoloop(<HTMLDivElement>document.getElementById("mine-cargo"));
     updateButton(load, selected == "" ? true : false, true);
     updateButton(mine, selected == "" ? true : false, true);
 }
@@ -55,11 +59,99 @@ export function mineInit() {
     
     updateButton(load, selected == "" ? true : false, true);
     updateButton(mine, selected == "" ? true : false, true);
+
+    function progressBar(ms: number, onFinish: CallableFunction, currentCharacter: Character): HTMLProgressElement {
+        const bar = <HTMLProgressElement>quickCreate("progress");
+        
+        bar.max = 100;
+        currentCharacter.disabled = true;
+        setSelected("");
+    
+        const id = setInterval(() => {
+            bar.value += 1;
+            
+            console.log(bar.value, bar.max, bar.value == bar.max)
+
+            if (bar.value == bar.max) {
+                bar.remove();
+                
+                currentCharacter.disabled = false;
+
+                // no more infinite loops
+                clearInterval(id);
+                bar.value = -1000000;
+                onFinish(currentCharacter);
+            }
+        }, ms);
+
+        return bar
+    }
+
+    mine.addEventListener("click", () => {
+        const bar = progressBar(100, (character: Character) => {
+            // TODO play a sound maybe?
+
+            play(`sfx/boom${next(1,2)}.wav`)
+
+            character.health.dealDamage({
+                "physical": 4,
+                "psychological": 2,
+                "chemical": 1,
+                "genetic": 0,
+                "temperature": 0
+            });
+
+            if (prob(10)) {
+                // TODO: events
+                mainShip.incidents++;
+            }
+
+            // ORE
+            if (prob(50)) {
+                for (let i = 0; i < next(4,10); i++) {
+                    mainShip.inmine.cargo.push(new CoalOre())
+                }
+            }
+
+            if (prob(25)) {
+                for (let i = 0; i < next(2,7); i++) {
+                    mainShip.inmine.cargo.push(new IronOre())
+                }
+            }
+
+            if (prob(10)) {
+                for (let i = 0; i < next(2,4); i++) {
+                    mainShip.inmine.cargo.push(new Steel())
+                }
+            } else if (prob(5)) {
+                for (let i = 0; i < next(1,3); i++) {
+                    mainShip.inmine.cargo.push(new Plastic())
+                }
+            }
+
+            bar.remove();
+        }, <Character>mainShip.getCrewByName(selected));
+        div.appendChild(bar);
+    });
+
+    load.addEventListener("click", () => {
+        const bar = progressBar(100, () => {
+            // move
+            for(let i = 0; i < mainShip.inmine.cargo.length; i++) {
+                mainShip.cargobay.cargo.push(mainShip.inmine.cargo[i]);
+                mainShip.inmine.cargo.splice(i, 1);
+                i--;
+            }
+        }, <Character>mainShip.getCrewByName(selected));
+        div.appendChild(bar);
+    });
     
     // cargo bay
     const cdetail: HTMLDetailsElement = document.createElement("details");
     const csummary: HTMLElement = <HTMLElement>quickCreate("summary", "Loading Bay");
     const cdiv: HTMLDivElement = document.createElement("div");
+    cdiv.classList.add("items");
+    cdiv.id = "mine-cargo"
 
     appendChilds(cdetail, [csummary, cdiv]);
     mainShip.inmine.cargoloop(cdiv);

@@ -16,6 +16,7 @@ export class Character {
     public location = "cargobay";
     public health: Health;
     public skills: Skills;
+    public disabled: boolean;
 
     constructor (
         name: string, 
@@ -24,6 +25,7 @@ export class Character {
         health: Health, 
         skills: Skills,
         shipId: string,
+        disabled?: boolean
     ) {
         this.name = name;
         this.title = title;
@@ -31,6 +33,7 @@ export class Character {
         this.skills = skills;
         this.health = health;
         this.shipId = shipId;
+        this.disabled = <boolean>disabled;
     }
 
     /**
@@ -81,7 +84,7 @@ export class Character {
             return;
         }
         const status: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${this.shipId}-${this.name}-status`);
-        status.textContent = `${this.name} is located at ${mainShip.getPartById(this.location)?.getName} and is ${this.health.getHealthPercentage() * 100}% healthy`;
+        status.textContent = `${this.name} is located at ${mainShip.getPartById(this.location)?.getName} and is ${Math.round(this.health.getHealthPercentage() * 100)}% healthy`;
         
         // skills
         const keys: string[] = Object.keys(this.skills);        
@@ -104,7 +107,7 @@ export class Character {
         }
 
         const select: HTMLButtonElement = <HTMLButtonElement>document.getElementById(`${this.shipId}-${this.name}-select`);
-        select.disabled = selected != "";
+        select.disabled = selected != "" || this.disabled;
         select.textContent = (selected != "") ? "Selected" : "Select";
         switch (selected) {
             case "":

@@ -85,6 +85,10 @@ details {
     }
 }
 
+progress {
+    transition: width 100ms;
+}
+
 .item {
     outline: 1px solid transparentize($color: $foreground, $amount: 0.9);
     transition: all 150ms ease-in;
@@ -109,6 +113,11 @@ details {
 
     &.xs {
         width: 80%;
+        height: 125px;
+    }
+
+    &.xxs {
+        width: 140px;
         height: 125px;
     }
 

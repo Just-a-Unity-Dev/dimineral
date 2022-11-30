@@ -49,6 +49,7 @@ export class Cargo {
             const div = document.createElement("div");
             // div.id = `${this.id}-cargo-${key}`;
             div.classList.add("item");
+            div.classList.add("xxs");
 
             // todo fix on hover transition
             div.style.transition = "none";
