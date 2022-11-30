@@ -86,7 +86,9 @@ details {
 }
 
 progress {
-    transition: width 100ms;
+    transition: all 150ms ease-in;
+    background-color: $abackground;
+    color: $foreground;
 }
 
 .item {

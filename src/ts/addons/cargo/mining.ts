@@ -65,10 +65,10 @@ export function mineInit() {
         
         bar.max = 100;
         currentCharacter.disabled = true;
-        setSelected("");
+        setSelected("", true);
     
         const id = setInterval(() => {
-            bar.value += 1;
+            bar.value += .1;
 
             if (bar.value == bar.max) {
                 bar.remove();
@@ -80,7 +80,7 @@ export function mineInit() {
                 bar.value = -1000000;
                 onFinish(currentCharacter);
             }
-        }, ms);
+        }, ms / 10);
 
         return bar
     }

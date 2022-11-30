@@ -146,7 +146,7 @@ export class Character {
         div.appendChild(button);
 
         button.addEventListener("click", () => {
-            // set selected
+            // set selected{
             setSelected(this.name);
         });
 

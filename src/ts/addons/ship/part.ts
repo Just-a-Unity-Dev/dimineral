@@ -141,6 +141,9 @@ export class Part {
 
     public setDisabled(value: boolean) {
         this.disabled = value;
+        if (selected == this.name) {
+            setSelected("", true)
+        }
     }
 
     /**

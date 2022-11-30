@@ -3,7 +3,6 @@ import { capitalizeFirstLetter, maxSkillPoints } from './util/characters';
 import { generateShipName, generateString } from './util/rng';
 import { Ship } from './addons/ship/ship';
 import { mainShip, setMainShip } from "./addons/ship/ships";
-import { initSelectedDiv } from './addons/selected';
 import { Skills } from './addons/humanoid/skills';
 import { generateName } from './util/rng';
 import { Character } from './addons/humanoid/character';
@@ -14,10 +13,11 @@ import { initStatusBar } from './addons/status/status';
 import { initAudio, play } from './util/audio';
 import { IronOre } from './addons/cargo/items/ore';
 import { mineInit } from './addons/cargo/mining';
+import { initSelectedDiv } from './addons/selected';
 
 export const app = <HTMLDivElement>document.querySelector<HTMLDivElement>('#app');
 export const navbar = document.getElementById("navbar");
-export const selectedDiv: HTMLDivElement = <HTMLDivElement>initSelectedDiv();
+export const selectedDiv: HTMLDivElement = initSelectedDiv();
 
 // UI hell
 function initApp() {

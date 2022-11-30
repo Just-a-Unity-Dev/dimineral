@@ -1,16 +1,18 @@
 import { play } from "../util/audio";
 import { quickCreate } from "../util/ui";
+import { inputs } from './input';
 
 export let selected = "";
 
-export function setSelected(name: string) {
+export function setSelected(name: string, override = false) {
+    if (name == "" && inputs["Shift"] && !override) return;
     selected = name;
 }
 
 /**
  * Initializes the selected div
  */
-export function initSelectedDiv(): Node {
+export function initSelectedDiv(): HTMLDivElement {
     const selectedDiv = <HTMLDivElement>quickCreate("div");
 
     // basic name
@@ -25,7 +27,7 @@ export function initSelectedDiv(): Node {
     deselect.onclick = function () {
         // deselected
         play("sfx/sift.wav")
-        setSelected("");
+        setSelected("", true);
     }
     
     selectedDiv.appendChild(name);
