@@ -84,7 +84,7 @@ export class Character {
             return;
         }
         const status: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${this.shipId}-${this.name}-status`);
-        status.textContent = `${this.name} is located at ${mainShip.getPartById(this.location)?.getName} and is ${Math.round(this.health.getHealthPercentage() * 100)}% healthy`;
+        status.textContent = `${this.name} is located at ${mainShip.getPartById(this.location)?.getName} and is ${Math.floor(this.health.getHealthPercentage() * 100)}% healthy`;
         
         // skills
         const keys: string[] = Object.keys(this.skills);        
