@@ -94,15 +94,17 @@ export class Character {
         });
 
         // 1 second
-        if (ctick % 10) {
-            if (this.health.getHealthPercentage() < 1) {
-                this.health.dealDamage({
-                    "physical": 1,
-                    "temperature": 1,
-                    "chemical": 1,
-                    "genetic": 0,
-                    "psychological": 0
-                });
+        if (ctick % 100) {
+            if (this.location == "medbay") {
+                if (this.health.getHealthPercentage() < 1) {
+                    this.health.dealDamage({
+                        "physical": -1,
+                        "temperature": -1,
+                        "chemical": -1,
+                        "genetic": 0,
+                        "psychological": 0
+                    });
+                }
             }
         }
 
