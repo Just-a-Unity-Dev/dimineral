@@ -1,3 +1,5 @@
+import { play } from "../../util/audio"
+
 /**
  * The `DamageSpecifier` specifies how much damage a humanoid has taken.
  * If you want to use this for Health, please use `Health`
@@ -68,6 +70,7 @@ export class Health {
 
         if (this.getTotalDamage() >= 200) {
             this.state = State.DEAD;
+            play("sfx/death.wav");
         }
     }
 
