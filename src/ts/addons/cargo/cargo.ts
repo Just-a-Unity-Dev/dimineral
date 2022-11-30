@@ -46,7 +46,7 @@ export class Cargo {
         const keys = Object.keys(items);
         
         keys.forEach(key => {
-            const div = document.createElement("div");
+            const div = <HTMLDivElement>quickCreate("div");
             // div.id = `${this.id}-cargo-${key}`;
             div.classList.add("item");
             div.classList.add("xxs");
@@ -56,9 +56,9 @@ export class Cargo {
 
             const value = items[key];
 
-            const header = document.createElement("h2");
-            const strong = document.createElement("strong");
-            const label = document.createElement("p");
+            const header = quickCreate("h2");
+            const strong = quickCreate("strong");
+            const label = quickCreate("p");
             header.textContent = value[0];
             label.textContent = `You have ${value[1]} ${value[0]}`;
 

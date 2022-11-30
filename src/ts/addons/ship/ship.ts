@@ -1,7 +1,7 @@
 import { generateString } from '../../util/rng';
 import { Character } from '../../addons/humanoid/character';
 import { Part } from './part';
-import { addS } from '../../util/ui';
+import { addS, quickCreate } from '../../util/ui';
 import { addStatus, findStatus, Status } from '../status/status';
 import { Cargo, Item } from '../cargo/cargo';
 
@@ -200,28 +200,28 @@ export class Ship {
      */
     public init(): Node {
         // The div that holds it all
-        const div = document.createElement("div");
+        const div = quickCreate("div");
         div.id = this.id;
         div.classList.add("item");
         div.classList.add("xl");
 
         // Basic data
-        const header = document.createElement("h2");
+        const header = quickCreate("h2");
         header.textContent = this.name;
         div.appendChild(header);
 
-        div.appendChild(document.createElement("br"));
+        div.appendChild(quickCreate("br"));
 
         const crewUi = () => {
             // Crew
-            const crewDetails = document.createElement("details");
+            const crewDetails = quickCreate("details");
             div.appendChild(crewDetails)
     
-            const crewLabel = document.createElement("summary");
+            const crewLabel = quickCreate("summary");
             crewLabel.textContent = "Crew";
             crewDetails.appendChild(crewLabel);
     
-            const crew = document.createElement("div");
+            const crew = quickCreate("div");
             crew.classList.add("items");
             crew.id = `${this.id}-crew`
             crewDetails.appendChild(crew);
@@ -233,14 +233,14 @@ export class Ship {
 
         const partUi = () => {
             // Parts
-            const partDetails = document.createElement("details");
+            const partDetails = quickCreate("details");
             div.appendChild(partDetails)
     
-            const partLabel = document.createElement("summary");
+            const partLabel = quickCreate("summary");
             partLabel.textContent = "Rooms";
             partDetails.appendChild(partLabel);
     
-            const parts = document.createElement("div");
+            const parts = quickCreate("div");
             parts.classList.add("items");
             parts.id = `${this.id}-parts`
             partDetails.appendChild(parts);
@@ -252,19 +252,19 @@ export class Ship {
 
         const cargoUi = () => {
             // Cargo
-            const cargoDetails = document.createElement("details");
+            const cargoDetails = quickCreate("details");
             div.appendChild(cargoDetails)
 
-            const cargoLabel = document.createElement("summary");
+            const cargoLabel = quickCreate("summary");
             cargoLabel.textContent = "Cargo";
             cargoDetails.appendChild(cargoLabel);
 
-            const cargo = document.createElement("div");
+            const cargo = quickCreate("div");
             cargo.classList.add("items");
             cargo.id = `${this.id}-cargo`
             cargoDetails.appendChild(cargo);
 
-            this.cargobay.cargoloop(cargo);
+            this.cargobay.cargoloop(<HTMLDivElement>cargo);
         }
 
         crewUi();

@@ -11,10 +11,10 @@ export function setSelected(name: string) {
  * Initializes the selected div
  */
 export function initSelectedDiv(): Node {
-    const selectedDiv = document.createElement("div");
+    const selectedDiv = <HTMLDivElement>quickCreate("div");
 
     // basic name
-    const name = document.createElement("h2");
+    const name = <HTMLHeadingElement>quickCreate("h2");
     name.textContent = selected;
     name.id = "selected-name";
 

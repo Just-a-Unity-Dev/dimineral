@@ -165,23 +165,23 @@ export class Part {
      */
     public init(): Node {
         // Main div
-        const div = <HTMLDivElement>document.createElement("div");
+        const div = <HTMLDivElement>quickCreate("div");
         div.id = `${this.shipId}-${this.id}`;
         div.style.height = "125px";
         div.style.width = "250px";
         div.classList.add("item");
 
         // Data
-        const label = document.createElement("h2");
+        const label = quickCreate("h2");
         label.textContent = this.name;
         div.appendChild(label);
 
-        const data = document.createElement("p");
+        const data = quickCreate("p");
         data.id = `${this.shipId}-${this.id}-data`;
         data.textContent = <string>this.totalHealth(true);
         div.appendChild(data);
 
-        const disabled = document.createElement("p");
+        const disabled = quickCreate("p");
         disabled.id = `${this.shipId}-${this.id}-disabled`;
         disabled.textContent = "DISABLED";
         disabled.classList.add("error");

@@ -18,7 +18,7 @@ export function updateButton(button: HTMLButtonElement, disabled: boolean, show:
 }
 
 // Quickly creates an element alongside other utility functions.
-export function quickCreate(node: string, message?: string, image?: string): Node {
+export function quickCreate(node: string, message?: string, image?: string): HTMLElement {
     const n = document.createElement(node);
     if (node == "button") {
         n.addEventListener("mouseenter", () => {

@@ -33,7 +33,7 @@ function initApp() {
         logo.remove();
     });
 
-    appendChilds(app, [header, logo, document.createElement("br"), setupButton]);
+    appendChilds(app, [header, logo, quickCreate("br"), setupButton]);
 }
 
 let characterSkill: Skills = {};
@@ -44,10 +44,10 @@ function setupGame() {
     initAudio();
 
     // div
-    const setup = document.createElement("div");
+    const setup = <HTMLDivElement>quickCreate("div");
     
     // name
-    const rname = document.createElement("p");
+    const rname = quickCreate("p");
     rname.textContent = characterName + ", miner";
 
     const rnameButton = <HTMLButtonElement>quickCreate("button", "Randomize Name");
@@ -112,10 +112,10 @@ function setupGame() {
             ev.preventDefault();
             add(-1)
         });
-        appendChilds(setup, [document.createElement("br"), button]);
+        appendChilds(setup, [quickCreate("br"), button]);
         characterSkill = skills;
     });
-    setup?.appendChild(document.createElement("br"));
+    setup?.appendChild(quickCreate("br"));
 
     const playButton = <HTMLButtonElement>quickCreate("button", "Play");
     playButton.addEventListener("click", () => {
@@ -140,7 +140,7 @@ function initGame() {
     appendChilds(app, [selectedDiv]);
 
     // init time
-    const currentTime = document.createElement("p");
+    const currentTime = <HTMLParagraphElement>quickCreate("p");
     if (navbar != null) {
         navbar.style.opacity = "1";
     }

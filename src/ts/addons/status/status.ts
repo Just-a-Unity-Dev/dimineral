@@ -6,8 +6,8 @@ import { quickCreate } from "../../util/ui";
  * @returns Node
  */
 export function initStatusBar(): Node {
-    const statusDetails = document.createElement("details");
-    const statusSummary = document.createElement("summary");
+    const statusDetails = <HTMLDetailsElement>quickCreate("details");
+    const statusSummary = quickCreate("summary");
 
     statusSummary.textContent = "Status";
     statusDetails.appendChild(statusSummary);

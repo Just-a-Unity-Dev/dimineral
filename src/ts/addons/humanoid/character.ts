@@ -128,8 +128,8 @@ export class Character {
      * @returns Node
      */
     public init(): Node {
-        const div = document.createElement("div");
-        const name = document.createElement("h3");
+        const div = <HTMLDivElement>quickCreate("div");
+        const name = <HTMLHeadingElement>quickCreate("h3");
         name.textContent = this.fullName;
         div.appendChild(name);
         div.classList.add("item");
@@ -137,7 +137,7 @@ export class Character {
         div.style.maxWidth = "250px";
         div.id = `${this.shipId}-${this.name}`
 
-        const status = document.createElement("p");
+        const status = <HTMLParagraphElement>quickCreate("p");
         status.id = `${this.shipId}-${this.name}-status`
         div.appendChild(status);
 
@@ -155,8 +155,8 @@ export class Character {
         const keys: string[] = Object.keys(this.skills);
         
         keys.forEach((key: string) => {
-            const strong = document.createElement("strong");
-            const label = document.createElement("p");
+            const strong = quickCreate("strong");
+            const label = <HTMLParagraphElement>quickCreate("p");
             label.id = `${this.shipId}-${this.name}-${key}`;
             label.textContent = `${capitalizeFirstLetter(key)}: ${this.skills[key]} ${addS(this.skills[key], "point")}`;
 

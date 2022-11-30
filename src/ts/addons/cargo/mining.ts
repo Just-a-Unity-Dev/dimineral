@@ -32,9 +32,9 @@ export function mineTick() {
 
 export function mineInit() {
     // basic div & header
-    const details: HTMLDetailsElement = <HTMLDetailsElement>quickCreate("details");
-    const summary: HTMLElement = <HTMLElement>quickCreate("summary", "Mining");
-    const div: HTMLDivElement = document.createElement("div");
+    const details = <HTMLDetailsElement>quickCreate("details");
+    const summary = <HTMLElement>quickCreate("summary", "Mining");
+    const div = <HTMLDivElement>quickCreate("div");
     div.classList.add("item");
     div.id = "mine";
 
@@ -69,8 +69,6 @@ export function mineInit() {
     
         const id = setInterval(() => {
             bar.value += 1;
-            
-            console.log(bar.value, bar.max, bar.value == bar.max)
 
             if (bar.value == bar.max) {
                 bar.remove();
@@ -147,9 +145,9 @@ export function mineInit() {
     });
     
     // cargo bay
-    const cdetail: HTMLDetailsElement = document.createElement("details");
+    const cdetail: HTMLDetailsElement = <HTMLDetailsElement>quickCreate("details");
     const csummary: HTMLElement = <HTMLElement>quickCreate("summary", "Loading Bay");
-    const cdiv: HTMLDivElement = document.createElement("div");
+    const cdiv: HTMLDivElement = <HTMLDivElement>quickCreate("div");
     cdiv.classList.add("items");
     cdiv.id = "mine-cargo"
 
