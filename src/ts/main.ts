@@ -14,6 +14,7 @@ import { initAudio, play } from './util/audio';
 import { IronOre } from './addons/cargo/items/ore';
 import { mineInit } from './addons/cargo/mining';
 import { initSelectedDiv } from './addons/selected';
+import { contextWrapper } from './addons/cwrapper/contextWrapper';
 
 export const app = <HTMLDivElement>document.querySelector<HTMLDivElement>('#app');
 export const navbar = document.getElementById("navbar");
@@ -179,6 +180,8 @@ function initGame() {
     };
 
     ship();
+
+    document.body.prepend(contextWrapper);
 
     setInterval(tick, 100);
 }

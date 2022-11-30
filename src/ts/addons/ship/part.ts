@@ -2,6 +2,8 @@ import { generateString } from "../../util/rng";
 import { selected, setSelected } from "../selected";
 import { quickCreate, updateButton } from "../../util/ui";
 import { mainShip } from "./ships";
+import { log, contextWrapper } from '../cwrapper/contextWrapper';
+import { Character } from "../humanoid/character";
 
 /**
  * A part in a `Ship`
@@ -197,22 +199,27 @@ export class Part {
 
         move.addEventListener('click', () => {
             // change the location
-            mainShip.getCrewByName(selected)?.setLocation(this.id);
+            const character = <Character>mainShip.getCrewByName(selected)
+            character.setLocation(this.id);
 
             // we're done with it, we can close it now
             setSelected("");
+
+            log(contextWrapper, `${character?.name} walks to ${this.getName}.`)
         });
         div.appendChild(move);
 
-        const damage = <HTMLButtonElement>quickCreate("button", "Damage");
-        damage.addEventListener("click", () => {
-            this.dealDamage(10)
-        });
-        div.appendChild(damage);
+        // const damage = <HTMLButtonElement>quickCreate("button", "Damage");
+        // damage.addEventListener("click", () => {
+        //     this.dealDamage(10)
+        // });
+        // div.appendChild(damage);
 
         const heal = <HTMLButtonElement>quickCreate("button", "Repair (4+ Mechanical)");
         heal.id = `${this.shipId}-${this.id}-heal`;
         heal.addEventListener("click", () => {
+            const character = <Character>mainShip.getCrewByName(selected)
+            log(contextWrapper, `${character?.name} repairs ${this.getName}'s hull.`)
             if (this.isHealable) {
                 this.heal();
             }
@@ -222,6 +229,8 @@ export class Part {
         const repair = <HTMLButtonElement>quickCreate("button", "Repair (3+ Electrical)");
         repair.id = `${this.shipId}-${this.id}-repair`;
         repair.addEventListener("click", () => {
+            const character = <Character>mainShip.getCrewByName(selected)
+            log(contextWrapper, `${character?.name} repairs ${this.getName} internal components.`)
             if (this.isRepairable) {
                 this.setDisabled(false);
             }

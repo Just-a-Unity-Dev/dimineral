@@ -6,6 +6,7 @@ import { Character } from "../humanoid/character";
 import { selected, setSelected } from "../selected";
 import { mainShip } from "../ship/ships";
 import { CoalOre, IronOre, Plastic, Steel } from "./items/ore";
+import { log, contextWrapper } from '../cwrapper/contextWrapper';
 
 export function mineTick() {
     const load = <HTMLButtonElement>document.getElementById("mine-load");
@@ -86,9 +87,9 @@ export function mineInit() {
     }
 
     mine.addEventListener("click", () => {
+        log(contextWrapper, `${mainShip.getCrewByName(selected)?.name} begins to chip at the mine.`);
         const bar = progressBar(100, (character: Character) => {
-            // TODO play a sound maybe?
-
+            const toBeLoaded = []; // incoming ore
             play(`sfx/boom${next(1,2)}.wav`)
 
             character.health.dealDamage({
@@ -99,6 +100,7 @@ export function mineInit() {
                 "temperature": 0
             });
 
+            
             if (prob(10)) {
                 // TODO: events
                 mainShip.incidents++;
@@ -107,39 +109,58 @@ export function mineInit() {
             // ORE
             if (prob(60)) {
                 for (let i = 0; i < next(4,10); i++) {
-                    mainShip.inmine.cargo.push(new CoalOre())
+                    toBeLoaded.push(new CoalOre())
                 }
             }
 
             if (prob(25)) {
                 for (let i = 0; i < next(2,7); i++) {
-                    mainShip.inmine.cargo.push(new IronOre())
+                    toBeLoaded.push(new IronOre())
                 }
             }
 
             if (prob(10)) {
                 for (let i = 0; i < next(2,4); i++) {
-                    mainShip.inmine.cargo.push(new Steel())
+                    toBeLoaded.push(new Steel())
                 }
             } else if (prob(5)) {
                 for (let i = 0; i < next(1,3); i++) {
-                    mainShip.inmine.cargo.push(new Plastic())
+                    toBeLoaded.push(new Plastic())
                 }
             }
 
             bar.remove();
+
+            // ctxlog
+            let message = `${character.name} chips at the mine, but gets no ore.`;
+
+            if (toBeLoaded.length > 0) {
+                for(let i = 0; i < toBeLoaded.length; i++) {
+                    mainShip.inmine.cargo.push(toBeLoaded[i]);
+                    toBeLoaded.splice(i, 1);
+                    i--;
+                }
+
+                message = `${character.name} chips at the mine and loads ore to the loading bay.`;
+            }
+
+            log(contextWrapper, message);
+
         }, <Character>mainShip.getCrewByName(selected));
         div.appendChild(bar);
     });
 
     load.addEventListener("click", () => {
-        const bar = progressBar(100, () => {
+        log(contextWrapper, `${mainShip.getCrewByName(selected)?.name} begins to load ore into the cargo bay.`);
+        const bar = progressBar(100, (character: Character) => {
             // move
             for(let i = 0; i < mainShip.inmine.cargo.length; i++) {
                 mainShip.cargobay.cargo.push(mainShip.inmine.cargo[i]);
                 mainShip.inmine.cargo.splice(i, 1);
                 i--;
             }
+            log(contextWrapper, `${character.name} loads ore into the cargo bay.`);
+
 
             play("sfx/notify.wav");
         }, <Character>mainShip.getCrewByName(selected));

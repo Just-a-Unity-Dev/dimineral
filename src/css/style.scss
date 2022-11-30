@@ -21,6 +21,14 @@ body {
     background-attachment: fixed;
 }
 
+.cwrapper {
+    position: fixed;
+    width: 20%;
+    overflow-y: auto;
+    height: 100%;
+    margin-left: 30px;
+}
+
 p,summary,details,h1,h2,h3,h4,h5,h6,button,a,em,strong {
     font-family: 'Fira Sans', sans-serif;
     color: $foreground;
@@ -104,6 +112,7 @@ progress {
     padding: 1px;
     margin: 1rem;
     padding: 1rem;
+
     &.large {
         width: 600px;
         height: 400px;
