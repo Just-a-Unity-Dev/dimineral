@@ -4,6 +4,12 @@ html, body {
     scroll-behavior: smooth;
 }
 
+* {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 body {
     background-color: $background;
     margin-left: 0;
