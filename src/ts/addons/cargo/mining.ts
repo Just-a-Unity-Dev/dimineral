@@ -105,7 +105,7 @@ export function mineInit() {
             }
 
             // ORE
-            if (prob(50)) {
+            if (prob(60)) {
                 for (let i = 0; i < next(4,10); i++) {
                     mainShip.inmine.cargo.push(new CoalOre())
                 }
@@ -140,6 +140,8 @@ export function mineInit() {
                 mainShip.inmine.cargo.splice(i, 1);
                 i--;
             }
+
+            play("sfx/notify.wav");
         }, <Character>mainShip.getCrewByName(selected));
         div.appendChild(bar);
     });
