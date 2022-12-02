@@ -1,21 +1,24 @@
-import { Breakroom, Bridge, CargoBay, createFromRoomTemplate, Engines, LifeSupport } from './util/templates';
+import { Airlock, Breakroom, Bridge, createFromRoomTemplate, LifeSupport, Medbay } from './util/templates';
 import { capitalizeFirstLetter, maxSkillPoints } from './util/characters';
-import { generateShipName } from './util/rng';
-import { getVerboseDate } from './util/date';
+import { generateShipName, generateString } from './util/rng';
 import { Ship } from './addons/ship/ship';
-import { ships } from "./addons/ship/ships";
-import { initSelectedDiv, selected } from './addons/selected';
+import { mainShip, setMainShip } from "./addons/ship/ships";
 import { Skills } from './addons/humanoid/skills';
 import { generateName } from './util/rng';
 import { Character } from './addons/humanoid/character';
 import { Health } from './addons/humanoid/health';
 import { addS, quickCreate, appendChilds } from './util/ui';
+import { tick } from './addons/ticker/tick';
 import { initStatusBar } from './addons/status/status';
 import { initAudio, play } from './util/audio';
+import { IronOre } from './addons/cargo/items/ore';
+import { mineInit } from './addons/cargo/mining';
+import { initSelectedDiv } from './addons/selected';
+import { contextWrapper } from './addons/cwrapper/contextWrapper';
 
 export const app = <HTMLDivElement>document.querySelector<HTMLDivElement>('#app');
-const navbar = document.getElementById("navbar");
-const selectedDiv: HTMLDivElement = <HTMLDivElement>initSelectedDiv();
+export const navbar = document.getElementById("navbar");
+export const selectedDiv: HTMLDivElement = initSelectedDiv();
 
 // UI hell
 function initApp() {
@@ -31,7 +34,7 @@ function initApp() {
         logo.remove();
     });
 
-    appendChilds(app, [header, logo, document.createElement("br"), setupButton]);
+    appendChilds(app, [header, logo, quickCreate("br"), setupButton]);
 }
 
 let characterSkill: Skills = {};
@@ -42,10 +45,10 @@ function setupGame() {
     initAudio();
 
     // div
-    const setup = document.createElement("div");
+    const setup = <HTMLDivElement>quickCreate("div");
     
     // name
-    const rname = document.createElement("p");
+    const rname = quickCreate("p");
     rname.textContent = characterName + ", miner";
 
     const rnameButton = <HTMLButtonElement>quickCreate("button", "Randomize Name");
@@ -110,10 +113,10 @@ function setupGame() {
             ev.preventDefault();
             add(-1)
         });
-        appendChilds(setup, [document.createElement("br"), button]);
+        appendChilds(setup, [quickCreate("br"), button]);
         characterSkill = skills;
     });
-    setup?.appendChild(document.createElement("br"));
+    setup?.appendChild(quickCreate("br"));
 
     const playButton = <HTMLButtonElement>quickCreate("button", "Play");
     playButton.addEventListener("click", () => {
@@ -134,35 +137,11 @@ function setupGame() {
     appendChilds(setup, [playButton])
 }
 
-function tick() {    
-    // basic selected DIV
-    if (selected == "") {
-        selectedDiv.style.display = 'none';
-    } else {
-        // make it visible
-        selectedDiv.style.display = 'block';
-        const name: HTMLHeadingElement = <HTMLHeadingElement>document.getElementById("selected-name");
-        if (name != null) {
-            name.textContent = selected;
-        }
-    }
-
-    const today: Date = new Date();
-    const currentTime = document.getElementById("time");
-    if (currentTime != null) {
-        currentTime.textContent = getVerboseDate(2462, today.getMonth(), today.getDate(), today.getHours(), today.getMinutes());
-    }
-
-    ships.forEach(ship => {
-        ship.tick();
-    });
-}
-
 function initGame() {
     appendChilds(app, [selectedDiv]);
 
     // init time
-    const currentTime = document.createElement("p");
+    const currentTime = <HTMLParagraphElement>quickCreate("p");
     if (navbar != null) {
         navbar.style.opacity = "1";
     }
@@ -170,25 +149,40 @@ function initGame() {
     appendChilds(app, [currentTime, initStatusBar()]);
     
     // init summary
-    // ship
-    const ship = new Ship(generateShipName(), [], []);
-    ship.addPart(createFromRoomTemplate(Bridge, ship.id)),
-    ship.addPart(createFromRoomTemplate(LifeSupport, ship.id)),
-    ship.addPart(createFromRoomTemplate(Breakroom, ship.id)),
-    ship.addPart(createFromRoomTemplate(CargoBay, ship.id)),
-    // ship.addCrew(generateCharacter(ship.id));
-    ship.addCrew(new Character(
-        characterName,
-        "miner",
-        "breakroom",
-        new Health({"physical": 0, "temperature": 0, "chemical": 0, "psychological": 0, "genetic": 0}),
-        characterSkill,
-        ship.id
-    ));
+    const ship = () => {
+        // ship
+        const ship = new Ship(
+            generateShipName(),
+            [],
+            [],
+            generateString(15),
+            [new IronOre(),new IronOre(),new IronOre(),new IronOre(),new IronOre()],
+            // [new CoalOre(),new CoalOre(),new CoalOre(),new CoalOre(),new CoalOre()]
+        );
+        ship.addPart(createFromRoomTemplate(Bridge, ship.id)),
+        ship.addPart(createFromRoomTemplate(LifeSupport, ship.id)),
+        ship.addPart(createFromRoomTemplate(Medbay, ship.id)),
+        ship.addPart(createFromRoomTemplate(Breakroom, ship.id)),
+        ship.addPart(createFromRoomTemplate(Airlock, ship.id)),
+        // ship.addCrew(generateCharacter(ship.id));
+        ship.addCrew(new Character(
+            characterName,
+            "miner",
+            "breakroom",
+            new Health({"physical": 0, "temperature": 0, "chemical": 0, "psychological": 0, "genetic": 0}),
+            characterSkill,
+            ship.id
+        ));
 
-    ships.push(ship);
-    app.appendChild(ships[0].init());
-    
+        setMainShip(ship);
+        mineInit();
+        app.appendChild(mainShip.init());
+    };
+
+    ship();
+
+    document.body.prepend(contextWrapper);
+
     setInterval(tick, 100);
 }
 

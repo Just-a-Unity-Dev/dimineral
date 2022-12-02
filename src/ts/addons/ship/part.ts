@@ -1,7 +1,9 @@
-import { getShipById, removeShip } from "./ships";
 import { generateString } from "../../util/rng";
 import { selected, setSelected } from "../selected";
-import { quickCreate } from "../../util/ui";
+import { quickCreate, updateButton } from "../../util/ui";
+import { mainShip } from "./ships";
+import { log, contextWrapper } from '../cwrapper/contextWrapper';
+import { Character } from "../humanoid/character";
 
 /**
  * A part in a `Ship`
@@ -48,13 +50,13 @@ export class Part {
      * Destroys the Part
      */
     public destroy() {
-        const ship = getShipById(this.shipId);
+        const ship = mainShip;
         if (ship  == undefined) return;
 
         document.getElementById(`${this.shipId}-${this.id}`)?.remove();
-        if ((ship.parts.length - 1) <= 0) {
-            removeShip(ship);
-        }
+        // if ((ship.parts.length - 1) <= 0) {
+        //     removeShip(ship);
+        // }
         ship.removePart(this.id);
     }
 
@@ -125,7 +127,7 @@ export class Part {
 
     get isHealable() {
         let mechanical = 0;
-        getShipById(this.shipId)?.getCrewInRoom(this.id).forEach(crew => {
+        mainShip.getCrewInRoom(this.id).forEach(crew => {
             mechanical += crew.skills.mechanical;
         });
         return mechanical >= 4 && this.partHpPercentage != 1;
@@ -133,7 +135,7 @@ export class Part {
 
     get isRepairable() {
         let electrical = 0;
-        getShipById(this.shipId)?.getCrewInRoom(this.id).forEach(crew => {
+        mainShip.getCrewInRoom(this.id).forEach(crew => {
             electrical += crew.skills.electrical;
         });
         return electrical >= 3 && this.disabled;
@@ -141,11 +143,8 @@ export class Part {
 
     public setDisabled(value: boolean) {
         this.disabled = value;
-    }
-
-    private updateButton(button: HTMLButtonElement, disabled: boolean) {
-        if (button != undefined) {
-            button.disabled = disabled;
+        if (selected == this.name) {
+            setSelected("", true)
         }
     }
 
@@ -160,9 +159,9 @@ export class Part {
         const disabled: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${this.shipId}-${this.id}-disabled`);
         if (disabled != undefined) disabled.style.display = this.disabled ? "block" : "none";
 
-        this.updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-move`), selected == "" ? true : false)
-        this.updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-heal`), !this.isHealable)
-        this.updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-repair`), !this.isRepairable)
+        updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-move`), selected == "" ? true : false, true)
+        updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-heal`), !this.isHealable, this.isHealable)
+        updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-repair`), !this.isRepairable, this.isRepairable)
     }
 
     /**
@@ -171,23 +170,23 @@ export class Part {
      */
     public init(): Node {
         // Main div
-        const div = <HTMLDivElement>document.createElement("div");
+        const div = <HTMLDivElement>quickCreate("div");
         div.id = `${this.shipId}-${this.id}`;
         div.style.height = "125px";
         div.style.width = "250px";
         div.classList.add("item");
 
         // Data
-        const label = document.createElement("h2");
+        const label = quickCreate("h2");
         label.textContent = this.name;
         div.appendChild(label);
 
-        const data = document.createElement("p");
+        const data = quickCreate("p");
         data.id = `${this.shipId}-${this.id}-data`;
         data.textContent = <string>this.totalHealth(true);
         div.appendChild(data);
 
-        const disabled = document.createElement("p");
+        const disabled = quickCreate("p");
         disabled.id = `${this.shipId}-${this.id}-disabled`;
         disabled.textContent = "DISABLED";
         disabled.classList.add("error");
@@ -200,22 +199,27 @@ export class Part {
 
         move.addEventListener('click', () => {
             // change the location
-            getShipById(this.shipId)?.getCrewByName(selected)?.setLocation(this.id);
+            const character = <Character>mainShip.getCrewByName(selected)
+            character.setLocation(this.id);
 
             // we're done with it, we can close it now
             setSelected("");
+
+            log(contextWrapper, `${character?.name} walks to ${this.getName}.`)
         });
         div.appendChild(move);
 
-        const damage = <HTMLButtonElement>quickCreate("button", "Damage");
-        damage.addEventListener("click", () => {
-            this.dealDamage(10)
-        });
-        div.appendChild(damage);
+        // const damage = <HTMLButtonElement>quickCreate("button", "Damage");
+        // damage.addEventListener("click", () => {
+        //     this.dealDamage(10)
+        // });
+        // div.appendChild(damage);
 
         const heal = <HTMLButtonElement>quickCreate("button", "Repair (4+ Mechanical)");
         heal.id = `${this.shipId}-${this.id}-heal`;
         heal.addEventListener("click", () => {
+            const character = <Character>mainShip.getCrewByName(selected)
+            log(contextWrapper, `${character?.name} repairs ${this.getName}'s hull.`)
             if (this.isHealable) {
                 this.heal();
             }
@@ -225,6 +229,8 @@ export class Part {
         const repair = <HTMLButtonElement>quickCreate("button", "Repair (3+ Electrical)");
         repair.id = `${this.shipId}-${this.id}-repair`;
         repair.addEventListener("click", () => {
+            const character = <Character>mainShip.getCrewByName(selected)
+            log(contextWrapper, `${character?.name} repairs ${this.getName} internal components.`)
             if (this.isRepairable) {
                 this.setDisabled(false);
             }

@@ -2,13 +2,23 @@ import { play } from "./audio";
 
 // Easily append multiple children to one element.
 export function appendChilds(element: HTMLElement, nodes: Node[]) {
+    if (element == null)
+        return;
+
     nodes.forEach(node => {
         element.appendChild(node);
     });
 }
 
+export function updateButton(button: HTMLButtonElement, disabled: boolean, show: boolean) {
+    if (button != undefined) {
+        button.disabled = disabled;
+        button.style.display = show ? "block" : "none";
+    }
+}
+
 // Quickly creates an element alongside other utility functions.
-export function quickCreate(node: string, message?: string, image?: string): Node {
+export function quickCreate(node: string, message?: string, image?: string): HTMLElement {
     const n = document.createElement(node);
     if (node == "button") {
         n.addEventListener("mouseenter", () => {

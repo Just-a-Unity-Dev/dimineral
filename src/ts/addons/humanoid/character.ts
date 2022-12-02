@@ -1,7 +1,7 @@
 import { selected, setSelected } from "../../addons/selected";
 import { capitalizeFirstLetter } from "../../util/characters";
 import { addS, quickCreate } from "../../util/ui";
-import { getShipById, removeShip } from '../ship/ships';
+import { mainShip } from "../ship/ships";
 import { Health } from './health';
 import { Skills } from './skills';
 
@@ -15,6 +15,7 @@ export class Character {
     public location = "cargobay";
     public health: Health;
     public skills: Skills;
+    public disabled: boolean;
 
     constructor (
         name: string, 
@@ -23,6 +24,7 @@ export class Character {
         health: Health, 
         skills: Skills,
         shipId: string,
+        disabled?: boolean
     ) {
         this.name = name;
         this.title = title;
@@ -30,6 +32,7 @@ export class Character {
         this.skills = skills;
         this.health = health;
         this.shipId = shipId;
+        this.disabled = <boolean>disabled;
     }
 
     /**
@@ -45,13 +48,10 @@ export class Character {
      */
     public destroy() {
         setSelected("");
-        const ship = getShipById(this.shipId);
+        const ship = mainShip;
         if (ship == undefined) return;
 
         document.getElementById(`${this.shipId}-${this.name}`)?.remove();
-        if ((ship.crew.length - 1) <= 0) {
-            removeShip(ship);
-        }
         ship.removeCrew(this.name);
     }
 
@@ -72,7 +72,7 @@ export class Character {
         // this has to do be done first before the rest of the UI because it might break stuff
         // either a CRITICAL error or they were in a part when it was destroyed
         // regardless, they need to be removed.
-        if (getShipById(this.shipId)?.getPartById(this.location)?.getName == undefined) {
+        if (mainShip.getPartById(this.location)?.getName == undefined) {
             // probably shouldn't do this in UI update
             // but it technically updates UI so...
             this.destroy();
@@ -80,7 +80,7 @@ export class Character {
             return;
         }
         const status: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${this.shipId}-${this.name}-status`);
-        status.textContent = `${this.name} is located at ${getShipById(this.shipId)?.getPartById(this.location)?.getName} and is ${this.health.getHealthPercentage() * 100}% healthy`;
+        status.textContent = `${this.name} is located at ${mainShip.getPartById(this.location)?.getName} and is ${Math.floor(this.health.getHealthPercentage() * 100)}% healthy`;
         
         // skills
         const keys: string[] = Object.keys(this.skills);        
@@ -89,8 +89,24 @@ export class Character {
             if (label != null) label.textContent = `${capitalizeFirstLetter(key)}: ${this.skills[key]} ${addS(this.skills[key], "point")}`;
         });
 
+        // 1 second
+        // this is broken
+        // if (ctick % 10000) {
+        //     if (this.location == "medbay") {
+        //         if (this.health.getHealthPercentage() < 1) {
+        //             this.health.dealDamage({
+        //                 "physical": -1,
+        //                 "temperature": -1,
+        //                 "chemical": -1,
+        //                 "genetic": 0,
+        //                 "psychological": 0
+        //             });
+        //         }
+        //     }
+        // }
+
         const select: HTMLButtonElement = <HTMLButtonElement>document.getElementById(`${this.shipId}-${this.name}-select`);
-        select.disabled = selected != "";
+        select.disabled = selected != "" || this.disabled;
         select.textContent = (selected != "") ? "Selected" : "Select";
         switch (selected) {
             case "":
@@ -109,8 +125,8 @@ export class Character {
      * @returns Node
      */
     public init(): Node {
-        const div = document.createElement("div");
-        const name = document.createElement("h3");
+        const div = <HTMLDivElement>quickCreate("div");
+        const name = <HTMLHeadingElement>quickCreate("h3");
         name.textContent = this.fullName;
         div.appendChild(name);
         div.classList.add("item");
@@ -118,7 +134,7 @@ export class Character {
         div.style.maxWidth = "250px";
         div.id = `${this.shipId}-${this.name}`
 
-        const status = document.createElement("p");
+        const status = <HTMLParagraphElement>quickCreate("p");
         status.id = `${this.shipId}-${this.name}-status`
         div.appendChild(status);
 
@@ -127,7 +143,7 @@ export class Character {
         div.appendChild(button);
 
         button.addEventListener("click", () => {
-            // set selected
+            // set selected{
             setSelected(this.name);
         });
 
@@ -136,8 +152,8 @@ export class Character {
         const keys: string[] = Object.keys(this.skills);
         
         keys.forEach((key: string) => {
-            const strong = document.createElement("strong");
-            const label = document.createElement("p");
+            const strong = quickCreate("strong");
+            const label = <HTMLParagraphElement>quickCreate("p");
             label.id = `${this.shipId}-${this.name}-${key}`;
             label.textContent = `${capitalizeFirstLetter(key)}: ${this.skills[key]} ${addS(this.skills[key], "point")}`;
 

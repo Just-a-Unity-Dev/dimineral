@@ -1,8 +1,9 @@
 import { generateString } from '../../util/rng';
 import { Character } from '../../addons/humanoid/character';
 import { Part } from './part';
-import { addS } from '../../util/ui';
+import { addS, quickCreate } from '../../util/ui';
 import { addStatus, findStatus, Status } from '../status/status';
+import { Cargo, Item } from '../cargo/cargo';
 
 /**
  * A ship, consisting of parts and crew making sure it stays afloat.
@@ -12,12 +13,13 @@ export class Ship {
     public readonly parts: Part[] = [];
     public readonly crew: Character[] = [];
     public readonly id: string = "";
+    public cargobay: Cargo;
+    public inmine: Cargo;
     public visible = true;
     public money = 250;
-    public ore = 30;
     public incidents = 0;
 
-    constructor(name: string, parts: Part[], crew: Character[], id?: string | undefined) {
+    constructor(name: string, parts: Part[], crew: Character[], id?: string | undefined, cargo?: Item[], cargoload?: Item[]) {
         if (id == "" || id == undefined) {
             id = generateString(15);
         }
@@ -25,6 +27,8 @@ export class Ship {
         this.id = id;
         this.parts = parts;
         this.crew = crew;
+        this.cargobay = new Cargo(<Item[]>cargo);
+        this.inmine = new Cargo(<Item[]>cargoload);
     }
 
     /**
@@ -162,6 +166,9 @@ export class Ship {
             part.tick();
         });
 
+        const cargoDiv: HTMLDivElement|null = <HTMLDivElement>document.getElementById(`${this.id}-cargo`);
+        if (cargoDiv != null) this.cargobay.cargoloop(cargoDiv);
+
         // update location
         const locationLabel: Status|null = findStatus("Dock");
         if (locationLabel != null) locationLabel.value = <string>this.status;
@@ -172,7 +179,7 @@ export class Ship {
         const fuelLabel = findStatus("Fuel");
         if (fuelLabel != null) fuelLabel.value = this.incidents;
 
-        const moneyLabel = findStatus("Money");
+        const moneyLabel = findStatus("Frelapee");
         if (moneyLabel != null) moneyLabel.value = <string>this.money.toLocaleString() + "$";
     }
 
@@ -193,57 +200,81 @@ export class Ship {
      */
     public init(): Node {
         // The div that holds it all
-        const div = document.createElement("div");
+        const div = quickCreate("div");
         div.id = this.id;
         div.classList.add("item");
         div.classList.add("xl");
 
         // Basic data
-        const header = document.createElement("h2");
+        const header = quickCreate("h2");
         header.textContent = this.name;
         div.appendChild(header);
 
-        div.appendChild(document.createElement("br"));
+        div.appendChild(quickCreate("br"));
 
-        // Crew
-        const crewDetails = document.createElement("details");
-        div.appendChild(crewDetails)
+        const crewUi = () => {
+            // Crew
+            const crewDetails = quickCreate("details");
+            div.appendChild(crewDetails)
+    
+            const crewLabel = quickCreate("summary");
+            crewLabel.textContent = "Crew";
+            crewDetails.appendChild(crewLabel);
+    
+            const crew = quickCreate("div");
+            crew.classList.add("items");
+            crew.id = `${this.id}-crew`
+            crewDetails.appendChild(crew);
+    
+            this.crew.forEach(member => {
+                crew.appendChild(member.init());
+            });
+        }
 
-        const crewLabel = document.createElement("summary");
-        crewLabel.textContent = "Crew";
-        crewDetails.appendChild(crewLabel);
+        const partUi = () => {
+            // Parts
+            const partDetails = quickCreate("details");
+            div.appendChild(partDetails)
+    
+            const partLabel = quickCreate("summary");
+            partLabel.textContent = "Rooms";
+            partDetails.appendChild(partLabel);
+    
+            const parts = quickCreate("div");
+            parts.classList.add("items");
+            parts.id = `${this.id}-parts`
+            partDetails.appendChild(parts);
+    
+            this.parts.forEach(part => {
+                parts.appendChild(part.init());
+            });
+        }
 
-        const crew = document.createElement("div");
-        crew.classList.add("items");
-        crew.id = `${this.id}-crew`
-        crewDetails.appendChild(crew);
+        const cargoUi = () => {
+            // Cargo
+            const cargoDetails = quickCreate("details");
+            div.appendChild(cargoDetails)
 
-        this.crew.forEach(member => {
-            crew.appendChild(member.init());
-        });
+            const cargoLabel = quickCreate("summary");
+            cargoLabel.textContent = "Cargo";
+            cargoDetails.appendChild(cargoLabel);
 
-        // Parts
-        const partDetails = document.createElement("details");
-        div.appendChild(partDetails)
+            const cargo = quickCreate("div");
+            cargo.classList.add("items");
+            cargo.id = `${this.id}-cargo`
+            cargoDetails.appendChild(cargo);
 
-        const partLabel = document.createElement("summary");
-        partLabel.textContent = "Rooms";
-        partDetails.appendChild(partLabel);
+            this.cargobay.cargoloop(<HTMLDivElement>cargo);
+        }
 
-        const parts = document.createElement("div");
-        parts.classList.add("items");
-        parts.id = `${this.id}-parts`
-        partDetails.appendChild(parts);
-
-        this.parts.forEach(part => {
-            parts.appendChild(part.init());
-        });
+        crewUi();
+        partUi();
+        cargoUi();
 
         addStatus(new Status("Hull", <string>this.totalHull(true)));
         addStatus(new Status("Crew", `You have ${this.crew.length} ${addS(this.crew.length, "crewmember")} on this colony.`));
         addStatus(new Status("Incidents", `You have had ${this.incidents} ${addS(this.incidents, "incident")} on this colony.`));
-        addStatus(new Status("Money", <string>this.money.toLocaleString() + "$"));
-        addStatus(new Status("Ore", this.ore));
+        addStatus(new Status("Frelapee", <string>this.money.toLocaleString() + "$"));
         return div;
     }
 }

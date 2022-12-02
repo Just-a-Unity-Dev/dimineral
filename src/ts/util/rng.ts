@@ -68,6 +68,10 @@ export function generateLocationName(): string {
     return output.join(" ");
 }
 
+export function next(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
 /**
  * Generates a random ship name
  * @returns string
