@@ -27,8 +27,8 @@ export function mineTick() {
     }
 
     mainShip.inmine.cargoloop(<HTMLDivElement>document.getElementById("mine-cargo"));
-    updateButton(load, selected == "" ? true : false, true);
-    updateButton(mine, selected == "" ? true : false, true);
+    updateButton(load, selected == null ? true : false, true);
+    updateButton(mine, selected == null ? true : false, true);
 }
 
 export function mineInit() {
@@ -58,15 +58,15 @@ export function mineInit() {
     load.id = "mine-load";
     mine.id = "mine-mine";
     
-    updateButton(load, selected == "" ? true : false, true);
-    updateButton(mine, selected == "" ? true : false, true);
+    updateButton(load, selected == null ? true : false, true);
+    updateButton(mine, selected == null ? true : false, true);
 
     function progressBar(ms: number, onFinish: CallableFunction, currentCharacter: Character): HTMLProgressElement {
         const bar = <HTMLProgressElement>quickCreate("progress");
         
         bar.max = 100;
         currentCharacter.disabled = true;
-        setSelected("", true);
+        setSelected(null, true);
     
         const id = setInterval(() => {
             bar.value += .1;
@@ -87,7 +87,7 @@ export function mineInit() {
     }
 
     mine.addEventListener("click", () => {
-        log(contextWrapper, `${mainShip.getCrewByName(selected)?.name} begins to chip at the mine.`);
+        log(contextWrapper, `${selected?.name} begins to chip at the mine.`);
         const bar = progressBar(100, (character: Character) => {
             const toBeLoaded = []; // incoming ore
             play(`sfx/boom${next(1,2)}.wav`)
@@ -146,12 +146,12 @@ export function mineInit() {
 
             log(contextWrapper, message);
 
-        }, <Character>mainShip.getCrewByName(selected));
+        }, <Character>selected);
         div.appendChild(bar);
     });
 
     load.addEventListener("click", () => {
-        log(contextWrapper, `${mainShip.getCrewByName(selected)?.name} begins to load ore into the cargo bay.`);
+        log(contextWrapper, `${selected?.name} begins to load ore into the cargo bay.`);
         const bar = progressBar(100, (character: Character) => {
             // move
             for(let i = 0; i < mainShip.inmine.cargo.length; i++) {
@@ -163,7 +163,7 @@ export function mineInit() {
 
 
             play("sfx/notify.wav");
-        }, <Character>mainShip.getCrewByName(selected));
+        }, <Character>selected);
         div.appendChild(bar);
     });
     

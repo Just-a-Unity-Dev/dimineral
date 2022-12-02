@@ -1,12 +1,13 @@
 import { play } from "../util/audio";
 import { quickCreate } from "../util/ui";
+import { Character } from "./humanoid/character";
 import { inputs } from './input';
 
-export let selected = "";
+export let selected: Character | null = null;
 
-export function setSelected(name: string, override = false) {
-    if (name == "" && inputs["Shift"] && !override) return;
-    selected = name;
+export function setSelected(character: Character | null, override = false) {
+    if (character == null && inputs["Shift"] && !override) return;
+    selected = character;
 }
 
 /**
@@ -17,7 +18,7 @@ export function initSelectedDiv(): HTMLDivElement {
 
     // basic name
     const name = <HTMLHeadingElement>quickCreate("h2");
-    name.textContent = selected;
+    name.textContent = <string>selected?.name;
     name.id = "selected-name";
 
     // deselect button
@@ -27,7 +28,7 @@ export function initSelectedDiv(): HTMLDivElement {
     deselect.onclick = function () {
         // deselected
         play("sfx/sift.wav")
-        setSelected("", true);
+        setSelected(null, true);
     }
     
     selectedDiv.appendChild(name);

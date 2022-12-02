@@ -47,7 +47,7 @@ export class Character {
      * @returns null
      */
     public destroy() {
-        setSelected("");
+        setSelected(null);
         const ship = mainShip;
         if (ship == undefined) return;
 
@@ -106,13 +106,13 @@ export class Character {
         // }
 
         const select: HTMLButtonElement = <HTMLButtonElement>document.getElementById(`${this.shipId}-${this.name}-select`);
-        select.disabled = selected != "" || this.disabled;
-        select.textContent = (selected != "") ? "Selected" : "Select";
+        select.disabled = selected != null || this.disabled;
+        select.textContent = (selected != null) ? "Selected" : "Select";
         switch (selected) {
-            case "":
+            case null:
                 select.textContent = "Select";
                 break;
-            case this.name:
+            case this:
                 select.textContent = "Selected";
                 break;
             default:
@@ -144,7 +144,7 @@ export class Character {
 
         button.addEventListener("click", () => {
             // set selected{
-            setSelected(this.name);
+            setSelected(this);
         });
 
         // skills

@@ -143,9 +143,6 @@ export class Part {
 
     public setDisabled(value: boolean) {
         this.disabled = value;
-        if (selected == this.name) {
-            setSelected("", true)
-        }
     }
 
     /**
@@ -159,7 +156,7 @@ export class Part {
         const disabled: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById(`${this.shipId}-${this.id}-disabled`);
         if (disabled != undefined) disabled.style.display = this.disabled ? "block" : "none";
 
-        updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-move`), selected == "" ? true : false, true)
+        updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-move`), selected == null ? true : false, true)
         updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-heal`), !this.isHealable, this.isHealable)
         updateButton(<HTMLButtonElement>document.getElementById(`${this.shipId}-${this.id}-repair`), !this.isRepairable, this.isRepairable)
     }
@@ -199,11 +196,11 @@ export class Part {
 
         move.addEventListener('click', () => {
             // change the location
-            const character = <Character>mainShip.getCrewByName(selected)
+            const character = <Character>selected
             character.setLocation(this.id);
 
             // we're done with it, we can close it now
-            setSelected("");
+            setSelected(null);
 
             log(contextWrapper, `${character?.name} walks to ${this.getName}.`)
         });
@@ -218,7 +215,7 @@ export class Part {
         const heal = <HTMLButtonElement>quickCreate("button", "Repair (4+ Mechanical)");
         heal.id = `${this.shipId}-${this.id}-heal`;
         heal.addEventListener("click", () => {
-            const character = <Character>mainShip.getCrewByName(selected)
+            const character = <Character>selected
             log(contextWrapper, `${character?.name} repairs ${this.getName}'s hull.`)
             if (this.isHealable) {
                 this.heal();
@@ -229,7 +226,7 @@ export class Part {
         const repair = <HTMLButtonElement>quickCreate("button", "Repair (3+ Electrical)");
         repair.id = `${this.shipId}-${this.id}-repair`;
         repair.addEventListener("click", () => {
-            const character = <Character>mainShip.getCrewByName(selected)
+            const character = <Character>selected
             log(contextWrapper, `${character?.name} repairs ${this.getName} internal components.`)
             if (this.isRepairable) {
                 this.setDisabled(false);

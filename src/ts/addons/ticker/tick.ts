@@ -12,14 +12,14 @@ export function setCTick(newCTick: number) {
 
 export function tick() {    
     // basic selected DIV
-    if (selected == "") {
+    if (selected == null) {
         selectedDiv.style.display = 'none';
     } else {
         // make it visible
         selectedDiv.style.display = 'block';
         const name: HTMLHeadingElement = <HTMLHeadingElement>document.getElementById("selected-name");
         if (name != null) {
-            name.textContent = selected;
+            name.textContent = selected?.name;
         }
     }
 
